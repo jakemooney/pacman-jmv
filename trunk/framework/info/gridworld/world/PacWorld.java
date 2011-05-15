@@ -1,4 +1,5 @@
-import info.gridworld.world.World;
+package info.gridworld.world;
+
 
 public class PacWorld extends World{
 	
@@ -12,7 +13,7 @@ public class PacWorld extends World{
 	
 	//constructor doesn't need anything
 	public PacWorld(){
-		
+			
 	}
 	
 	
