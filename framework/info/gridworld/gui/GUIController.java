@@ -110,7 +110,7 @@ public class GUIController<T>
             }
         });
 
-        display.addMouseListener(new MouseAdapter()
+        /**display.addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent evt)
             {
@@ -123,6 +123,8 @@ public class GUIController<T>
                 }
             }
         });
+        **/
+        
         stop();
     }
 
