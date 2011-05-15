@@ -37,7 +37,7 @@ public class Runner {
      * the behavior after each click of the timer!
      * 
      * 
-     * imageDisplay contrusctor perhaps the key to open mouthed animation / ghost wiggles
+     * imageDisplay constructor perhaps the key to open mouthed animation / ghost wiggles
      * 
      * consider deleting MenuMaker.java
      * 
