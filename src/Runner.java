@@ -1,4 +1,9 @@
+import java.awt.Color;
+
+import info.gridworld.actor.Actor;
+import info.gridworld.grid.Location;
 import info.gridworld.gui.GUIController;
+import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
 
 
@@ -19,6 +24,9 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		World pac = new World();
+		Location u = new Location(5, 4);
+		Actor a = new Actor();
+		a.putSelfInGrid(pac.getGrid(), u);
 		pac.show();
 	}
 }

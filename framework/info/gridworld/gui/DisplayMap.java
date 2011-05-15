@@ -91,8 +91,9 @@ public class DisplayMap
         if (cl == Object.class)
             return defaultDisplay;
         Display display = map.get(cl);
+        
         if (display != null)
-            return display;
+        	return display;  
         display = createDisplay(cl);
         if (display != null)
         {
