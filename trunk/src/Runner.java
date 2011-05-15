@@ -1,4 +1,8 @@
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
@@ -19,7 +23,18 @@ public class Runner {
 	/**
 	 * notes:
 	 * 505 is the default speed for gridworld. 505 milliseconds of delay between each step.
+	 * gridpanel.drawOccupants()
 	 * 
+	 * GUIcontroller():
+	 * "timer = new Timer(INITIAL_DELAY, new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                step();
+            }
+        });"
+     *
+     * the behavior after each click of the timer!
 	 */
 	
 	public static void main(String[] args) {

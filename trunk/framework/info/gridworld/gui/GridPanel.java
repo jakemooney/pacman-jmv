@@ -86,7 +86,7 @@ public class GridPanel extends JPanel implements Scrollable,
     {
         displayMap = map;
         resources = res;
-        setToolTipsEnabled(true);
+        setToolTipsEnabled(false);
     }
 
     /**
