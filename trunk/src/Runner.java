@@ -35,13 +35,17 @@ public class Runner {
         });"
      *
      * the behavior after each click of the timer!
+     * 
+     * 
+     * imageDisplay contrusctor perhaps the key to open mouthed animation / ghost wiggles
+     * 
+     * consider deleting MenuMaker.java
+     * 
+     * worldFrame.makeMenus()
 	 */
 	
 	public static void main(String[] args) {
-		World pac = new World();
-		Location u = new Location(5, 4);
-		Actor a = new Actor();
-		a.putSelfInGrid(pac.getGrid(), u);
+		PacWorld pac = new PacWorld();
 		pac.show();
 	}
 }
