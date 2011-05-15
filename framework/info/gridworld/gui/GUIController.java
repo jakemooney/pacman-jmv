@@ -178,8 +178,8 @@ public class GUIController<T>
      */
     public void stop()
     {
-        display.setToolTipsEnabled(true);
-        parentFrame.setRunMenuItemsEnabled(true);
+        display.setToolTipsEnabled(false); //@author max: used to be true
+        parentFrame.setRunMenuItemsEnabled(false);
         timer.stop();
         stopButton.setEnabled(false);
         runButton.setEnabled(true);
@@ -286,11 +286,14 @@ public class GUIController<T>
      */
     private void locationClicked()
     {
+    	/** @author max: commented this out because we don't want clickable locations
+    	 * 
         World<T> world = parentFrame.getWorld();
         Location loc = display.getCurrentLocation();
         if (loc != null && !world.locationClicked(loc))
             editLocation();
         parentFrame.repaint();
+        */
     }
 
     /**
@@ -299,6 +302,8 @@ public class GUIController<T>
      */
     public void editLocation()
     {
+    	/** @author max: commented this out because we don't want to edit locations
+    	 * 
         World<T> world = parentFrame.getWorld();
 
         Location loc = display.getCurrentLocation();
@@ -324,6 +329,7 @@ public class GUIController<T>
             }
         }
         parentFrame.repaint();
+        */
     }
 
     /**
