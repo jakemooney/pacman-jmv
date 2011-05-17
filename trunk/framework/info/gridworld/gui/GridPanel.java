@@ -320,9 +320,13 @@ public class GridPanel extends JPanel implements Scrollable,
     /**
      * Zooms in the display by doubling the current cell size.
      */
-    public void zoomIn()
+    public void zoomIn() ///I AM CHANGING the NUMS so we can zoom better  -VIVEK
     {
-        cellSize *= 2;
+    	//Here is my edit:
+    	double cellsz = cellSize;
+    	cellsz*=1.4;
+        cellSize = (int)(cellsz);
+    	//cellSize *= 2;
         revalidate();
     }
 

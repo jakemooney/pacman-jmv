@@ -5,20 +5,20 @@ import info.gridworld.grid.Location;
 
 import java.awt.Color;
 
-public class PacMan extends Bug{
+public class PacMan extends Bug{ //?????? OK, whatever - Vivek
 	
 	public PacMan(){
 		setColor(Color.yellow);
 	}
 	
-	public void act(){
+	/*public void act(){
 		if (canMove())
 			move();
 		else
 			removeSelfFromGrid();
-	}
+	}*/
 	
-	//just testing code, replace with your own class please jake
+	/*just testing code, replace with your own class please jake
 	public void move(){
 		 Grid<Actor> gr = getGrid();
 	        if (gr == null)
@@ -29,6 +29,6 @@ public class PacMan extends Bug{
 	            moveTo(next);
 	        else
 	            removeSelfFromGrid();
-	}
+	}*/
 
 }

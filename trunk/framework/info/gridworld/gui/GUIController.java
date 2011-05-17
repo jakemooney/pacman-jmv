@@ -230,18 +230,22 @@ public class GUIController<T>
 
         // remove control PAGE_UP, PAGE_DOWN from slider--they should be used
         // for zoom
-        InputMap map = speedSlider.getInputMap();
+        /*InputMap map = speedSlider.getInputMap();
         while (map != null)
         {
             map.remove(KeyStroke.getKeyStroke("control PAGE_UP"));
             map.remove(KeyStroke.getKeyStroke("control PAGE_DOWN"));
             map = map.getParent();
-        }
+        }*/
 
         controlPanel.add(speedSlider);
         controlPanel.add(new JLabel(resources.getString("slider.gui.fast")));
         controlPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
+        
+        
+        //The below stuff is for buttons, not keys. - Vivek
+        
         stepButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
