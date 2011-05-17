@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import info.gridworld.actor.Actor;
+import info.gridworld.actor.PacMan;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.GUIController;
 import info.gridworld.world.PacWorld;
@@ -20,10 +21,14 @@ public class Runner {
 	 * object should contain all of those actors, because a PacWorld is the game itself.
 	 */
 	
+	
+	
+	//Why is everything commented out??
+	
 	/**
 	 * notes:
 	 * 505 is the default speed for gridworld. 505 milliseconds of delay between each step.
-	 * gridpanel.drawOccupants()
+	 * gridpanel.drawOccupants()  
 	 * 
 	 * GUIcontroller():
 	 * "timer = new Timer(INITIAL_DELAY, new ActionListener()
@@ -46,6 +51,8 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		PacWorld pac = new PacWorld();
+		PacMan p = new PacMan();
+		pac.add(new Location(2,3), p);
 		pac.show();
 	}
 }

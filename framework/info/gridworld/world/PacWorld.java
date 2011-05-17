@@ -162,17 +162,36 @@ public class PacWorld extends World {
     
     /**
      * @override These descriptors tell the directional changes. Returns true to
-     * indicate that the World has processed the key press.
+     * indicate that the World has processed the key press. 
      */
+    //VIVEK - edited May 17th
+    //?? check this again.....!
     public boolean keyPressed(String description, Location loc){
-        if (description.equals("UP"))
-        	pac.setDirection(Location.WEST);
-        if (description.equals("RIGHT"))
-        	pac.setDirection(Location.NORTH);
-        if (description.equals("DOWN"))
-        	pac.setDirection(Location.EAST);
-        if (description.equals("LEFT"))
-        	pac.setDirection(Location.SOUTH);  
+    	
+    	//note that the directions appear messed up due to the bad orientation of the original image. Hopefully,
+    	//I can rotate the original and rename stuff to make it work.
+    	
+    	int dir = pac.getDirection();
+    	int pressedDir = 0;
+    	
+    	if (description.equals("UP")){//Is else necessary???
+        	pressedDir = Location.NORTH;
+    	}else if (description.equals("RIGHT")) {
+    		pressedDir = Location.EAST;
+    	}else if (description.equals("DOWN")) {
+    		pressedDir = Location.SOUTH;
+    	}else {//(description.equals("LEFT"))
+    		   pressedDir = Location.WEST;
+    	}
+
+    	pac.setDirection(pressedDir); //immediately set the desired direction
+    	
+    	if(dir == pressedDir){
+    		if(pac.canMove()){
+    			pac.act();
+    		}
+    	}
+    	
         return true;
     }
 }
