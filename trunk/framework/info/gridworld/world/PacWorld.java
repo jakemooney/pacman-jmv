@@ -174,13 +174,14 @@ public class PacWorld extends World {
     	int dir = pac.getDirection();
     	int pressedDir = 0;
     	
-    	if (description.equals("UP")){//Is else necessary???
+    	//Arrow keys?
+    	if (description.equals("w")){//Is else necessary???
         	pressedDir = Location.NORTH;
-    	}else if (description.equals("RIGHT")) {
+    	}else if (description.equals("a")) {
     		pressedDir = Location.EAST;
-    	}else if (description.equals("DOWN")) {
+    	}else if (description.equals("s")) {
     		pressedDir = Location.SOUTH;
-    	}else {//(description.equals("LEFT"))
+    	}else if(description.equals("d")){
     		   pressedDir = Location.WEST;
     	}
 
