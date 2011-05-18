@@ -110,7 +110,8 @@ public class GUIController<T>
             }
         });
 
-        /**display.addMouseListener(new MouseAdapter()
+        //@author max: comment this out to get rid of click able clickable locations
+        display.addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent evt)
             {
@@ -123,7 +124,7 @@ public class GUIController<T>
                 }
             }
         });
-        **/
+        
         
         stop();
     }
@@ -288,26 +289,31 @@ public class GUIController<T>
     /**
      * Callback on mousePressed when editing a grid.
      */
+    
+    /**
+     * @author max: comment this out if you don't want clickable locations
+     */
     private void locationClicked()
     {
-    	/** @author max: commented this out because we don't want clickable locations
-    	 * 
         World<T> world = parentFrame.getWorld();
         Location loc = display.getCurrentLocation();
         if (loc != null && !world.locationClicked(loc))
             editLocation();
         parentFrame.repaint();
-        */
+        
     }
+    
 
     /**
      * Edits the contents of the current location, by displaying the constructor
      * or method menu.
      */
+    
+	// @author max: comment this out if you don't want clickable locations
+
     public void editLocation()
     {
-    	/** @author max: commented this out because we don't want to edit locations
-    	 * 
+    	  
         World<T> world = parentFrame.getWorld();
 
         Location loc = display.getCurrentLocation();
@@ -333,7 +339,7 @@ public class GUIController<T>
             }
         }
         parentFrame.repaint();
-        */
+        
     }
 
     /**

@@ -4,13 +4,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import Levels.Level;
+
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.PacMan;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.GUIController;
 import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
-
 
 public class Runner {
 
@@ -47,10 +48,13 @@ public class Runner {
      * consider deleting MenuMaker.java
      * 
      * worldFrame.makeMenus()
+     * 
+     * he doesn't run because he thinks he's blocked by the pellets. ah.
 	 */
 	
 	public static void main(String[] args) {
-		PacWorld pac = new PacWorld();
+		PacWorld pac = new PacWorld(PacWorld.level2());
+		
 		PacMan p = new PacMan();
 		pac.add(new Location(2,3), p);
 		pac.show();

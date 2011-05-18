@@ -80,6 +80,8 @@ public class World<T>
         }
         else
             frame.repaint();
+        
+    	frame.setSize(442, 535); //@author max: edited for perfect dimensions
     }
 
     /**

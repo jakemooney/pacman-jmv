@@ -1,62 +1,47 @@
 package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
+import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Flower;
 import info.gridworld.actor.Ghost;
+import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.PacMan;
+import info.gridworld.actor.Pellet;
+import info.gridworld.actor.PowerPellet1;
 import info.gridworld.actor.Rock;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import java.awt.Color;
 
+import Levels.Level;
+
 /**
  * @author Max
  * 
- * The PacWorld contains the grid and the actors. It's a "game" object. Controls
- * the game environment by taking inputs and modifying the actors based on those
- * inputs.
+ * The PacWorld contains the Level. The difference between the Level and the PacWorld is that the PacWorld deals with GUI
+ * while the level simply contains the actors and the grid. To access pacman and the ghosts, I've added getters and setters
+ * to the Level.
 */
 
-public class PacWorld extends World {
+public class PacWorld extends ActorWorld {
 	
-    private PacMan pac;
-    private Ghost[] ghosts; //0 = cyan, 1 = orange, 2 = pink, 3 = red (alphabetical)
+    private PacMan pac;    
+    private Level level;
     
-    public PacWorld(){   
-        super(new BoundedGrid<Actor>(15, 16)); //passes into World the proper grid size
-        super.setMessage("Points: " + 0); //sets the message in the text box
-        
-        //adds a pacman to the grid
-        pac = new PacMan();
-        
-        //initializes ghosts and colors them
-        ghosts = new Ghost[4];
-    	ghosts[0] = new Ghost(Color.cyan);
-    	ghosts[1] = new Ghost(Color.orange);
-    	ghosts[2] = new Ghost(Color.pink);
-    	ghosts[3] = new Ghost(Color.red);
-        
-        constructMaze(); //makes walls
-        putGhostsInMaze(); //puts ghosts in center
-        fillWithPellets(); //fills all empty spaces with pellets
-        
-        //puts pacman in the grid
-        Location pacmans_crib = new Location(11, 5);
-        super.getGrid().remove(pacmans_crib); //get out of his house
-        pac.putSelfInGrid((Grid<Actor>) super.getGrid(), pacmans_crib); //puts pac man in his house
-    }
-			    
-    //constructs the maze: makes the walls and fills it with pellets
-    private void constructMaze(){
-    	int[] rows = new int[]{
+    /**
+     * This is a class non-variable that returns a finite level, level1.
+     * @return the level itself, which contains the walls, pacdots, ghosts, and pacman
+     */
+    public static final Level level1(){
+		int[] rows = new int[]{
     			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     			1,1,
     			2,2,2,2,2,2,2,2,2,
     			3,3,3,3,
     			4,4,4,4,4,4,4,4,4,4,
     			5,5,5,5,
-    			6,6,6,6,6,6,6,6,6,6,6,6,
+    			6,6,6,6,6,6,6,6,6,6,
     			7,7,
     			8,8,8,8,8,8,8,8,8,8,8,8,
     			9,9,9,9,
@@ -65,134 +50,192 @@ public class PacWorld extends World {
     			12,12,12,12,12,12,12,12,12,12,
     			13,13,13,13,
     			14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14};
-    	int[] cols = new int[]{
+		int[] cols = new int[]{
     			0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
     			0,15,
     			0,2,4,6,7,8,9,11,15,
     			0,4,11,15,
     			0,2,4,6,7,8,9,11,13,15,
     			0,2,13,15,
-    			0,2,3,5,6,7,8,9,10,12,13,15,
-    			5,10,
-    			0,2,3,5,6,7,8,9,10,12,13,15,
+    			0,2,3,4,6,9,11,12,13,15,
+    			6,9,
+    			0,2,3,4,6,7,8,9,11,12,13,15,
     			0,2,13,15,
     			0,2,4,6,7,8,9,11,13,15,
     			0,4,7,8,11,15,
     			0,2,3,4,5,10,11,12,13,15,
     			0,7,8,15,
-    			0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    			0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    	};
+		
+		Location[] powerPelletLocs = new Location[]{
+				new Location(2, 1), 
+				new Location(2, 14), 
+				new Location(11, 1), 
+				new Location(11, 14)
+		};
+		
+		Ghost[] ghosts = new Ghost[]{
+				new Ghost(Color.cyan), 
+				new Ghost(Color.green),
+		};
+		
+		Location[] ghostLocs = new Location[]{
+				new Location(7, 7),
+				new Location(7, 8)
+		};
+		
+		PacMan pac = new PacMan();
+		
+		Location pacLocation = new Location(11, 5);
+		
+    	Level level1 = new Level(15, 16, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation); //creates a new 15x16 level
     	
-    	for (int z = 0; z < 121; z++){
-   		Rock w = new Rock();
-    		w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(rows[z], cols[z]));
-    	}
-    	
-    	//sets the colors of the box
-    	((Actor) super.getGrid().get(new Location(6, 5))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(6, 6))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(6, 7))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(6, 8))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(6, 9))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(6, 10))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(7, 5))).setColor(Color.white);
-    	((Actor) super.getGrid().get(new Location(7, 10))).setColor(Color.white);
-    	((Actor) super.getGrid().get(new Location(8, 5))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(8, 6))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(8, 7))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(8, 8))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(8, 9))).setColor(new Color(0,0,200));
-    	((Actor) super.getGrid().get(new Location(8, 10))).setColor(new Color(0,0,200));
-
-    	//TODO delete the following
-    	/**
-    	for (int x = 0; x < 16; x++){
-    		w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(0, x));
-    		w = new MazeWall();
-    	}
-    	
-    	w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(1, 0));
-    	w = new MazeWall();
-    	w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(1, 15));
-    	
-    	for (int x = 0; x < 9; x += 2){
-    		w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(0, x));
-    		w = new MazeWall();
-    	}
-    	
-    	for (int x = 7; x < 16; x += 2){
-    		w.putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(0, x));
-    		w = new MazeWall();
-    	}
-    	*/
+    	return level1;
     }
     
-    //puts four ghosts in their start positions in the center rectangle
-    private void putGhostsInMaze(){
-    	ghosts[0].putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(7, 6));
-    	ghosts[1].putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(7, 7));
-    	ghosts[2].putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(7, 8));
-    	ghosts[3].putSelfInGrid((Grid<Actor>) super.getGrid(), new Location(7, 9));
+    /**
+     * This is a class non-variable that returns a finite level, level1.
+     * @return the level itself, which contains the walls, pacdots, ghosts, and pacman
+     */
+    public static final Level level2(){	
+    	int[] rows = new int[]{
+    			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    			1, 1,
+    			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    			3, 3, 3, 3, 3, 3, 3, 3, 3,
+    			4, 4, 4, 4, 4, 4, 4, 4, 4,
+    			5, 5, 5, 5, 5, 5,
+    			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+    			7, 7, 7, 7, 7,
+    			8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+    			9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+    			10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+    			11, 11,
+    			12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
+    			13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    			
+    			14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+    			15, 15, 15,
+    			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+    			17, 17, 17, 17,
+    			18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,
+    			
+    			19, 19, 19, 19, 19,
+    			20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    			21, 21,
+    			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22
+    	};
+    	
+    	int[] cols = new int[]{
+    			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+    			0, 18,
+    			0, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 18,
+    			0, 2, 3, 5, 9, 13, 15, 16, 18,
+    			0, 5, 6, 7, 9, 11, 12, 13, 18,
+    			0, 2, 3, 15, 16, 18,
+    			0, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 18,
+    			0, 5, 9, 13, 18,
+    			0, 1, 2, 3, 5, 6, 7, 9, 11, 12, 13, 15, 16, 17, 18,
+    			0, 1, 2, 3, 5, 13, 15, 16, 17, 18,
+    			0, 1, 2, 3, 5, 7, 8, 10, 11, 13, 15, 16, 17, 18,
+    			7, 11,
+    			0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18,
+    			0, 1, 2, 3, 5, 13, 15, 16, 17, 18,
+    			0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18,
+    			0, 9, 18,
+    			0, 2, 3, 5, 6, 7, 9, 11, 12, 13, 15, 16, 18,
+    			0, 3, 15, 18,
+    			0, 1, 3, 5, 7, 8, 9, 10, 11, 13, 15, 17, 18,	
+    			0, 5, 9, 13, 18,
+    			0, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15, 16, 18,
+    			0, 18,
+    			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+    	};
+    	
+		Location[] powerPelletLocs = new Location[]{
+				new Location(3, 1), 
+				new Location(3, 17), 
+				new Location(17, 1), 
+				new Location(17, 17)
+		};
+
+		Ghost[] ghosts = new Ghost[]{
+				new Ghost(Color.cyan), 
+				new Ghost(Color.green),
+				new Ghost(Color.pink), 
+				new Ghost(Color.red)
+		};
+		
+		Location[] ghostLocs = new Location[]{
+				new Location(10, 9),
+				new Location(11, 8),
+				new Location(11, 9),
+				new Location(11, 10),
+		};
+		
+		PacMan pac = new PacMan();
+		
+		Location pacLocation = new Location(17, 9);
+		
+    	Level level2 = new Level(23, 19, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation);
+    	
+    	((Actor) level2.getGrid().get(new Location(9, 0))).setColor(Color.black); //pieces that look like open squares but aren't
+    	((Actor) level2.getGrid().get(new Location(9, 1))).setColor(Color.black); //they're above and below the teleport square
+    	((Actor) level2.getGrid().get(new Location(9, 2))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(9, 16))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(9, 17))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(9, 18))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 0))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 1))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 2))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 16))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 17))).setColor(Color.black);
+    	((Actor) level2.getGrid().get(new Location(13, 18))).setColor(Color.black);
+
+    	return level2;
     }
     
-    //fills all empty spaces that aren't teleport spaces with pellets. also puts powerpellets in correct positions
-    private void fillWithPellets(){
-    	for (int x = 0; x < 15; x++){
-    		for (int y = 0; y < 16; y++){
-    			Location current = new Location(x, y);
-    			if (super.getGrid().get(current) == null){ //if the space is empty
-    				Flower pellet;
-    				if (x == 2 && y == 1 || x == 2 && y == 14 || x == 11 && y == 1 || x == 11 && y == 14)
-    					pellet = new Flower(Color.blue);
-    				else
-    					pellet = new Flower();
-    				pellet.putSelfInGrid((Grid<Actor>) getGrid(), current);
-    			}
-    		}
-    	}
+    /**
+     * @param level: the level that the pacworld contains and sends messages to
+     */
+    public PacWorld(Level level){   
+        super(level.getGrid()); //passes into World the proper grid
+        super.setMessage("Points: " + 0); //sets the message in the text box
+        
+        //adds a pacman to the grid
+        pac = new PacMan();
+        
+        //puts pacman in the grid
+        Location pacmans_crib = new Location(11, 5);
+        //level.getGrid().remove(pacmans_crib); //get out of his house
+        pac.putSelfInGrid((Grid<Actor>) super.getGrid(), pacmans_crib); //puts pac man in his house
+        pac.setDirection(Location.EAST);
     }
-
     
     /**
      * @override Returning true tells the GUI to NOT open up tooltips or in any way
      * respond to the location being clicked, which is what we want.
+     * 
+     * I'm keeping it false for the duration of the debugging mode so that we can test stuff.
      */
     public boolean locationClicked(Location loc){
-        return true;
+        return false;
     }
     
     /**
      * @override These descriptors tell the directional changes. Returns true to
      * indicate that the World has processed the key press. 
      */
-    //VIVEK - edited May 17th
-    //?? check this again.....!
     public boolean keyPressed(String description, Location loc){
-    	
-    	//note that the directions appear messed up due to the bad orientation of the original image. Hopefully,
-    	//I can rotate the original and rename stuff to make it work.
-    	
-    	int dir = pac.getDirection();
-    	int pressedDir = 0;
-    	
-    	//Arrow keys?
-    	if (description.equals("w")){//Is else necessary???
-        	pressedDir = Location.NORTH;
-    	}else if (description.equals("a")) {
-    		pressedDir = Location.EAST;
-    	}else if (description.equals("s")) {
-    		pressedDir = Location.SOUTH;
-    	}else if(description.equals("d")){
-    		   pressedDir = Location.WEST;
-    	}
-
-    	pac.setDirection(pressedDir); //immediately set the desired direction
-    	
-    	if(dir == pressedDir){
-    		if(pac.canMove()){
-    			pac.act();
-    		}
-    	}
-    	
+        if (description.equals("UP"))
+        	pac.setDirection(Location.NORTH);
+        if (description.equals("RIGHT"))
+        	pac.setDirection(Location.EAST);
+        if (description.equals("DOWN"))
+        	pac.setDirection(Location.SOUTH);
+        if (description.equals("LEFT"))
+        	pac.setDirection(Location.WEST);      	
         return true;
     }
 }
