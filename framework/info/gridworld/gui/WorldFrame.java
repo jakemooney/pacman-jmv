@@ -392,6 +392,7 @@ public class WorldFrame<T> extends JFrame
             }
         }));
 
+        /** @author max: commented out because we don't want this menu item, nor the ability to edit a location
         JMenuItem viewEditMenu;
         menu.add(viewEditMenu = makeMenuItem("menu.view.edit",
                 new ActionListener()
@@ -402,6 +403,7 @@ public class WorldFrame<T> extends JFrame
                     }
                 }));
         menuItemsDisabledDuringRun.add(viewEditMenu);
+        */
 
         JMenuItem viewDeleteMenu;
         menu.add(viewDeleteMenu = makeMenuItem("menu.view.delete",
