@@ -9,7 +9,7 @@ public class Ghost extends Critter{
 	private static boolean vulnerable;
 	private Actor covered;
 	public Ghost(){
-		vulnerable = true;
+		vulnerable = false;
 	}
 	public Ghost(Color c){
 		this.setColor(c);
@@ -48,7 +48,7 @@ public class Ghost extends Critter{
 		if (vulnerable)
 			dir += 180;
 		Location loc = getLocation().getAdjacentLocation(dir);
-		if (getGrid().get(loc).equals(null))
+		if (getGrid().get(loc) == null)
 			return loc;
 		return selectMoveLocation(getMoveLocations());  
 	}
