@@ -9,12 +9,11 @@ import java.util.ArrayList;
 public class PacMan extends Actor{
 	private int points, count;
 	private static int lives;
-	private boolean vulnerable, dead;
+	private static boolean dead;
 	public PacMan(){
 		lives = 3;
 		points = 0;
 		count = 21;
-		vulnerable = false;
 		dead = false;
 		setColor(Color.YELLOW);
 	}
@@ -33,7 +32,7 @@ public class PacMan extends Actor{
 			a.removeSelfFromGrid();
 			this.moveTo(loc);
 		}
-		else if (a instanceof Ghost && ((Ghost)a).isvulnerable()){
+		else if (a instanceof Ghost && Ghost.isvulnerable()){
 			points += 200;
 			a.removeSelfFromGrid();
 			this.moveTo(loc);
@@ -59,6 +58,10 @@ public class PacMan extends Actor{
 	}
 	public static void kill(){
 		lives--;
+		setDead(true);
+	}
+	public static void setDead(boolean a){
+		dead = a;
 	}
 	
 	

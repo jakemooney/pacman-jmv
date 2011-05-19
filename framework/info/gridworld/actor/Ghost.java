@@ -7,7 +7,8 @@ import java.awt.Color;
 import java.util.*;
 public class Ghost extends Critter{
 	private static boolean vulnerable;
-	private Actor covered;
+	private boolean covered;
+	private Actor coveredActor;
 	public Ghost(){
 		vulnerable = false;
 	}
@@ -26,8 +27,13 @@ public class Ghost extends Critter{
 			return;
 		else{
 			Location loc = getMoveLocation(target);
-			
-			moveTo(getMoveLocation(loc));	
+			Location loc2 = this.getLocation();
+			moveTo(getMoveLocation(loc));
+			if (covered){
+				coveredActor.putSelfInGrid(getGrid(),loc2);
+				covered = !covered;
+			}
+		
 		}
 	}
 	
@@ -48,21 +54,21 @@ public class Ghost extends Critter{
 		if (vulnerable)
 			dir += 180;
 		Location loc = getLocation().getAdjacentLocation(dir);
-		if (getGrid().get(loc) == null)
+		if (getGrid().get(loc) instanceof PacMan){
+			PacMan.kill();
 			return loc;
+		}
+		else if (getGrid().get(loc) == null)
+			return loc;
+		else if (getGrid().get(loc) instanceof Pellet || getGrid().get(loc) instanceof PowerPellet1 
+				|| getGrid().get(loc) instanceof PowerPellet2){
+			coveredActor = getGrid().get(loc);
+			covered = true;
+			getGrid().get(loc).removeSelfFromGrid();
+			return loc;
+		}
 		return selectMoveLocation(getMoveLocations());  
 	}
-	public void move(Location loc){
-		if (getGrid().get(loc).equals(null)){
-			Location loc2 = this.getLocation();
-			moveTo(loc);
-		//	if (!covered.equals(null))
-				//covered.putSelfInGrid(loc2);
-			
-		}
-		else{
-			covered = getGrid().get(loc);
-		}
-	}
+
 }
 
