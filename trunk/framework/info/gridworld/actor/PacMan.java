@@ -13,13 +13,13 @@ public class PacMan extends Actor{
 	public PacMan(){
 		lives = 3;
 		points = 0;
-		count = 21;
+		count = 51;
 		dead = false;
 		setColor(Color.YELLOW);
 	}
 	
 	public void act(){
-		if (count == 20)
+		if (count == 50)
 			Ghost.setVulnerable(false);
 		count++;
 		int dir = getDirection();
