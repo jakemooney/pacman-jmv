@@ -33,6 +33,13 @@ public class Level<T> {
 	}
 	
 	/**
+	 * returns the pacman
+	 */
+	public PacMan getPac(){
+		return pac;
+	}
+	
+	/**
 	 * @param x: the x value for the grid size
 	 * @param y: the y value
 	 * @param walls_x: array of x values for the wall locations
@@ -46,6 +53,7 @@ public class Level<T> {
 		placeGhosts(ghosts, ghostLocs);
 		this.pac = pac;
 		pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
+		pac.setDirection(Location.EAST);
 	}	
 		
 			/**
@@ -93,7 +101,8 @@ public class Level<T> {
 				int x = center.getRow() - 2;
 				int y = center.getCol();
 				Location current = new Location(x, y);
-				while (g.get(current.getAdjacentLocation(180)) instanceof MazeWall == true){
+				
+				while (g.get(current.getAdjacentLocation(Location.SOUTH)) instanceof MazeWall == true){
 					g.remove(current);
 					current = current.getAdjacentLocation(Location.WEST);
 				}

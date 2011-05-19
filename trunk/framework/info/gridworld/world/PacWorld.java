@@ -26,7 +26,6 @@ import Levels.Level;
 
 public class PacWorld extends ActorWorld {
 	
-    private PacMan pac;    
     private Level level;
     
     /**
@@ -203,14 +202,7 @@ public class PacWorld extends ActorWorld {
         super(level.getGrid()); //passes into World the proper grid
         super.setMessage("Points: " + 0); //sets the message in the text box
         
-        //adds a pacman to the grid
-        pac = new PacMan();
-        
-        //puts pacman in the grid
-        Location pacmans_crib = new Location(11, 5);
-        //level.getGrid().remove(pacmans_crib); //get out of his house
-        pac.putSelfInGrid((Grid<Actor>) super.getGrid(), pacmans_crib); //puts pac man in his house
-        pac.setDirection(Location.EAST);
+        this.level = level; //sets the instance level to the parameter level
     }
     
     /**
@@ -228,14 +220,15 @@ public class PacWorld extends ActorWorld {
      * indicate that the World has processed the key press. 
      */
     public boolean keyPressed(String description, Location loc){
+    	System.out.print(level.getPac());
         if (description.equals("UP"))
-        	pac.setDirection(Location.NORTH);
+        	level.getPac().setDirection(Location.NORTH);
         if (description.equals("RIGHT"))
-        	pac.setDirection(Location.EAST);
+        	level.getPac().setDirection(Location.EAST);
         if (description.equals("DOWN"))
-        	pac.setDirection(Location.SOUTH);
+        	level.getPac().setDirection(Location.SOUTH);
         if (description.equals("LEFT"))
-        	pac.setDirection(Location.WEST);      	
+        	level.getPac().setDirection(Location.WEST);      	
         return true;
     }
 }
