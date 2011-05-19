@@ -54,9 +54,6 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		PacWorld pac = new PacWorld(PacWorld.level2());
-		
-		PacMan p = new PacMan();
-		pac.add(new Location(2,3), p);
 		pac.show();
 	}
 }
