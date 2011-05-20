@@ -9,6 +9,7 @@ public class Ghost extends Critter{
 	private static boolean vulnerable;
 	private boolean covered;
 	private Actor coveredActor;
+	private Location previousloc;
 	public Ghost(){
 		vulnerable = false;
 	}
@@ -27,10 +28,10 @@ public class Ghost extends Critter{
 			return;
 		else{
 			Location loc = getMoveLocation(target);
-			Location loc2 = this.getLocation();
+			previousloc = this.getLocation();
 			moveTo(getMoveLocation(loc));
 			if (covered){
-				coveredActor.putSelfInGrid(getGrid(),loc2);
+				coveredActor.putSelfInGrid(getGrid(),previousloc);
 				covered = !covered;
 			}
 		
@@ -45,10 +46,7 @@ public class Ghost extends Critter{
 		}
 		return null;
 	}
-	public Location getMoveLocation(Location target){ 
-		
-		//currently can only move to empty spots, must be able to move over pellets
-		
+	public Location getMoveLocation(Location target){ 		
 		
 		int dir = this.getLocation().getDirectionToward(target);
 		if (vulnerable)
@@ -56,19 +54,37 @@ public class Ghost extends Critter{
 		Location loc = getLocation().getAdjacentLocation(dir);
 		if (getGrid().get(loc) instanceof PacMan){
 			PacMan.kill();
+			System.out.println("a");
 			return loc;
 		}
-		else if (getGrid().get(loc) == null)
+		else if (getGrid().get(loc) == null){
+			System.out.println("b");
 			return loc;
+		}
 		else if (getGrid().get(loc) instanceof Pellet || getGrid().get(loc) instanceof PowerPellet1 
 				|| getGrid().get(loc) instanceof PowerPellet2){
+			System.out.println("c");
 			coveredActor = getGrid().get(loc);
 			covered = true;
 			getGrid().get(loc).removeSelfFromGrid();
 			return loc;
 		}
+		System.out.println("d");
+
 		return selectMoveLocation(getMoveLocations());  
 	}
-
+	 public ArrayList<Location> getMoveLocations()
+	    {
+	        ArrayList<Actor> neighbors = getGrid().getNeighbors(getLocation());
+	        ArrayList<Location> locs = new ArrayList();
+	        for (int x = 0; x<neighbors.size(); x++){
+	        	if (!(neighbors.get(x) instanceof Pellet ||
+	        			neighbors.get(x) instanceof PowerPellet1 ||neighbors.get(x) instanceof PowerPellet2))
+	        		neighbors.remove(x);
+	        	else if (!(neighbors.get(x).getLocation().equals(previousloc)))
+	        		locs.add(neighbors.get(x).getLocation());
+	        }
+	        return locs;
+	    }
 }
 
