@@ -47,13 +47,18 @@ public class Level<T> {
 	 * @param powerPelletLocs: locations of power pellets
 	 */
 	public Level(int x, int y, int[] walls_x, int[] walls_y, Location[] powerPelletLocs, Ghost[] ghosts, Location[] ghostLocs, PacMan pac, Location pacLocation){
+		this.pac = pac;
+		this.ghosts = ghosts;
+		
 		g = new BoundedGrid(x, y);
 		placeWalls(walls_x, walls_y);
 		placePellets(powerPelletLocs);
 		placeGhosts(ghosts, ghostLocs);
-		this.pac = pac;
+		
 		pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
 		pac.setDirection(Location.EAST);
+		
+		
 	}	
 		
 			/**

@@ -31,6 +31,9 @@ public class PacWorld extends ActorWorld {
     /**
      * This is a class non-variable that returns a finite level, level1.
      * @return the level itself, which contains the walls, pacdots, ghosts, and pacman
+     * 
+     * note that the pacman and ghosts' levels have not been set yet because it's impossible
+     * to do so in this method. I set their levels in the PacWorld constructor.
      */
     public static final Level level1(){
 		int[] rows = new int[]{
@@ -100,6 +103,8 @@ public class PacWorld extends ActorWorld {
     /**
      * This is a class non-variable that returns a finite level, level1.
      * @return the level itself, which contains the walls, pacdots, ghosts, and pacman
+     * note that the pacman and ghosts' levels have not been set yet because it's impossible
+     * to do so in this method. I set their levels in the PacWorld constructor.
      */
     public static final Level level2(){	
     	int[] rows = new int[]{
@@ -205,6 +210,10 @@ public class PacWorld extends ActorWorld {
         super.setMessage("Points: " + 0); //sets the message in the text box
         
         this.level = level; //sets the instance level to the parameter level
+        
+        level.getPac().setLevel(level); //sets the pacman's level
+        for (Ghost ghost : level.getGhosts()) //sets the ghosts' levels
+        	ghost.setLevel(level);
     }
     
     /**
