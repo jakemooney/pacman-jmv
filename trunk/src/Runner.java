@@ -22,7 +22,6 @@ public class Runner {
 	 * object should contain all of those actors, because a PacWorld is the game itself.
 	 */
 	
-	
 	/**
 	 * notes:
 	 * 505 is the default speed for gridworld. 505 milliseconds of delay between each step.

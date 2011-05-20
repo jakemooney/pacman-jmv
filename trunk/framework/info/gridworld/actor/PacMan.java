@@ -6,10 +6,28 @@ import info.gridworld.grid.Location;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import Levels.Level;
 public class PacMan extends Actor{
 	private int points, count;
 	private static int lives;
 	private static boolean dead;
+	
+	/**
+	 * Max's additions below
+	 */
+	private Level level; //the level contained within
+	
+	//sets the level
+	public void setLevel(Level level){
+		this.level = level;
+	}
+	
+	//gets the level
+	public Level getLevel(){
+		return level;
+	}
+	
 	public PacMan(){
 		lives = 3;
 		points = 0;

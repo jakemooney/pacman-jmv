@@ -5,24 +5,52 @@ import info.gridworld.grid.*;
 
 import java.awt.Color;
 import java.util.*;
+
+import Levels.Level;
+
 public class Ghost extends Critter{
+	
 	private static boolean vulnerable;
 	private boolean covered;
 	private Actor coveredActor;
 	private Location previousloc;
+	
+	/**
+	 * Max's additions below
+	 */
+	private Level level; //the level contained within
+	
+	//sets the level
+	public void setLevel(Level level){
+		this.level = level;
+	}
+	
+	//gets the level
+	public Level getLevel(){
+		return level;
+	}
+	
 	public Ghost(){
 		vulnerable = false;
 		previousloc = null;
 	}
+	
+	
 	public Ghost(Color c){
 		this.setColor(c);
 	}
+	
+	
 	public static boolean isvulnerable(){
 		return vulnerable;
 	}
+	
+	
 	public static void setVulnerable(boolean a){
 		vulnerable = a;
 	}
+	
+	
 	public void act(){
 		Location target = FindPacMan();
 		if (target == null)
@@ -47,6 +75,8 @@ public class Ghost extends Critter{
 		}
 		return null;
 	}
+	
+	
 	public Location getMoveLocation(Location target){ 		
 		
 		int dir = this.getLocation().getDirectionToward(target);
@@ -71,7 +101,9 @@ public class Ghost extends Critter{
 
 		return selectMoveLocation(getMoveLocations());  
 	}
-	 public ArrayList<Location> getMoveLocations()
+	
+	
+	public ArrayList<Location> getMoveLocations()
 	    {
 	        ArrayList<Actor> neighbors = getGrid().getNeighbors(getLocation());
 	        ArrayList<Location> locs = new ArrayList();
