@@ -78,7 +78,6 @@ public class WorldFrame<T> extends JFrame
 	
 	/**
 	 * @author max: maybe we can pause the game with this
-	 * 
 	 */
 	public GUIController<T> getController(){
 		return control;
@@ -116,7 +115,7 @@ public class WorldFrame<T> extends JFrame
         catch (SecurityException ex)
         {
             // will fail in an applet
-        }
+        }	
 
         addWindowListener(new WindowAdapter()
         {
@@ -134,7 +133,7 @@ public class WorldFrame<T> extends JFrame
         setTitle(title);
         setLocation(25, 15);
 
-        URL appIconUrl = getClass().getResource("GridWorld.gif");
+        URL appIconUrl = getClass().getResource("GridWorld.png");
         ImageIcon appIcon = new ImageIcon(appIconUrl);
         setIconImage(appIcon.getImage());
         
