@@ -179,7 +179,7 @@ public class GUIController<T>
      */
     public void stop()
     {
-        display.setToolTipsEnabled(false); //@author max: used to be true
+        display.setToolTipsEnabled(true); //@author max: disable to disable tooltips
         parentFrame.setRunMenuItemsEnabled(false);
         timer.stop();
         stopButton.setEnabled(false);
