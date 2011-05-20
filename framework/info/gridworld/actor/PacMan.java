@@ -42,42 +42,51 @@ public class PacMan extends Actor{
 		count++;
 		int dir = getDirection();
 		Location loc = getLocation().getAdjacentLocation(dir);
+		
+		//Vivek - 5/20/11 - teleport
+		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
+				int cols = getGrid().getNumCols();
+				if (loc.getCol() == -1)
+					loc =  new Location(loc.getRow(), getGrid().getNumCols() - 1);
+				else
+					loc =  new Location(loc.getRow(), 0);
+		}
+			
 		Actor a = getGrid().get(loc);
 		if (a instanceof MazeWall )
 			return;
 		else if (a instanceof Pellet){
 			points += 10;
 			a.removeSelfFromGrid();
-			this.moveTo(loc);
 		}
 		else if (a instanceof Ghost && Ghost.isvulnerable()){
 			points += 200;
 			a.removeSelfFromGrid();
-			this.moveTo(loc);
 		}
 		else if (a instanceof Ghost){
 			dead = true;
 			lives--;
 			this.removeSelfFromGrid();
+			return;
 		}
 		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
 			points += 50;
 			a.removeSelfFromGrid();
-			this.moveTo(loc);
 			count = 0;
 			Ghost.setVulnerable(true);
 		}
-		//else if (loc.isValid())
-		else //if (a.equals(null))
-			moveTo(loc);
+		moveTo(loc);
 	}
+	
 	public boolean isDead(){
 		return dead;
 	}
+	
 	public static void kill(){
 		lives--;
 		setDead(true);
 	}
+	
 	public static void setDead(boolean a){
 		dead = a;
 	}
