@@ -18,13 +18,10 @@ public class Runner {
 	/**
 	 * @author Max
 	 * 
-	 * Runs a PacWorld. Not intended to place new actors. The idea is that the PacWorld
+	 * This class runs a PacWorld. Not intended to place new actors. The idea is that the PacWorld
 	 * object should contain all of those actors, because a PacWorld is the game itself.
 	 */
 	
-	
-	
-	//Why is everything commented out??
 	
 	/**
 	 * notes:

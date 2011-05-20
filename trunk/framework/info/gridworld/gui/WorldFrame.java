@@ -75,6 +75,15 @@ import java.io.StringWriter;
 
 public class WorldFrame<T> extends JFrame
 {
+	
+	/**
+	 * @author max: maybe we can pause the game with this
+	 * 
+	 */
+	public GUIController<T> getController(){
+		return control;
+	}
+	
     private GUIController<T> control;
     private GridPanel display;
     private JTextArea messageArea;

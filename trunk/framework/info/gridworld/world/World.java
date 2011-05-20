@@ -41,6 +41,14 @@ import javax.swing.JFrame;
 
 public class World<T>
 {
+	/**
+	 * @author max: experimental getFrame() method gets the frame
+	 * 
+	 */
+	public JFrame getFrame(){
+		return frame;
+	}
+	
     private Grid<T> gr;
     private Set<String> occupantClassNames;
     private Set<String> gridClassNames;

@@ -102,12 +102,12 @@ public class Level<T> {
 				int y = center.getCol();
 				Location current = new Location(x, y);
 				
-				while (g.get(current.getAdjacentLocation(Location.SOUTH)) instanceof MazeWall == true){
+				while (g.get(current.getAdjacentLocation(180).getAdjacentLocation(180).getAdjacentLocation(180)) instanceof MazeWall == true){
 					g.remove(current);
 					current = current.getAdjacentLocation(Location.WEST);
 				}
 				current = new Location(x, y);
-				while (g.get(current.getAdjacentLocation(180)) instanceof MazeWall == true){
+				while (g.get(current.getAdjacentLocation(180).getAdjacentLocation(180).getAdjacentLocation(180)) instanceof MazeWall == true){
 					g.remove(current);
 					current = current.getAdjacentLocation(Location.EAST);
 				}
@@ -122,7 +122,6 @@ public class Level<T> {
 					p.putSelfInGrid((Grid<Actor>) g, powerPelletLocs[x]);
 				}
 			}
-			
 			
 			/**
 			 * places the ghosts in the center.
