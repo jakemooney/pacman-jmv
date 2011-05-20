@@ -12,6 +12,7 @@ public class Ghost extends Critter{
 	private Location previousloc;
 	public Ghost(){
 		vulnerable = false;
+		previousloc = null;
 	}
 	public Ghost(Color c){
 		this.setColor(c);
@@ -52,15 +53,16 @@ public class Ghost extends Critter{
 		if (vulnerable)
 			dir += 180;
 		Location loc = getLocation().getAdjacentLocation(dir);
-		if (getGrid().get(loc) instanceof PacMan){
+		if (getGrid().get(loc) instanceof PacMan && !(loc.equals(previousloc))){
 			PacMan.kill();
 			return loc;
 		}
-		else if (getGrid().get(loc) == null){
+		else if (getGrid().get(loc) == null && !(loc.equals(previousloc))){
 			return loc;
 		}
-		else if (getGrid().get(loc) instanceof Pellet || getGrid().get(loc) instanceof PowerPellet1 
-				|| getGrid().get(loc) instanceof PowerPellet2){
+		else if ((getGrid().get(loc) instanceof Pellet || getGrid().get(loc) instanceof PowerPellet1 
+				|| getGrid().get(loc) instanceof PowerPellet2) && 
+				!(loc.equals(previousloc))){
 			coveredActor = getGrid().get(loc);
 			covered = true;
 			getGrid().get(loc).removeSelfFromGrid();
@@ -82,5 +84,12 @@ public class Ghost extends Critter{
 	        }
 	        return locs;
 	    }
+	 
+	 //Finds the direct distance between any two actors on the grid, defined by the hypotenous of a right triangle
+	 public double DistanceBetween(Actor a, Actor b){
+		 return Math.sqrt((double)(Math.pow(Math.abs(a.getLocation().getCol() - b.getLocation().getCol()), 2) 
+				 + Math.pow(Math.abs(a.getLocation().getRow() - b.getLocation().getRow()), 2)));
+
+	 }
 }
 
