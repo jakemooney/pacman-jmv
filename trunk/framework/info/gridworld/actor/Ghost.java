@@ -54,22 +54,18 @@ public class Ghost extends Critter{
 		Location loc = getLocation().getAdjacentLocation(dir);
 		if (getGrid().get(loc) instanceof PacMan){
 			PacMan.kill();
-			System.out.println("a");
 			return loc;
 		}
 		else if (getGrid().get(loc) == null){
-			System.out.println("b");
 			return loc;
 		}
 		else if (getGrid().get(loc) instanceof Pellet || getGrid().get(loc) instanceof PowerPellet1 
 				|| getGrid().get(loc) instanceof PowerPellet2){
-			System.out.println("c");
 			coveredActor = getGrid().get(loc);
 			covered = true;
 			getGrid().get(loc).removeSelfFromGrid();
 			return loc;
 		}
-		System.out.println("d");
 
 		return selectMoveLocation(getMoveLocations());  
 	}
