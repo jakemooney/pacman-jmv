@@ -9,8 +9,9 @@ import java.util.ArrayList;
 
 import Levels.Level;
 public class PacMan extends Actor{
-	private int points, count;
-	private static int lives;
+
+	private int count;
+	private static int lives, points;
 	private static boolean dead;
 	
 	/**
@@ -28,6 +29,22 @@ public class PacMan extends Actor{
 		return level;
 	}
 	
+	public static int getPoints(){
+		return points;
+	}
+	
+	public static int getLives(){
+		return lives;
+	}
+	
+	public static void setPoints(int points){
+		PacMan.points = points;
+	}
+	
+	public static void setLives(int lives){
+		PacMan.lives = lives;
+	}
+	
 	public PacMan(){
 		lives = 3;
 		points = 0;
@@ -41,8 +58,7 @@ public class PacMan extends Actor{
 			Ghost.setVulnerable(false);
 		count++;
 		int dir = getDirection();
-		Location loc = getLocation().getAdjacentLocation(dir);
-		
+		Location loc = getLocation().getAdjacentLocation(dir);	
 		//Vivek - 5/20/11 - teleport
 		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
 				int cols = getGrid().getNumCols();
@@ -55,10 +71,21 @@ public class PacMan extends Actor{
 		Actor a = getGrid().get(loc);
 		if (a instanceof MazeWall )
 			return;
+		
+		
+		//jake, i found an error. PowerPellet1's and 2's ARE instances of Pellet.
+		//so eating a powerpellet1 or 2 would have the same effect as eating a pellet
+		//here. I tested
+		//		System.out.print(new PowerPellet1() instanceof Pellet);
+		//and it printed out true.
 		else if (a instanceof Pellet){
 			points += 10;
 			a.removeSelfFromGrid();
+			level.decrementPelletCount();
 		}
+		
+		
+		
 		else if (a instanceof Ghost && Ghost.isvulnerable()){
 			points += 200;
 			a.removeSelfFromGrid();

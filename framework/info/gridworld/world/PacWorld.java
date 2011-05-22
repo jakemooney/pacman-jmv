@@ -12,7 +12,15 @@ import info.gridworld.actor.Rock;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
+import info.gridworld.gui.WorldFrame;
+
 import java.awt.Color;
+import java.net.URL;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import Levels.Level;
 
@@ -27,6 +35,11 @@ import Levels.Level;
 public class PacWorld extends ActorWorld {
 	
     private Level level;
+    
+    private static final int level1x = 15; //these are the grid sizes for each level
+    private static final int level1y = 16;
+    private static final int level2x = 23;
+    private static final int level2y = 19;
     
     /**
      * This is a class non-variable that returns a finite level, level1.
@@ -71,12 +84,11 @@ public class PacWorld extends ActorWorld {
     			0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
     	};
 		
-		Location[] powerPelletLocs = new Location[]{
-				new Location(2, 1), 
-				new Location(2, 14), 
-				new Location(11, 1), 
-				new Location(11, 14)
-		};
+		ArrayList<Location> powerPelletLocs = new ArrayList();
+		powerPelletLocs.add(new Location(2, 1)); 
+		powerPelletLocs.add(new Location(2, 14)); 
+		powerPelletLocs.add(new Location(11, 1)); 
+		powerPelletLocs.add(new Location(11, 14)); 
 		
 		Ghost[] ghosts = new Ghost[]{
 				new Ghost(Color.cyan), 
@@ -92,10 +104,12 @@ public class PacWorld extends ActorWorld {
 		
 		Location pacLocation = new Location(11, 5);
 		
-    	Level level1 = new Level(15, 16, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation); //creates a new 15x16 level
+    	Level level1 = new Level(level1x, level1y, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation); //creates a new 15x16 level
     	
     	level1.getGrid().remove(new Location(6, 7));
+    	level1.decrementPelletCount();
     	level1.getGrid().remove(new Location(6, 8));
+    	level1.decrementPelletCount();
     	
     	return level1;
     }
@@ -159,12 +173,11 @@ public class PacWorld extends ActorWorld {
     			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
     	};
     	
-		Location[] powerPelletLocs = new Location[]{
-				new Location(3, 1), 
-				new Location(3, 17), 
-				new Location(17, 1), 
-				new Location(17, 17)
-		};
+    	ArrayList<Location> powerPelletLocs = new ArrayList();
+		powerPelletLocs.add(new Location(3, 1)); 
+		powerPelletLocs.add(new Location(3, 17)); 
+		powerPelletLocs.add(new Location(17, 1)); 
+		powerPelletLocs.add(new Location(17, 17)); 
 
 		Ghost[] ghosts = new Ghost[]{
 				new Ghost(Color.cyan), 
@@ -184,7 +197,7 @@ public class PacWorld extends ActorWorld {
 		
 		Location pacLocation = new Location(17, 9);
 		
-    	Level level2 = new Level(23, 19, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation);
+    	Level level2 = new Level(level2x, level2y, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation);
     	
     	((Actor) level2.getGrid().get(new Location(9, 0))).setColor(Color.black); //pieces that look like open squares but aren't
     	((Actor) level2.getGrid().get(new Location(9, 1))).setColor(Color.black); //they're above and below the teleport square
@@ -207,7 +220,7 @@ public class PacWorld extends ActorWorld {
      */
     public PacWorld(Level level){   
         super(level.getGrid()); //passes into World the proper grid
-        super.setMessage("Points: " + 0); //sets the message in the text box
+        super.setMessage("Points: " + PacMan.getPoints() + "\nLives: " + PacMan.getLives()); //sets the message in the text box
         
         this.level = level; //sets the instance level to the parameter level
         
@@ -238,7 +251,34 @@ public class PacWorld extends ActorWorld {
         if (description.equals("DOWN"))
         	level.getPac().setDirection(Location.SOUTH);
         if (description.equals("LEFT"))
-        	level.getPac().setDirection(Location.WEST);      	
+        	level.getPac().setDirection(Location.WEST); 
         return true;
+    }
+    
+    /**
+     * @override Overridden to set the appropriate size of the window for each level
+     */
+    public void show()
+    {
+        if (getFrame() == null)
+        {
+        	int x, y;
+        	
+        	//tests if the grid is the same size as the grid for level1
+        	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y){
+            	x = 442; //this is the frame size for level1 that looks best
+            	y = 535;
+            }
+            else{
+            	x = 517; //this is the frame size for level2 that looks best
+            	y = 735;
+            }
+        	WorldFrame w = new WorldFrame(this);
+        	w.setSize(x, y);
+        	setFrame(w);
+            getFrame().setVisible(true);
+        }
+        else
+        	getFrame().repaint();       
     }
 }

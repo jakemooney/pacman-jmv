@@ -19,6 +19,7 @@
 package info.gridworld.gui;
 
 import info.gridworld.grid.*;
+import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
 
 import java.awt.Dimension;
@@ -28,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -36,6 +38,8 @@ import java.util.TreeSet;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.*;
+
+import Levels.Level;
 
 /**
  * The GUIController controls the behavior in a WorldFrame. <br />
@@ -48,7 +52,7 @@ public class GUIController<T>
 {
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
-    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 500;
+    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 250;
     public static final int INITIAL_DELAY = MIN_DELAY_MSECS
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
@@ -133,7 +137,7 @@ public class GUIController<T>
      * Advances the world one step.
      */
     public void step()
-    {
+    {    	
         parentFrame.getWorld().step();
         parentFrame.repaint();
         if (++numStepsSoFar == numStepsToRun)
@@ -142,6 +146,19 @@ public class GUIController<T>
 
         for (Location loc : gr.getOccupiedLocations())
             addOccupant(gr.get(loc));
+    	
+	    //@author max: important stuff for leveling.
+    	if (Level.won()){
+    		((WorldFrame) parentFrame).getController().stop();
+        	try {
+    			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level, which means that the difficulty has now increased! Press the button below to continue."), "Level Complete", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        	PacWorld p = new PacWorld(PacWorld.level2());
+            p.show();
+            parentFrame.dispose();      
+    	}
     }
 
     private void addOccupant(T occupant)
