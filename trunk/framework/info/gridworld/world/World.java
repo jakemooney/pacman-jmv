@@ -42,12 +42,17 @@ import javax.swing.JFrame;
 public class World<T>
 {
 	/**
-	 * @author max: experimental getFrame() method gets the frame
+	 * @author max: experimental getFrame() method gets the frame and setFrame() sets it
 	 * 
 	 */
 	public JFrame getFrame(){
 		return frame;
 	}
+	
+	public void setFrame(JFrame frame){
+		this.frame = frame;
+	}
+
 	
     private Grid<T> gr;
     private Set<String> occupantClassNames;
@@ -88,7 +93,6 @@ public class World<T>
         }
         else
             frame.repaint();
-        
     }
 
     /**

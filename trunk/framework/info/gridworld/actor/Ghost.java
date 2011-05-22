@@ -63,7 +63,6 @@ public class Ghost extends Critter{
 				coveredActor.putSelfInGrid(getGrid(),previousloc);
 				covered = !covered;
 			}
-		
 		}
 	}
 	

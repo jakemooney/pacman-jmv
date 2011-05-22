@@ -572,12 +572,18 @@ public class GridPanel extends JPanel implements Scrollable,
             // now we want to approximate this with 
             // DEFAULT_CELL_SIZE * Math.pow(2, k)
             cellSize = DEFAULT_CELL_SIZE;
-            if (cellSize <= desiredCellSize)                
+            
+            /**
+             * @author max: commented this out so that the cells aren't resized if there are too
+             * many or something. we want the same size for level1 and level2, we're just gonna
+             * resize the window to make everything viewable. we don't actually want the cell
+             * sizes to be changed.
                 while (2 * cellSize <= desiredCellSize)
                     cellSize *= 2;
             else
                 while (cellSize / 2 >= Math.max(desiredCellSize, MIN_CELL_SIZE))
-                    cellSize /= 2;
+                    cellSize /= 2;        
+            */
         }
         revalidate();
     }

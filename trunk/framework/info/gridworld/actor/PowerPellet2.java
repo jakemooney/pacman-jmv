@@ -14,7 +14,6 @@ public class PowerPellet2 extends Pellet{
 		Grid<Actor> g = getGrid();
 		removeSelfFromGrid();
 		PowerPellet1 newImage = new PowerPellet1();
-		System.out.print(current);
 		newImage.putSelfInGrid(g, current);
 	}
 

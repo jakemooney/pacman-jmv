@@ -1,6 +1,7 @@
 package Levels;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.Ghost;
@@ -8,6 +9,7 @@ import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.PacMan;
 import info.gridworld.actor.Pellet;
 import info.gridworld.actor.PowerPellet1;
+import info.gridworld.actor.PowerPellet2;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
@@ -17,6 +19,8 @@ public class Level<T> {
 	private Grid<T> g;
 	private PacMan pac;
 	private Ghost[] ghosts;
+	private int pelletCount;
+	private static boolean won; //if the level has been won or not
 	
 	/**
 	 * returns the grid of the level
@@ -40,24 +44,52 @@ public class Level<T> {
 	}
 	
 	/**
+	 * decrements the amount of pellets (to be used by pacman)
+	 * also tells the game that the level has been one once pelletCount reaches zero
+	 */
+	public void decrementPelletCount(){
+		pelletCount--;
+		if (pelletCount == 0)
+			won = true;
+		System.out.println(pelletCount + "!!");
+	}
+	
+	/**
+	 * gets the pellet count
+	 */
+	public int getPelletCount(){
+		return pelletCount;
+	}
+	
+	/**
+	 * @return if the level has been won yet
+	 */
+	public static boolean won(){
+		return won;
+	}
+	
+	//above this line are all methods that need to be accessed by other objects
+	//-----------------------------------------
+	//below this line are all the methods that are simply used to MAKE the level
+	
+	/**
 	 * @param x: the x value for the grid size
 	 * @param y: the y value
 	 * @param walls_x: array of x values for the wall locations
 	 * @param walls_y: array of y values for the wall locations
 	 * @param powerPelletLocs: locations of power pellets
 	 */
-	public Level(int x, int y, int[] walls_x, int[] walls_y, Location[] powerPelletLocs, Ghost[] ghosts, Location[] ghostLocs, PacMan pac, Location pacLocation){
+	public Level(int x, int y, int[] walls_x, int[] walls_y, ArrayList<Location> powerPelletLocs, Ghost[] ghosts, Location[] ghostLocs, PacMan pac, Location pacLocation){
 		this.pac = pac;
 		this.ghosts = ghosts;
+		pelletCount = 0;
+		won = false;
 		
 		g = new BoundedGrid(x, y);
 		placeWalls(walls_x, walls_y);
-		placePellets(powerPelletLocs);
 		placeGhosts(ghosts, ghostLocs);
-		
-		pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
-		pac.setDirection(Location.EAST);
-		
+		placePacMan(pac, pacLocation);
+		placePellets(powerPelletLocs);
 		
 	}	
 		
@@ -72,71 +104,85 @@ public class Level<T> {
 			    	wall.putSelfInGrid((Grid<Actor>) g, new Location(x[z], y[z]));
 			    }
 			}
-			
-			/**
-			 * places the pellets in the grid by filling it with pellets and then removing
-			 * the pellets around the jail.
-			 */
-			private void placePellets(Location[] powerPelletLocs){
-				fillWithPellets();
-				removePelletsInFrontOfJail();
-				placePowerPellets(powerPelletLocs);
-			}
-			
-			/**
-			 * fills all spaces except teleport spaces with pellets
-			 */
-			private void fillWithPellets(){
-		    	for (int x = 0; x < g.getNumRows(); x++){
-		    		for (int y = 0; y < g.getNumCols(); y++){
-		    			Location current = new Location(x, y);
-		    			if (g.get(current) == null){ //if the space is empty
-		    				Pellet pellet = new Pellet();
-		    				pellet.putSelfInGrid((Grid<Actor>) g, current);
-		    			}
-		    		}
-		    	}
-		    }
-			
-			/**
-			 * removes the pellets in the area in front of the jail.
-			 */
-			private void removePelletsInFrontOfJail(){
-				Location center = new Location(g.getNumRows() / 2, g.getNumCols() / 2);
-				int x = center.getRow() - 2;
-				int y = center.getCol();
-				Location current = new Location(x, y);
-				
-				while (g.get(current.getAdjacentLocation(180).getAdjacentLocation(180).getAdjacentLocation(180)) instanceof MazeWall == true){
-					g.remove(current);
-					current = current.getAdjacentLocation(Location.WEST);
-				}
-				current = new Location(x, y);
-				while (g.get(current.getAdjacentLocation(180).getAdjacentLocation(180).getAdjacentLocation(180)) instanceof MazeWall == true){
-					g.remove(current);
-					current = current.getAdjacentLocation(Location.EAST);
-				}
-			}
-			
-			/**
-			 * places the power pellets at the specified locations
-			 */
-			private void placePowerPellets(Location[] powerPelletLocs){
-				for (int x = 0; x < powerPelletLocs.length; x++){
-					Pellet p = new PowerPellet1();
-					p.putSelfInGrid((Grid<Actor>) g, powerPelletLocs[x]);
-				}
-			}
-			
+						
 			/**
 			 * places the ghosts in the center.
 			 * @param ghosts: the ghosts to be put in the center
-			 * @param ghostLocs: the locations of each ghost
+			 * @param ghostLocs: the location of each ghost
 			 */
 			private void placeGhosts(Ghost[] ghosts, Location[] ghostLocs){
 				if (ghosts.length != ghostLocs.length)
 					throw new IllegalStateException("Sizes of ghosts and ghostLocs differ.");
 				for (int n = 0; n < ghosts.length; n++)
 					ghosts[n].putSelfInGrid((Grid<Actor>) g, ghostLocs[n]);
+			}
+			
+			/**
+			 * places pacman
+			 */
+			public void placePacMan(PacMan pac, Location pacLocation){
+				pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
+				pac.setDirection(Location.EAST);
+			}
+			
+			
+			/**
+			 * places the pellets in the grid by filling it with pellets and then removing
+			 * the pellets around the jail.
+			 */
+			private void placePellets(ArrayList<Location> powerPelletLocs){
+				fillWithPellets(powerPelletLocs);
+				removePelletsAroundJail();
+			}
+			
+			/**
+			 * fills all spaces except teleport spaces with pellets
+			 */
+			private void fillWithPellets(ArrayList<Location> powerPelletLocs){
+		    	for (int x = 0; x < g.getNumRows(); x++){
+		    		for (int y = 0; y < g.getNumCols(); y++){
+		    			Location current = new Location(x, y);
+		    			Pellet pellet;
+		    			if (g.get(current) == null){ //if the space is empty
+		    				if (powerPelletLocs.contains(current)) //if it's a powerpellet location
+		    					pellet = new PowerPellet1();
+		    				else
+		    					pellet = new Pellet();
+		    				pellet.putSelfInGrid((Grid<Actor>) g, current);
+		    				pelletCount++;
+		    			}
+		    		}
+		    	}
+		    }
+			
+			/**
+			 * removes the pellets around the jail
+			 */
+			private void removePelletsAroundJail(){
+				Location center = new Location(g.getNumRows() / 2, g.getNumCols() / 2);
+				int x = center.getRow() + 2;
+				int y = center.getCol();
+				Location current = new Location(x, y);
+				
+				//dir is like the direction towards the center
+				for (int dir = 0; dir < 405; dir += 45){
+					while (g.get(current.getAdjacentLocation(dir)) instanceof MazeWall 
+							|| current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(0))
+							|| (current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(315))
+									&& g.getNumCols() % 2 == 0)){
+						if (g.get(current) instanceof Pellet 
+								|| g.get(current) instanceof PowerPellet1
+								|| g.get(current) instanceof PowerPellet2){
+							g.remove(current);
+							decrementPelletCount();
+						}
+						if (dir % 45 == 0 && dir % 90 != 0 && dir != 0){
+							current = current.getAdjacentLocation(dir + 315);
+							break;
+						}
+						else
+							current = current.getAdjacentLocation(dir + 270);
+					}
+				}
 			}
 }
