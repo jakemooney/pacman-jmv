@@ -46,6 +46,14 @@ public class Runner {
      * worldFrame.makeMenus()
      * 
      * he doesn't run because he thinks he's blocked by the pellets. ah.
+     * 
+     * have to re-evaluate that for:each loop because it evaluates top-down
+	 */
+
+	/**
+	 * TODO: speed up the timer and remove the slider
+	 * 	-done
+	 * TODO: gnulicense...
 	 */
 	
 	public static void main(String[] args) {

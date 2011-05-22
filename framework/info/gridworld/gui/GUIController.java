@@ -48,7 +48,7 @@ public class GUIController<T>
 {
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
-    private static final int MIN_DELAY_MSECS = 10, MAX_DELAY_MSECS = 1000;
+    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 500;
     public static final int INITIAL_DELAY = MIN_DELAY_MSECS
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
@@ -208,7 +208,7 @@ public class GUIController<T>
         controlPanel.setBorder(BorderFactory.createEtchedBorder());
         
         Dimension spacer = new Dimension(5, stepButton.getPreferredSize().height + 10);
-        
+
         controlPanel.add(Box.createRigidArea(spacer));
 
         controlPanel.add(stepButton);
@@ -220,7 +220,8 @@ public class GUIController<T>
         stepButton.setEnabled(false);
         stopButton.setEnabled(false);
 
-        controlPanel.add(Box.createRigidArea(spacer));
+        /**controlPanel.add(Box.createRigidArea(spacer));
+         * @author max: remove slider 
         controlPanel.add(new JLabel(resources.getString("slider.gui.slow")));
         JSlider speedSlider = new JSlider(MIN_DELAY_MSECS, MAX_DELAY_MSECS,
                 INITIAL_DELAY);
@@ -228,6 +229,7 @@ public class GUIController<T>
         speedSlider.setPreferredSize(new Dimension(100, speedSlider
                 .getPreferredSize().height));
         speedSlider.setMaximumSize(speedSlider.getPreferredSize());
+        */
 
         // remove control PAGE_UP, PAGE_DOWN from slider--they should be used
         // for zoom
@@ -239,9 +241,9 @@ public class GUIController<T>
             map = map.getParent();
         }*/
 
-        controlPanel.add(speedSlider);
-        controlPanel.add(new JLabel(resources.getString("slider.gui.fast")));
-        controlPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        //controlPanel.add(speedSlider); @author max: remove slider
+        //controlPanel.add(new JLabel(resources.getString("slider.gui.fast"))); @author max: remove slider
+        //controlPanel.add(Box.createRigidArea(new Dimension(5, 0))); @author max: remove slider
 
         
         
@@ -268,6 +270,10 @@ public class GUIController<T>
                 stop();
             }
         });
+        
+        /**
+         * @author max: remove slider
+         * 
         speedSlider.addChangeListener(new ChangeListener()
         {
             public void stateChanged(ChangeEvent evt)
@@ -275,6 +281,7 @@ public class GUIController<T>
                 timer.setDelay(((JSlider) evt.getSource()).getValue());
             }
         });
+        */ 
     }
 
     /**
