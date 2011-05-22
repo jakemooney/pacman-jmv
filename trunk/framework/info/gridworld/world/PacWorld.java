@@ -231,7 +231,6 @@ public class PacWorld extends ActorWorld {
      * indicate that the World has processed the key press. 
      */
     public boolean keyPressed(String description, Location loc){
-    	System.out.print(level.getPac());
         if (description.equals("UP"))
         	level.getPac().setDirection(Location.NORTH);
         if (description.equals("RIGHT"))

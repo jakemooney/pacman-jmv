@@ -489,10 +489,14 @@ public class WorldFrame<T> extends JFrame
      * Brings up a simple dialog with some general information.
      */
     private void showAboutPanel()
-    {
+    {  
+    	//@author max: method edited to show different "About" text  	
         String html = MessageFormat.format(resources
                 .getString("dialog.about.text"), new Object[]
-            { resources.getString("version.id") });
+            {resources.getString("version.id")});
+        
+        /**
+         * @author max: removes all unnecessary stuff in the about panel
         String[] props = { "java.version", "java.vendor", "java.home", "os.name", "os.arch", "os.version", "user.name", "user.home", "user.dir" };
         html += "<table border='1'>";
         for (String prop : props)
@@ -508,10 +512,14 @@ public class WorldFrame<T> extends JFrame
             }           
         }
         html += "</table>";
+        */
+                
         html = "<html>" + html + "</html>";
-        JOptionPane.showMessageDialog(this, new JLabel(html), resources
-                .getString("dialog.about.title"),
-                JOptionPane.INFORMATION_MESSAGE);
+        try {
+			JOptionPane.showMessageDialog(this, new JLabel(html), "The Code Monkeys", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -520,12 +528,13 @@ public class WorldFrame<T> extends JFrame
      */
     private void showHelp()
     {
+    	//@author max: method edited to show different "Help" text  	
         JDialog dialog = new JDialog(this, resources
                 .getString("dialog.help.title"));
         final JEditorPane helpText = new JEditorPane();
         try
         {
-            URL url = getClass().getResource("GridWorldHelp.html");
+            URL url = new URL(resources.getString("dialog.help.link")); //@author max
 
             helpText.setPage(url);
         }
@@ -558,6 +567,10 @@ public class WorldFrame<T> extends JFrame
 
     /**
      * Brings up a dialog that displays the license.
+     */
+    
+    /**
+     * @author max: remove 
      */
     private void showLicense()
     {

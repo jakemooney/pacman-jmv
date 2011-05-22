@@ -58,7 +58,7 @@ public class PseudoInfiniteViewport extends JViewport
     public PseudoInfiniteViewport(JScrollPane parent)
     {
         scrollParent = parent;
-        setBackground(Color.lightGray);
+        setBackground(Color.BLACK); //@author max
     }
 
     /**

@@ -51,6 +51,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+//@author max: this is the class that makes the popdown menu for each thing
+
 /**
  * Makes the menus for constructing new occupants and grids, and for invoking
  * methods on existing occupants. <br />
