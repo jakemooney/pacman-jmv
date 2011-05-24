@@ -78,14 +78,19 @@ public class PacMan extends Actor{
 		//here. I tested
 		//		System.out.print(new PowerPellet1() instanceof Pellet);
 		//and it printed out true.
+		
+		//should be fixed now, i test for power pellet first now, order of priority should solve that
+		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
+			points += 50;
+			a.removeSelfFromGrid();
+			count = 0;
+			Ghost.setVulnerable(true);
+		}
 		else if (a instanceof Pellet){
 			points += 10;
 			a.removeSelfFromGrid();
 			level.decrementPelletCount();
 		}
-		
-		
-		
 		else if (a instanceof Ghost && Ghost.isvulnerable()){
 			points += 200;
 			a.removeSelfFromGrid();
@@ -96,12 +101,7 @@ public class PacMan extends Actor{
 			this.removeSelfFromGrid();
 			return;
 		}
-		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
-			points += 50;
-			a.removeSelfFromGrid();
-			count = 0;
-			Ghost.setVulnerable(true);
-		}
+		
 		moveTo(loc);
 	}
 	
@@ -117,10 +117,5 @@ public class PacMan extends Actor{
 	public static void setDead(boolean a){
 		dead = a;
 	}
-	
-	
-	
-	
-
 }
 
