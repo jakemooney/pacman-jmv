@@ -8,7 +8,7 @@ import java.util.*;
 
 import Levels.Level;
 
-public class Ghost extends Critter{
+public class Ghost2 extends Critter{
 	
 	private static boolean vulnerable;
 	private boolean covered;
@@ -31,17 +31,16 @@ public class Ghost extends Critter{
 		return level;
 	}
 	
-	public Ghost(){
+	public Ghost2(){
 		vulnerable = false;
 		previousloc = null;
 	}
 	
 	
-	public Ghost(Color c, int type){
+	public Ghost2(Color c, int type){
 		this.setColor(c);
 		vulnerable = false;
 		previousloc = null;
-		covered = false;
 		this.type = type;
 	}
 	
@@ -57,37 +56,9 @@ public class Ghost extends Critter{
 	
 	
 	public void act(){
-		if (FindTarget() == null)
-			return;
 		Location MOVE = GetBestMove(EliminateMoveLocations(FindPossibleMoves()), FindTarget());
-		if (MOVE == null || !getGrid().isValid(MOVE))
-			return;
 		previousloc = getLocation();
-		/**
-		if (covered){
-			coveredActor.putSelfInGrid(getGrid(),previousloc);
-			covered = !covered;
-		}
-		if (!(getGrid().get(MOVE) == null)){
-			coveredActor = getGrid().get(MOVE);
-			covered = true;
-		}
-		**/
-		if (getGrid().get(MOVE) == null)
-			moveTo(MOVE);
-		else if (getGrid().get(MOVE) instanceof Pellet || getGrid().get(MOVE) instanceof PowerPellet1 
-				|| getGrid().get(MOVE) instanceof PowerPellet2){
-			coveredActor = getGrid().get(MOVE);
-			moveTo(MOVE);
-			coveredActor.putSelfInGrid(getGrid(), previousloc);
-		}
-		else if (getGrid().get(MOVE) instanceof PacMan){
-			PacMan.kill();
-			moveTo(MOVE);
-		}
-		else
-			return;
-		
+		moveTo(MOVE);
 		
 	}
 	
@@ -102,7 +73,7 @@ public class Ghost extends Critter{
 	 public Actor FindGhost(int TYPE){
 		 ArrayList<Location> locs  = getGrid().getOccupiedLocations();
 			for (Location l: locs){
-				if (getGrid().get(l) instanceof Ghost && ((Ghost) (getGrid().get(l))).getType() == TYPE)
+				if (getGrid().get(l) instanceof Ghost2 && ((Ghost2) (getGrid().get(l))).getType() == TYPE)
 					return getGrid().get(l);
 			}
 			return null;
@@ -175,8 +146,6 @@ public class Ghost extends Critter{
 	 
 	 public Location FindTarget(){
 		 Actor PacMan = FindPacMan();
-		 if (PacMan == null)
-			 return null;
 		 int pacdir = PacMan.getDirection();
 		 if (type == 1)
 			 return PacMan.getLocation();
@@ -230,12 +199,9 @@ public class Ghost extends Critter{
 	        ArrayList<Location> locs = new ArrayList();
 	        for (int x = 0; x<neighbors.size(); x++){
 	        	if (!(neighbors.get(x) instanceof Pellet ||
-	        			neighbors.get(x) instanceof PowerPellet1 ||neighbors.get(x) instanceof PowerPellet2 
-	        			|| neighbors.get(x) instanceof PacMan)){
+	        			neighbors.get(x) instanceof PowerPellet1 ||neighbors.get(x) instanceof PowerPellet2))
 	        		neighbors.remove(x);
-	        		x--;
-	        	}
-	        	else if (getGrid().isValid(neighbors.get(x).getLocation()))
+	        	else if (!(neighbors.get(x).getLocation().equals(previousloc)))
 	        		locs.add(neighbors.get(x).getLocation());
 	        }
 	        ArrayList<Location> emptylocs = getGrid().getEmptyAdjacentLocations(getLocation());
@@ -245,21 +211,17 @@ public class Ghost extends Critter{
 	        return locs;
 	 }
 	 public ArrayList<Location> EliminateMoveLocations(ArrayList<Location> locs){
-		 if (previousloc != null){
+		 if (previousloc == null)
+			 return locs;
+		 else{
 			 for (int x = 0; x<locs.size(); x++){
 				 if (locs.get(x).equals(previousloc)){
 					 locs.remove(x);
 					 x--;
 				 }
 			 }
+			 return locs;
 		 }
-		 for (int x = 0; x<locs.size(); x++){
-			 if (getLocation().getDirectionToward(locs.get(x)) % 90 != 0){
-				 locs.remove(x);
-				 x--;
-			 }
-		 }
-		 return locs;
 	 }
 	 public Location GetBestMove(ArrayList<Location> locs, Location target){
 		 if (locs.size() == 0)
@@ -272,7 +234,6 @@ public class Ghost extends Critter{
 				 choice = x;
 			 }
 		 }
-		 
 		 return locs.get(choice);
 	 }
 
