@@ -91,8 +91,8 @@ public class PacWorld extends ActorWorld {
 		powerPelletLocs.add(new Location(11, 14)); 
 		
 		Ghost[] ghosts = new Ghost[]{
-				new Ghost(Color.cyan), 
-				new Ghost(Color.green),
+				new Ghost(Color.cyan, 1), 
+				new Ghost(Color.green, 2),
 		};
 		
 		Location[] ghostLocs = new Location[]{
@@ -180,10 +180,10 @@ public class PacWorld extends ActorWorld {
 		powerPelletLocs.add(new Location(17, 17)); 
 
 		Ghost[] ghosts = new Ghost[]{
-				new Ghost(Color.cyan), 
-				new Ghost(Color.green),
-				new Ghost(Color.pink), 
-				new Ghost(Color.red)
+				new Ghost(Color.cyan,4), 
+				new Ghost(Color.green,3),
+				new Ghost(Color.pink,2), 
+				new Ghost(Color.red,1)
 		};
 		
 		Location[] ghostLocs = new Location[]{
