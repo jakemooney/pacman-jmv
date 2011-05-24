@@ -60,6 +60,10 @@ public class Ghost extends Critter{
 		if (FindTarget() == null)
 			return;
 		Location MOVE = GetBestMove(EliminateMoveLocations(FindPossibleMoves()), FindTarget());
+		if ((FindPacMan() != null && (getLocation().getCol() == 0)) && !previousloc.equals(new Location(getLocation().getRow(), getGrid().getNumCols()-1)))
+			MOVE = new Location(getLocation().getRow(), getGrid().getNumCols()-1);
+		else if ((FindPacMan() != null && (getLocation().getCol() == getGrid().getNumCols()-1)) && !previousloc.equals(new Location(getLocation().getRow(), 0)))
+			MOVE = new Location(getLocation().getRow(), 0);
 		if (MOVE == null || !getGrid().isValid(MOVE))
 			return;
 		previousloc = getLocation();
