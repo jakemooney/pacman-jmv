@@ -8,6 +8,19 @@ package info.gridworld.actor;
  * -this only 
  */
 
-public class Fruit {
+public abstract class Fruit extends Actor{			//Abstract?
 
+	private int points;
+	private int counter;				//??? counter for point value to be displayed
+	
+	public Fruit(int pts){
+		points = pts;
+	}
+	
+	//returns the points
+	public int getPoints(){
+		return points;
+	}
+	
+	
 }
