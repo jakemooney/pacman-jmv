@@ -54,7 +54,7 @@ public class PacMan extends Actor{
 	}
 	
 	public void act(){
-		if (count == 50)
+		if (count >= 50)
 			Ghost.setVulnerable(false);
 		count++;
 		int dir = getDirection();
@@ -116,6 +116,9 @@ public class PacMan extends Actor{
 	
 	public static void setDead(boolean a){
 		dead = a;
+	}
+	public static void eatGhost(){
+		points += 200;
 	}
 }
 

@@ -75,9 +75,13 @@ public class Ghost extends Critter{
 			moveTo(MOVE);
 			coveredActor.putSelfInGrid(getGrid(), previousloc);
 		}
-		else if (getGrid().get(MOVE) instanceof PacMan){
+		else if ((getGrid().get(MOVE) instanceof PacMan) && !vulnerable){
 			PacMan.kill();
 			moveTo(MOVE);
+		}
+		else if ((getGrid().get(MOVE) instanceof PacMan) && vulnerable){
+			PacMan.eatGhost();
+			removeSelfFromGrid();
 		}
 		else
 			return;
