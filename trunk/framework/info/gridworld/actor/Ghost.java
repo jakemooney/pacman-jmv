@@ -70,7 +70,7 @@ public class Ghost extends Critter{
 		if (getGrid().get(MOVE) == null)
 			moveTo(MOVE);
 		else if (getGrid().get(MOVE) instanceof Pellet || getGrid().get(MOVE) instanceof PowerPellet1 
-				|| getGrid().get(MOVE) instanceof PowerPellet2){
+				|| getGrid().get(MOVE) instanceof PowerPellet2 || getGrid().get(MOVE) instanceof Fruit){
 			coveredActor = getGrid().get(MOVE);
 			moveTo(MOVE);
 			coveredActor.putSelfInGrid(getGrid(), previousloc);
@@ -166,7 +166,7 @@ public class Ghost extends Critter{
 	        for (int x = 0; x<neighbors.size(); x++){
 	        	if (!(neighbors.get(x) instanceof Pellet ||
 	        			neighbors.get(x) instanceof PowerPellet1 ||neighbors.get(x) instanceof PowerPellet2 
-	        			|| neighbors.get(x) instanceof PacMan)){
+	        			|| neighbors.get(x) instanceof PacMan || neighbors.get(x) instanceof Fruit)){
 	        		neighbors.remove(x);
 	        		x--;
 	        	}
