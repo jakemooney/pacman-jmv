@@ -14,7 +14,7 @@ public class Ghost extends Critter{
 	private boolean covered;
 	private Actor coveredActor;
 	private Location previousloc, pacloc;
-	private int type;
+	private int type, count;
 	
 	/**
 	 * Max's additions below
@@ -43,6 +43,7 @@ public class Ghost extends Critter{
 		previousloc = null;
 		covered = false;
 		this.type = type;
+		count = 0;
 	}
 	
 	
@@ -57,6 +58,10 @@ public class Ghost extends Critter{
 	
 	
 	public void act(){
+		count++;
+		setModeColor();
+		if (vulnerable && count%2==0)
+			return;
 		if (FindTarget() == null)
 			return;
 		Location MOVE = GetBestMove(EliminateMoveLocations(FindPossibleMoves()), FindTarget());
@@ -86,8 +91,6 @@ public class Ghost extends Critter{
 		}
 		else
 			return;
-		
-		
 	}
 	
 	public Actor FindPacMan(){
@@ -227,6 +230,18 @@ public class Ghost extends Critter{
 			 }
 		 }
 		 return locs;
+	 }
+	 public void setModeColor(){
+		 if (vulnerable)
+			 setColor(Color.BLUE);
+		 else if (type == 1)
+			 setColor(Color.red);
+		 else if (type == 2)
+			 setColor(Color.pink); 
+		 else if (type == 3)
+				 setColor(Color.orange); 
+		 else if (type == 4)
+			 setColor(Color.cyan);
 	 }
 
 	 public int getType(){
