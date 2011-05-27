@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import Levels.Level;
 public class PacMan extends Actor{
 
-	private int count;
+	private int count, pendingDir;
 	private static int lives, points;
 	private static boolean dead;
+	private boolean pendingTurn;
 	
 	/**
 	 * Max's additions below
@@ -54,8 +55,14 @@ public class PacMan extends Actor{
 	}
 	
 	public void act(){
-		if (count >= 50)
+		if (pendingTurn && !(getGrid().get(getLocation().getAdjacentLocation(pendingDir)) instanceof MazeWall)){
+			pendingTurn = false;
+			setDirection(pendingDir);
+		}
+		if (count >= 50){
 			Ghost.setVulnerable(false);
+			setColor(Color.yellow);
+		}
 		count++;
 		int dir = getDirection();
 		Location loc = getLocation().getAdjacentLocation(dir);	
@@ -85,6 +92,7 @@ public class PacMan extends Actor{
 			a.removeSelfFromGrid();
 			count = 0;
 			Ghost.setVulnerable(true);
+			setColor(Color.blue);
 		}
 		else if (a instanceof Pellet){
 			points += 10;
@@ -119,6 +127,10 @@ public class PacMan extends Actor{
 	}
 	public static void eatGhost(){
 		points += 200;
+	}
+	public void setPendingDirection(int dir){
+		pendingTurn = true;
+		pendingDir = dir;
 	}
 }
 
