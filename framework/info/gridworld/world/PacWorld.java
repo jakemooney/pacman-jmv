@@ -181,7 +181,7 @@ public class PacWorld extends ActorWorld {
 
 		Ghost[] ghosts = new Ghost[]{
 				new Ghost(Color.cyan,4), 
-				new Ghost(Color.green,3),
+				new Ghost(Color.orange,3),
 				new Ghost(Color.pink,2), 
 				new Ghost(Color.red,1)
 		};

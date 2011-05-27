@@ -61,7 +61,6 @@ public class PacMan extends Actor{
 		}
 		if (count >= 50){
 			Ghost.setVulnerable(false);
-			setColor(Color.yellow);
 		}
 		count++;
 		int dir = getDirection();
@@ -92,7 +91,6 @@ public class PacMan extends Actor{
 			a.removeSelfFromGrid();
 			count = 0;
 			Ghost.setVulnerable(true);
-			setColor(Color.blue);
 		}
 		else if (a instanceof Pellet){
 			points += 10;
