@@ -245,13 +245,13 @@ public class PacWorld extends ActorWorld {
      */
     public boolean keyPressed(String description, Location loc){
         if (description.equals("UP"))
-        	level.getPac().setDirection(Location.NORTH);
+        	level.getPac().setPendingDirection(Location.NORTH);
         if (description.equals("RIGHT"))
-        	level.getPac().setDirection(Location.EAST);
+        	level.getPac().setPendingDirection(Location.EAST);
         if (description.equals("DOWN"))
-        	level.getPac().setDirection(Location.SOUTH);
+        	level.getPac().setPendingDirection(Location.SOUTH);
         if (description.equals("LEFT"))
-        	level.getPac().setDirection(Location.WEST); 
+        	level.getPac().setPendingDirection(Location.WEST); 
         return true;
     }
     

@@ -70,7 +70,8 @@ public class Ghost extends Critter{
 		if (getGrid().get(MOVE) == null)
 			moveTo(MOVE);
 		else if (getGrid().get(MOVE) instanceof Pellet || getGrid().get(MOVE) instanceof PowerPellet1 
-				|| getGrid().get(MOVE) instanceof PowerPellet2 || getGrid().get(MOVE) instanceof Fruit){
+				|| getGrid().get(MOVE) instanceof PowerPellet2 || getGrid().get(MOVE) instanceof Fruit
+				|| getGrid().get(MOVE) instanceof Ghost){
 			coveredActor = getGrid().get(MOVE);
 			moveTo(MOVE);
 			coveredActor.putSelfInGrid(getGrid(), previousloc);
@@ -130,8 +131,9 @@ public class Ghost extends Critter{
 				 return new Location(PacMan.getLocation().getRow(), PacMan.getLocation().getCol()-4);
 		 }
 		 else if (type == 3){
+			 System.out.println(DistanceBetween(this.getLocation(), PacMan.getLocation()));
 			 if (DistanceBetween(this.getLocation(), PacMan.getLocation()) < 10 )
-				 return new Location(getGrid().getNumRows(), 0);
+				 return new Location(getGrid().getNumRows()-1, 0);
 			 else
 				 return PacMan.getLocation();
 		 }
@@ -170,7 +172,8 @@ public class Ghost extends Critter{
 	        for (int x = 0; x<neighbors.size(); x++){
 	        	if (!(neighbors.get(x) instanceof Pellet ||
 	        			neighbors.get(x) instanceof PowerPellet1 ||neighbors.get(x) instanceof PowerPellet2 
-	        			|| neighbors.get(x) instanceof PacMan || neighbors.get(x) instanceof Fruit)){
+	        			|| neighbors.get(x) instanceof PacMan || neighbors.get(x) instanceof Fruit
+	        			|| neighbors.get(x) instanceof Ghost)){
 	        		neighbors.remove(x);
 	        		x--;
 	        	}
@@ -203,6 +206,9 @@ public class Ghost extends Critter{
 	 public Location GetBestMove(ArrayList<Location> locs, Location target){
 		 if (locs.size() == 0)
 			 return null;
+		 if (locs.size() == 1 && getGrid().get(locs.get(0)) instanceof Ghost)
+			 return locs.get(0);
+		 locs = EliminateGhost(locs);
 		 int choice = 0;
 		 double distance = 500;
 		 for (int x = 0; x<locs.size(); x++){
@@ -211,8 +217,16 @@ public class Ghost extends Critter{
 				 choice = x;
 			 }
 		 }
-		 
 		 return locs.get(choice);
+	 }
+	 public ArrayList<Location> EliminateGhost(ArrayList<Location> locs){
+		 for (int x = 0; x<locs.size(); x++){
+			 if (getGrid().get(locs.get(x)) instanceof Ghost){
+				 locs.remove(x);
+				 x--;
+			 }
+		 }
+		 return locs;
 	 }
 
 	 public int getType(){

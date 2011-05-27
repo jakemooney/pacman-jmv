@@ -62,7 +62,7 @@ public class Runner {
 	 */
 	
 	public static void main(String[] args) {
-		PacWorld pac = new PacWorld(PacWorld.level2());
+		PacWorld pac = new PacWorld(PacWorld.level1());
 		pac.show();
 	}
 }
