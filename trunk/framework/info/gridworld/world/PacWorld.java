@@ -49,14 +49,14 @@ public class PacWorld extends ActorWorld {
      * to do so in this method. I set their levels in the PacWorld constructor.
      */
     public static final Level level1(){
-		int[] rows = new int[]{
+    	int[] rows = new int[]{
     			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     			1,1,
     			2,2,2,2,2,2,2,2,2,2,
     			3,3,3,3,
     			4,4,4,4,4,4,4,4,4,4,
     			5,5,5,5,
-    			6,6,6,6,6,6,6,6,6,6,
+    			6,6,6,6,6,6,6,6,6,6,6,6,
     			7,7,
     			8,8,8,8,8,8,8,8,8,8,8,8,
     			9,9,9,9,
@@ -69,11 +69,11 @@ public class PacWorld extends ActorWorld {
 		int[] cols = new int[]{
     			0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
     			0,15,
-    			0,2,4,6,7,8,9,11,13	,15,
+    			0,2,4,6,7,8,9,11,13,15,
     			0,4,11,15,
     			0,2,4,6,7,8,9,11,13,15,
     			0,2,13,15,
-    			0,2,3,4,6,9,11,12,13,15,
+    			0,2,3,4,6,7,8,9,11,12,13,15,
     			6,9,
     			0,2,3,4,6,7,8,9,11,12,13,15,
     			0,2,13,15,
@@ -106,10 +106,8 @@ public class PacWorld extends ActorWorld {
 		
     	Level level1 = new Level(level1x, level1y, rows, cols, powerPelletLocs, ghosts, ghostLocs, pac, pacLocation); //creates a new 15x16 level
     	
-    	level1.getGrid().remove(new Location(6, 7));
-    	level1.decrementPelletCount();
-    	level1.getGrid().remove(new Location(6, 8));
-    	level1.decrementPelletCount();
+    	((Actor) level1.getGrid().get(new Location(6, 7))).setColor(Color.black);
+    	((Actor) level1.getGrid().get(new Location(6, 8))).setColor(Color.black);
     	
     	return level1;
     }
@@ -132,7 +130,7 @@ public class PacWorld extends ActorWorld {
     			7, 7, 7, 7, 7,
     			8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
     			9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-    			10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+    			10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
     			11, 11,
     			12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
     			13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
@@ -158,7 +156,7 @@ public class PacWorld extends ActorWorld {
     			0, 5, 9, 13, 18,
     			0, 1, 2, 3, 5, 6, 7, 9, 11, 12, 13, 15, 16, 17, 18,
     			0, 1, 2, 3, 5, 13, 15, 16, 17, 18,
-    			0, 1, 2, 3, 5, 7, 8, 10, 11, 13, 15, 16, 17, 18,
+    			0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18,
     			7, 11,
     			0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18,
     			0, 1, 2, 3, 5, 13, 15, 16, 17, 18,
@@ -180,17 +178,17 @@ public class PacWorld extends ActorWorld {
 		powerPelletLocs.add(new Location(17, 17)); 
 
 		Ghost[] ghosts = new Ghost[]{
-				new Ghost(Color.cyan,4), 
-				new Ghost(Color.orange,3),
+				new Ghost(Color.red,1),
 				new Ghost(Color.pink,2), 
-				new Ghost(Color.red,1)
+				new Ghost(Color.orange,3),
+				new Ghost(Color.cyan,4) 						
 		};
 		
 		Location[] ghostLocs = new Location[]{
-				new Location(10, 9),
+				new Location(9, 9),
+				new Location(11, 10),
 				new Location(11, 8),
 				new Location(11, 9),
-				new Location(11, 10),
 		};
 		
 		PacMan pac = new PacMan();
@@ -211,7 +209,9 @@ public class PacWorld extends ActorWorld {
     	((Actor) level2.getGrid().get(new Location(13, 16))).setColor(Color.black);
     	((Actor) level2.getGrid().get(new Location(13, 17))).setColor(Color.black);
     	((Actor) level2.getGrid().get(new Location(13, 18))).setColor(Color.black);
-
+    	
+    	((Actor) level2.getGrid().get(new Location(10, 9))).setColor(Color.black);
+    	
     	return level2;
     }
     
@@ -266,12 +266,12 @@ public class PacWorld extends ActorWorld {
         	
         	//tests if the grid is the same size as the grid for level1
         	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y){
-            	x = 442; //this is the frame size for level1 that looks best
-            	y = 535;
+            	x = 449; //this is the frame size for level1 that looks best
+            	y = 545;
             }
             else{
-            	x = 517; //this is the frame size for level2 that looks best
-            	y = 735;
+            	x = 528; //this is the frame size for level2 that looks best
+            	y = 745;
             }
         	WorldFrame w = new WorldFrame(this);
         	w.setSize(x, y);

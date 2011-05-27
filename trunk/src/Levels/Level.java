@@ -51,7 +51,6 @@ public class Level<T> {
 		pelletCount--;
 		if (pelletCount == 0)
 			won = true;
-		System.out.println(pelletCount + "!!");
 	}
 	
 	/**

@@ -151,7 +151,7 @@ public class GUIController<T>
     	if (Level.won()){
     		((WorldFrame) parentFrame).getController().stop();
         	try {
-    			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level, which means that the difficulty has now increased! Press the button below to continue."), "Level Complete", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+    			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level! Press the button below to continue."), "Level Complete: Difficulty Increased", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
