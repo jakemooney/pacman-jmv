@@ -194,13 +194,14 @@ public class WorldFrame<T> extends JFrame
         makeNewGridMenu();
 
         control = new GUIController<T>(this, display, displayMap, resources);
-        content.add(control.controlPanel(), BorderLayout.SOUTH);
+        content.add(control.controlPanel(), BorderLayout.NORTH);
 
         messageArea = new JTextArea(2, 35);
         messageArea.setEditable(false);
         messageArea.setFocusable(false);
-        messageArea.setBackground(new Color(0xFAFAD2));
-        content.add(new JScrollPane(messageArea), BorderLayout.NORTH);
+        messageArea.setBackground(Color.black); //@author max
+        messageArea.setForeground(Color.white); //@author max
+        content.add(messageArea, BorderLayout.SOUTH);
 
         pack();
         repaint(); // to show message
