@@ -2,6 +2,7 @@ package info.gridworld.actor;
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.Critter;
 import info.gridworld.grid.*;
+import info.gridworld.world.PacWorld;
 
 import java.awt.Color;
 import java.util.*;
@@ -82,9 +83,17 @@ public class Ghost extends Critter{
 			moveTo(MOVE);
 			coveredActor.putSelfInGrid(getGrid(), previousloc);
 		}
-		else if ((getGrid().get(MOVE) instanceof PacMan) && !vulnerable){
-			PacMan.kill();
+		else if ((getGrid().get(MOVE) instanceof PacMan) && !vulnerable){			
+			PacMan p = (PacMan) getGrid().get(MOVE);
+			p.kill();
+			p.removeSelfFromGrid();
 			moveTo(MOVE);
+			if (p.getLives() > 0){
+				PacWorld.restart();
+			}
+			else{
+				PacWorld.gameOver();
+			}	
 		}
 		else if ((getGrid().get(MOVE) instanceof PacMan) && vulnerable){
 			PacMan.eatGhost();

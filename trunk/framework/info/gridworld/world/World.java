@@ -41,7 +41,7 @@ public class World<T>
 	 * @author max: experimental getFrame() method gets the frame and setFrame() sets it
 	 * 
 	 */
-	public JFrame getFrame(){
+	public static JFrame getFrame(){
 		return frame;
 	}
 	
@@ -54,7 +54,7 @@ public class World<T>
     private Set<String> occupantClassNames;
     private Set<String> gridClassNames;
     private String message;
-    private JFrame frame;
+    private static JFrame frame;
 
     private static Random generator = new Random();
 
@@ -276,7 +276,7 @@ public class World<T>
         return occupantClassNames;
     }
 
-    private void repaint()
+    protected void repaint()
     {
         if (frame != null)
             frame.repaint();

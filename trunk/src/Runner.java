@@ -47,7 +47,6 @@ public class Runner {
 		
 		PacWorld pac = new PacWorld(PacWorld.level1());
 		pac.show();
-		new AePlayWave("pacman_intro.wav").start();
         
 		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????
 		//intro.play();
