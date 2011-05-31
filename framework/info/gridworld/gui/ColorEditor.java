@@ -39,18 +39,21 @@ public class ColorEditor extends PropertyEditorSupport
         combo = new JComboBox(colorIcons);
     }
 
-    public Object getValue()
+    @Override
+	public Object getValue()
     {
         ColorIcon value = (ColorIcon) combo.getSelectedItem();
         return value.getColor();
     }
 
-    public boolean supportsCustomEditor()
+    @Override
+	public boolean supportsCustomEditor()
     {
         return true;
     }
 
-    public Component getCustomEditor()
+    @Override
+	public Component getCustomEditor()
     {
         combo.setSelectedItem(0);
         return combo;
@@ -68,7 +71,8 @@ public class ColorEditor extends PropertyEditorSupport
     {
         private Color color;
 
-        public Color getColor()
+        @Override
+		public Color getColor()
         {
             return color;
         }
@@ -78,17 +82,20 @@ public class ColorEditor extends PropertyEditorSupport
             color = c;
         }
 
-        public int getIconWidth()
+        @Override
+		public int getIconWidth()
         {
             return WIDTH;
         }
 
-        public int getIconHeight()
+        @Override
+		public int getIconHeight()
         {
             return HEIGHT;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y)
+        @Override
+		public void paintIcon(Component c, Graphics g, int x, int y)
         {
             Rectangle r = new Rectangle(x, y, WIDTH - 1, HEIGHT - 1);
             Graphics2D g2 = (Graphics2D) g;
@@ -103,22 +110,26 @@ public class ColorEditor extends PropertyEditorSupport
 
     private static class RandomColorIcon implements ColorIcon
     {
-        public Color getColor()
+        @Override
+		public Color getColor()
         {
             return new Color((int) (Math.random() * 256 * 256 * 256));
         }
 
-        public int getIconWidth()
+        @Override
+		public int getIconWidth()
         {
             return WIDTH;
         }
 
-        public int getIconHeight()
+        @Override
+		public int getIconHeight()
         {
             return HEIGHT;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y)
+        @Override
+		public void paintIcon(Component c, Graphics g, int x, int y)
         {
             Rectangle r = new Rectangle(x, y, WIDTH - 1, HEIGHT - 1);
             Graphics2D g2 = (Graphics2D) g;

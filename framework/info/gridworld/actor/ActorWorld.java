@@ -47,14 +47,16 @@ public class ActorWorld extends World<Actor>
         super(grid);
     }
 
-    public void show()
+    @Override
+	public void show()
     {
         if (getMessage() == null)
             setMessage(DEFAULT_MESSAGE);
         super.show();
     }
 
-    public void step()
+    @Override
+	public void step()
     {
         Grid<Actor> gr = getGrid();
         ArrayList<Actor> actors = new ArrayList<Actor>();
@@ -74,7 +76,8 @@ public class ActorWorld extends World<Actor>
      * @param loc the location at which to add the actor
      * @param occupant the actor to add
      */
-    public void add(Location loc, Actor occupant)
+    @Override
+	public void add(Location loc, Actor occupant)
     {
         occupant.putSelfInGrid(getGrid(), loc);
     }
@@ -96,7 +99,8 @@ public class ActorWorld extends World<Actor>
      * @return the removed actor, or null if there was no actor at the given
      * location.
      */
-    public Actor remove(Location loc)
+    @Override
+	public Actor remove(Location loc)
     {
         Actor occupant = getGrid().get(loc);
         if (occupant == null)

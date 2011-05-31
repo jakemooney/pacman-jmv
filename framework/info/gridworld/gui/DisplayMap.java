@@ -129,17 +129,20 @@ public class DisplayMap
             height = h;
         }
 
-        public int getIconWidth()
+        @Override
+		public int getIconWidth()
         {
             return width;
         }
 
-        public int getIconHeight()
+        @Override
+		public int getIconHeight()
         {
             return height;
         }
 
-        public void paintIcon(Component comp, Graphics g, int x, int y)
+        @Override
+		public void paintIcon(Component comp, Graphics g, int x, int y)
         {
             Graphics2D g2 = (Graphics2D) g;
             AffineTransform savedTransform = g2.getTransform(); // save current

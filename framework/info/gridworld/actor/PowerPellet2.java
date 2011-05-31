@@ -9,6 +9,7 @@ public class PowerPellet2 extends Pellet{
 		
 	}
 	
+	@Override
 	public void act(){
 		Location current = getLocation();
 		Grid<Actor> g = getGrid();

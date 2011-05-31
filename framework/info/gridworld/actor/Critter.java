@@ -35,7 +35,8 @@ public class Critter extends Actor
      * getting locations to move to, selecting one of them, and moving to the
      * selected location.
      */
-    public void act()
+    @Override
+	public void act()
     {
         if (getGrid() == null)
             return;

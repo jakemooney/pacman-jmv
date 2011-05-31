@@ -66,7 +66,8 @@ public class PseudoInfiniteViewport extends JViewport
      * JViewport to do a pan, instead of scroll, on an unbounded view.
      * @param pt the Point to become the upper left
      */
-    public void setViewPosition(Point pt)
+    @Override
+	public void setViewPosition(Point pt)
     {
         boolean isAdjusting = scrollParent.getVerticalScrollBar()
                 .getValueIsAdjusting()
@@ -104,7 +105,8 @@ public class PseudoInfiniteViewport extends JViewport
      * Returns current view position (upper left). Overridden from JViewport to
      * use pan center point for unbounded view.
      */
-    public Point getViewPosition()
+    @Override
+	public Point getViewPosition()
     {
         return (viewIsUnbounded() ? getPanCenterPoint() : super
                 .getViewPosition());
@@ -114,7 +116,8 @@ public class PseudoInfiniteViewport extends JViewport
      * Returns current view size. Overridden from JViewport to use preferred
      * virtual size for unbounded view.
      */
-    public Dimension getViewSize()
+    @Override
+	public Dimension getViewSize()
     {
         return (viewIsUnbounded() ? getView().getPreferredSize() : super
                 .getViewSize());

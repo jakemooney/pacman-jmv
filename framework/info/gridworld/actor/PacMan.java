@@ -1,12 +1,9 @@
 package info.gridworld.actor;
 
 import info.gridworld.actor.Actor;
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 import java.awt.Color;
-import java.util.ArrayList;
-
 import Levels.Level;
 public class PacMan extends Actor{
 
@@ -54,6 +51,7 @@ public class PacMan extends Actor{
 		setColor(Color.YELLOW);
 	}
 	
+	@Override
 	public void act(){
 		if (pendingTurn && !(getGrid().get(getLocation().getAdjacentLocation(pendingDir)) instanceof MazeWall)){
 			pendingTurn = false;

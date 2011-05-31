@@ -188,7 +188,8 @@ public class Actor
      * Creates a string that describes this actor.
      * @return a string with the location, direction, and color of this actor
      */
-    public String toString()
+    @Override
+	public String toString()
     {
         return getClass().getName() + "[location=" + location + ",direction="
                 + direction + ",color=" + color + "]";

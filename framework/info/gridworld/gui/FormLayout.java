@@ -26,7 +26,8 @@ import java.awt.*;
  */
 public class FormLayout implements LayoutManager
 {
-    public Dimension preferredLayoutSize(Container parent)
+    @Override
+	public Dimension preferredLayoutSize(Container parent)
     {
         Component[] components = parent.getComponents();
         left = 0;
@@ -46,12 +47,14 @@ public class FormLayout implements LayoutManager
         return new Dimension(left + GAP + right, height);
     }
 
-    public Dimension minimumLayoutSize(Container parent)
+    @Override
+	public Dimension minimumLayoutSize(Container parent)
     {
         return preferredLayoutSize(parent);
     }
 
-    public void layoutContainer(Container parent)
+    @Override
+	public void layoutContainer(Container parent)
     {
         preferredLayoutSize(parent); // sets left, right
 
@@ -80,11 +83,13 @@ public class FormLayout implements LayoutManager
         }
     }
 
-    public void addLayoutComponent(String name, Component comp)
+    @Override
+	public void addLayoutComponent(String name, Component comp)
     {
     }
 
-    public void removeLayoutComponent(Component comp)
+    @Override
+	public void removeLayoutComponent(Component comp)
     {
     }
 

@@ -48,7 +48,8 @@ public class Bug extends Actor
     /**
      * Moves if it can move, turns otherwise.
      */
-    public void act()
+    @Override
+	public void act()
     {
         if (canMove())
             move();

@@ -51,7 +51,8 @@ public class Flower extends Actor
     /**
      * Causes the color of this flower to darken.
      */
-    public void act()
+    @Override
+	public void act()
     {
         Color c = getColor();
         int red = (int) (c.getRed() * (1 - DARKENING_FACTOR));

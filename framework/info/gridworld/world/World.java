@@ -16,15 +16,11 @@
 
 package info.gridworld.world;
 
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.Ghost;
-import info.gridworld.actor.PacMan;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.WorldFrame;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
@@ -289,7 +285,8 @@ public class World<T>
     /**
      * Returns a string that shows the positions of the grid occupants.
      */
-    public String toString()
+    @Override
+	public String toString()
     {
         String s = "";
         Grid<?> gr = getGrid();
