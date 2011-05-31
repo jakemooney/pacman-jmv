@@ -2,13 +2,30 @@ package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.ActorWorld;
+import info.gridworld.actor.Flower;
 import info.gridworld.actor.Ghost;
+import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.PacMan;
+import info.gridworld.actor.Pellet;
+import info.gridworld.actor.PowerPellet1;
+import info.gridworld.actor.Rock;
+import info.gridworld.grid.BoundedGrid;
+import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.WorldFrame;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import Levels.Level;
 
@@ -22,12 +39,14 @@ import Levels.Level;
 
 public class PacWorld extends ActorWorld {
 	
-    private Level level;
+    private static Level level;
     
     private static final int level1x = 15; //these are the grid sizes for each level
     private static final int level1y = 16;
     private static final int level2x = 23;
     private static final int level2y = 19;
+    
+    private static Timer timer;
     
     /**
      * This is a class non-variable that returns a finite level, level1.
@@ -84,7 +103,7 @@ public class PacWorld extends ActorWorld {
 		};
 		
 		Location[] ghostLocs = new Location[]{
-				new Location(7, 7),
+				new Location(5, 7),
 				new Location(7, 8)
 		};
 		
@@ -96,6 +115,9 @@ public class PacWorld extends ActorWorld {
     	
     	((Actor) level1.getGrid().get(new Location(6, 7))).setColor(Color.black);
     	((Actor) level1.getGrid().get(new Location(6, 8))).setColor(Color.black);
+    	
+    	((Actor) level1.getGrid().get(new Location(7, 7))).removeSelfFromGrid();
+    	level1.decrementPelletCount();
     	
     	return level1;
     }
@@ -223,8 +245,7 @@ public class PacWorld extends ActorWorld {
      * 
      * I'm keeping it false for the duration of the debugging mode so that we can test stuff.
      */
-    @Override
-	public boolean locationClicked(Location loc){
+    public boolean locationClicked(Location loc){
         return false;
     }
     
@@ -232,8 +253,7 @@ public class PacWorld extends ActorWorld {
      * @override These descriptors tell the directional changes. Returns true to
      * indicate that the World has processed the key press. 
      */
-    @Override
-	public boolean keyPressed(String description, Location loc){
+    public boolean keyPressed(String description, Location loc){
         if (description.equals("UP"))
         	level.getPac().setPendingDirection(Location.NORTH);
         if (description.equals("RIGHT"))
@@ -248,28 +268,67 @@ public class PacWorld extends ActorWorld {
     /**
      * @override Overridden to set the appropriate size of the window for each level
      */
-    @Override
-	public void show()
-    {
-        if (getFrame() == null)
-        {
-        	int x, y;
-        	
-        	//tests if the grid is the same size as the grid for level1
-        	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y){
-            	x = 449; //this is the frame size for level1 that looks best
-            	y = 545;
-            }
-            else{
-            	x = 528; //this is the frame size for level2 that looks best
-            	y = 745;
-            }
-        	WorldFrame w = new WorldFrame(this);
-        	w.setSize(x, y);
-        	setFrame(w);
-            getFrame().setVisible(true);
+    public void show()
+    { 
+		int x, y;
+    	
+    	//tests if the grid is the same size as the grid for level1
+    	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y){
+        	x = 449; //this is the frame size for level1 that looks best
+        	y = 545;
         }
-        else
-        	getFrame().repaint();       
+        else{
+        	x = 528; //this is the frame size for level2 that looks best
+        	y = 745;
+        }
+    	WorldFrame w = new WorldFrame(this);
+    	w.setSize(x, y);
+    	setFrame(w);
+        getFrame().setVisible(true);          
     }
+    
+    /**
+     * @override to update the points and lives text with every step
+     */
+    public void step()
+    {
+    	super.step();
+        super.setMessage("Points: " + PacMan.getPoints() + "\nLives: " + PacMan.getLives()); //sets the message in the text box
+        super.repaint();
+    }
+    
+    /**
+     * restarts the level (when pacman dies and still has a life or two)
+     */
+    public static void restart(){
+    	
+		try {
+			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have lost a life! You now have " + (PacMan.getLives()) + " left! Press the button below to continue."), "You have died!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    	level.placePacMan(level.getPac(), level.getPacManStart());
+    	level.placeGhosts(level.getGhosts(), level.getGhostsStart());
+    }
+    
+    /**
+     * ends the game
+     */
+    public static void gameOver(){
+    	try {
+			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have " + (PacMan.getLives()) + " lives left! You lose! Your Score: " + PacMan.getPoints()), " Game Over!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+			level = level2();
+			gameOver = true;
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    private static boolean gameOver = false;
+    public  static boolean isGameOver(){
+    	return gameOver;
+    }
+    
 }
