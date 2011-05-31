@@ -57,6 +57,7 @@ public class Ghost extends Critter{
 	}
 	
 	
+	@Override
 	public void act(){
 		count++;
 		setModeColor();
@@ -112,7 +113,7 @@ public class Ghost extends Critter{
 	 
 	 //Finds the direct distance between any locations actors on the grid, defined by the hypotenous of a right triangle
 	 public double DistanceBetween(Location a, Location b){
-		 return Math.sqrt((double)(Math.pow(Math.abs(a.getCol() - b.getCol()), 2) 
+		 return Math.sqrt((Math.pow(Math.abs(a.getCol() - b.getCol()), 2) 
 				 + Math.pow(Math.abs(a.getRow() - b.getRow()), 2)));
 	 }
 	 

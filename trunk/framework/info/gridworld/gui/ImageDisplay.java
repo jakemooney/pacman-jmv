@@ -74,7 +74,8 @@ public class ImageDisplay extends AbstractDisplay
      * @param comp the component we're drawing on
      * @param g2 drawing surface
      */
-    public void draw(Object obj, Component comp, Graphics2D g2)
+    @Override
+	public void draw(Object obj, Component comp, Graphics2D g2)
     {
         Color color;
         if (obj == null)
@@ -149,7 +150,8 @@ public class ImageDisplay extends AbstractDisplay
             tintB = rgb & 0xff;
         }
 
-        public int filterRGB(int x, int y, int argb)
+        @Override
+		public int filterRGB(int x, int y, int argb)
         {
             // Separate pixel into its RGB coomponents.
             int alpha = (argb >> 24) & 0xff;

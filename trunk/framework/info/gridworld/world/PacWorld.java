@@ -2,25 +2,13 @@ package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.ActorWorld;
-import info.gridworld.actor.Flower;
 import info.gridworld.actor.Ghost;
-import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.PacMan;
-import info.gridworld.actor.Pellet;
-import info.gridworld.actor.PowerPellet1;
-import info.gridworld.actor.Rock;
-import info.gridworld.grid.BoundedGrid;
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.WorldFrame;
 
 import java.awt.Color;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import Levels.Level;
 
@@ -235,7 +223,8 @@ public class PacWorld extends ActorWorld {
      * 
      * I'm keeping it false for the duration of the debugging mode so that we can test stuff.
      */
-    public boolean locationClicked(Location loc){
+    @Override
+	public boolean locationClicked(Location loc){
         return false;
     }
     
@@ -243,7 +232,8 @@ public class PacWorld extends ActorWorld {
      * @override These descriptors tell the directional changes. Returns true to
      * indicate that the World has processed the key press. 
      */
-    public boolean keyPressed(String description, Location loc){
+    @Override
+	public boolean keyPressed(String description, Location loc){
         if (description.equals("UP"))
         	level.getPac().setPendingDirection(Location.NORTH);
         if (description.equals("RIGHT"))
@@ -258,7 +248,8 @@ public class PacWorld extends ActorWorld {
     /**
      * @override Overridden to set the appropriate size of the window for each level
      */
-    public void show()
+    @Override
+	public void show()
     {
         if (getFrame() == null)
         {

@@ -47,26 +47,30 @@ public class LocationEditor extends PropertyEditorSupport
         panel.add(colField);
     }
 
-    public Object getValue()
+    @Override
+	public Object getValue()
     {
         int row = ((Number) rowField.getValue()).intValue();
         int col = ((Number) colField.getValue()).intValue();
         return new Location(row, col);
     }
 
-    public void setValue(Object newValue)
+    @Override
+	public void setValue(Object newValue)
     {
         Location loc = (Location) newValue;
         rowField.setValue(new Integer(loc.getRow()));
         colField.setValue(new Integer(loc.getCol()));
     }
 
-    public boolean supportsCustomEditor()
+    @Override
+	public boolean supportsCustomEditor()
     {
         return true;
     }
 
-    public Component getCustomEditor()
+    @Override
+	public Component getCustomEditor()
     {
         return panel;
     }

@@ -35,8 +35,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.*;
 
 import Levels.Level;
@@ -86,7 +84,8 @@ public class GUIController<T>
 
         occupantClasses = new TreeSet<Class>(new Comparator<Class>()
         {
-            public int compare(Class a, Class b)
+            @Override
+			public int compare(Class a, Class b)
             {
                 return a.getName().compareTo(b.getName());
             }
@@ -108,7 +107,8 @@ public class GUIController<T>
 
         timer = new Timer(INITIAL_DELAY, new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override
+			public void actionPerformed(ActionEvent evt)
             {
                 step();
             }
@@ -117,7 +117,8 @@ public class GUIController<T>
         //@author max: comment this out to get rid of click able clickable locations
         display.addMouseListener(new MouseAdapter()
         {
-            public void mousePressed(MouseEvent evt)
+            @Override
+			public void mousePressed(MouseEvent evt)
             {
                 Grid<T> gr = parentFrame.getWorld().getGrid();
                 Location loc = display.locationForPoint(evt.getPoint());
@@ -268,21 +269,24 @@ public class GUIController<T>
         
         stepButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 step();
             }
         });
         runButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 run();
             }
         });
         stopButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 stop();
             }

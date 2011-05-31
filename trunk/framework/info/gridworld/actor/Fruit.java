@@ -5,7 +5,16 @@ package info.gridworld.actor;
 /*
  * Notes:
  * -Fruit only appears under the cages of the ghosts
- * -this only 
+ * -this only ????
+ * 
+ * -Cherry, Strawberry, Orange, Apple, Melon, Galaxian, Bell, Key
+ * 
+ * 
+
+Read more: http://wiki.answers.com/Q/What_are_all_of_the_fruits_in_pac_man#ixzz1NYIEoPEW
+
+ * -Fruit pops up 
+ * 
  */
 
 public abstract class Fruit extends Actor{			//Abstract?

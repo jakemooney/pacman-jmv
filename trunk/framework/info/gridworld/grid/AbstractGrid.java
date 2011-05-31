@@ -25,7 +25,8 @@ import java.util.ArrayList;
  */
 public abstract class AbstractGrid<E> implements Grid<E>
 {
-    public ArrayList<E> getNeighbors(Location loc)
+    @Override
+	public ArrayList<E> getNeighbors(Location loc)
     {
         ArrayList<E> neighbors = new ArrayList<E>();
         for (Location neighborLoc : getOccupiedAdjacentLocations(loc))
@@ -33,7 +34,8 @@ public abstract class AbstractGrid<E> implements Grid<E>
         return neighbors;
     }
 
-    public ArrayList<Location> getValidAdjacentLocations(Location loc)
+    @Override
+	public ArrayList<Location> getValidAdjacentLocations(Location loc)
     {
         ArrayList<Location> locs = new ArrayList<Location>();
 
@@ -48,7 +50,8 @@ public abstract class AbstractGrid<E> implements Grid<E>
         return locs;
     }
 
-    public ArrayList<Location> getEmptyAdjacentLocations(Location loc)
+    @Override
+	public ArrayList<Location> getEmptyAdjacentLocations(Location loc)
     {
         ArrayList<Location> locs = new ArrayList<Location>();
         for (Location neighborLoc : getValidAdjacentLocations(loc))
@@ -59,7 +62,8 @@ public abstract class AbstractGrid<E> implements Grid<E>
         return locs;
     }
 
-    public ArrayList<Location> getOccupiedAdjacentLocations(Location loc)
+    @Override
+	public ArrayList<Location> getOccupiedAdjacentLocations(Location loc)
     {
         ArrayList<Location> locs = new ArrayList<Location>();
         for (Location neighborLoc : getValidAdjacentLocations(loc))
@@ -76,7 +80,8 @@ public abstract class AbstractGrid<E> implements Grid<E>
      * necessarily in any particular order), in the format {loc=obj, loc=obj,
      * ...}
      */
-        public String toString()
+        @Override
+		public String toString()
         {
             String s = "{";
             for (Location loc : getOccupiedLocations())

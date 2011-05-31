@@ -1,20 +1,4 @@
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-
-import Levels.Level;
-
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.ActorWorld;
-import info.gridworld.actor.PacMan;
-import info.gridworld.actor.Pellet;
-import info.gridworld.actor.PowerPellet1;
-import info.gridworld.grid.Location;
-import info.gridworld.gui.GUIController;
 import info.gridworld.world.PacWorld;
-import info.gridworld.world.World;
 
 public class Runner {
 
@@ -51,8 +35,6 @@ public class Runner {
      * he doesn't run because he thinks he's blocked by the pellets. ah.
      * 
      * have to re-evaluate that for:each loop because it evaluates top-down
-     * 
-     * ghosts cannot teleport yet
 	 */
 
 	/**
@@ -62,7 +44,12 @@ public class Runner {
 	 */
 	
 	public static void main(String[] args) {
+		
 		PacWorld pac = new PacWorld(PacWorld.level1());
 		pac.show();
+		new AePlayWave("pacman_intro.wav").start();
+        
+		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????
+		//intro.play();
 	}
 }

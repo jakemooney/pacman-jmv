@@ -124,7 +124,7 @@ public class MenuMaker<T>
             else
                 menu.addSeparator();
             Class cl = iter.next();
-            Constructor[] cons = (Constructor[]) cl.getConstructors();
+            Constructor[] cons = cl.getConstructors();
             for (int i = 0; i < cons.length; i++)
             {
                 menu.add(new OccupantConstructorItem(cons[i]));
@@ -165,7 +165,8 @@ public class MenuMaker<T>
 
         Arrays.sort(methods, new Comparator<Method>()
         {
-            public int compare(Method m1, Method m2)
+            @Override
+			public int compare(Method m1, Method m2)
             {
                 int d1 = depth(m1.getDeclaringClass());
                 int d2 = depth(m2.getDeclaringClass());
@@ -320,7 +321,8 @@ public class MenuMaker<T>
             setIcon(displayMap.getIcon(c.getDeclaringClass(), 16, 16));
         }
 
-        @SuppressWarnings("unchecked")
+        @Override
+		@SuppressWarnings("unchecked")
         public void actionPerformed(ActionEvent event)
         {
             T result = (T) invokeConstructor();
@@ -339,7 +341,8 @@ public class MenuMaker<T>
             setIcon(displayMap.getIcon(c.getDeclaringClass(), 16, 16));
         }
 
-        @SuppressWarnings("unchecked")
+        @Override
+		@SuppressWarnings("unchecked")
         public void actionPerformed(ActionEvent event)
         {
             Grid<T> newGrid = (Grid<T>) invokeConstructor(); 
@@ -358,7 +361,8 @@ public class MenuMaker<T>
             setIcon(displayMap.getIcon(m.getDeclaringClass(), 16, 16));
         }
 
-        public void actionPerformed(ActionEvent event)
+        @Override
+		public void actionPerformed(ActionEvent event)
         {
             Class[] types = m.getParameterTypes();
             Object[] values = new Object[types.length];
@@ -498,7 +502,8 @@ class PropertySheet extends JPanel
             comboBox.setSelectedItem(text);
             comboBox.addItemListener(new ItemListener()
             {
-                public void itemStateChanged(ItemEvent event)
+                @Override
+				public void itemStateChanged(ItemEvent event)
                 {
                     if (event.getStateChange() == ItemEvent.SELECTED)
                         editor.setAsText((String) comboBox.getSelectedItem());
@@ -511,7 +516,8 @@ class PropertySheet extends JPanel
             final JTextField textField = new JTextField(text, 10);
             textField.getDocument().addDocumentListener(new DocumentListener()
             {
-                public void insertUpdate(DocumentEvent e)
+                @Override
+				public void insertUpdate(DocumentEvent e)
                 {
                     try
                     {
@@ -522,7 +528,8 @@ class PropertySheet extends JPanel
                     }
                 }
 
-                public void removeUpdate(DocumentEvent e)
+                @Override
+				public void removeUpdate(DocumentEvent e)
                 {
                     try
                     {
@@ -533,7 +540,8 @@ class PropertySheet extends JPanel
                     }
                 }
 
-                public void changedUpdate(DocumentEvent e)
+                @Override
+				public void changedUpdate(DocumentEvent e)
                 {
                 }
             });
@@ -557,12 +565,14 @@ class PropertySheet extends JPanel
     // workaround for Web Start bug
     public static class StringEditor extends PropertyEditorSupport
     {
-        public String getAsText()
+        @Override
+		public String getAsText()
         {
             return (String) getValue();
         }
 
-        public void setAsText(String s)
+        @Override
+		public void setAsText(String s)
         {
             setValue(s);
         }

@@ -1,7 +1,5 @@
 package info.gridworld.actor;
 
-import java.awt.Color;
-
 public class Cherry extends Fruit{
 
 	public Cherry(){

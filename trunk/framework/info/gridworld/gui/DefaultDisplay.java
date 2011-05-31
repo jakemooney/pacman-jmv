@@ -53,7 +53,8 @@ public class DefaultDisplay implements Display
      * @param g2 drawing surface
      * @param rect rectangle in which to draw
      */
-    public void draw(Object obj, Component comp, Graphics2D g2, Rectangle rect)
+    @Override
+	public void draw(Object obj, Component comp, Graphics2D g2, Rectangle rect)
     {
         Color color = (Color) AbstractDisplay.getProperty(obj, "color");
         if (color == null && obj instanceof Color)

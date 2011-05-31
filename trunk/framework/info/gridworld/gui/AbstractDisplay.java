@@ -57,7 +57,8 @@ public abstract class AbstractDisplay implements Display
      * @param g2 the graphics context
      * @param rect rectangle in which to draw
      */
-    public void draw(Object obj, Component comp, Graphics2D g2, Rectangle rect)
+    @Override
+	public void draw(Object obj, Component comp, Graphics2D g2, Rectangle rect)
     {
         float scaleFactor = Math.min(rect.width, rect.height);
         g2 = (Graphics2D) g2.create();

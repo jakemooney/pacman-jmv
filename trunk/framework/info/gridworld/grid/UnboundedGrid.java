@@ -40,22 +40,26 @@ public class UnboundedGrid<E> extends AbstractGrid<E>
         occupantMap = new HashMap<Location, E>();
     }
 
-    public int getNumRows()
+    @Override
+	public int getNumRows()
     {
         return -1;
     }
 
-    public int getNumCols()
+    @Override
+	public int getNumCols()
     {
         return -1;
     }
 
-    public boolean isValid(Location loc)
+    @Override
+	public boolean isValid(Location loc)
     {
         return true;
     }
 
-    public ArrayList<Location> getOccupiedLocations()
+    @Override
+	public ArrayList<Location> getOccupiedLocations()
     {
         ArrayList<Location> a = new ArrayList<Location>();
         for (Location loc : occupantMap.keySet())
@@ -63,14 +67,16 @@ public class UnboundedGrid<E> extends AbstractGrid<E>
         return a;
     }
 
-    public E get(Location loc)
+    @Override
+	public E get(Location loc)
     {
         if (loc == null)
             throw new NullPointerException("loc == null");
         return occupantMap.get(loc);
     }
 
-    public E put(Location loc, E obj)
+    @Override
+	public E put(Location loc, E obj)
     {
         if (loc == null)
             throw new NullPointerException("loc == null");
@@ -79,7 +85,8 @@ public class UnboundedGrid<E> extends AbstractGrid<E>
         return occupantMap.put(loc, obj);
     }
 
-    public E remove(Location loc)
+    @Override
+	public E remove(Location loc)
     {
         if (loc == null)
             throw new NullPointerException("loc == null");

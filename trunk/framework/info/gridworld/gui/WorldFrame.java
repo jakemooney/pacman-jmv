@@ -119,7 +119,8 @@ public class WorldFrame<T> extends JFrame
 
         addWindowListener(new WindowAdapter()
         {
-            public void windowClosing(WindowEvent event)
+            @Override
+			public void windowClosing(WindowEvent event)
             {
                 count--;
                 if (count == 0)
@@ -149,7 +150,8 @@ public class WorldFrame<T> extends JFrame
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new
            KeyEventDispatcher() 
            {
-               public boolean dispatchKeyEvent(KeyEvent event)
+               @Override
+			public boolean dispatchKeyEvent(KeyEvent event)
                {
                    if (getFocusOwner() == null) return false;
                    String text = KeyStroke.getKeyStrokeForEvent(event).toString();
@@ -173,7 +175,8 @@ public class WorldFrame<T> extends JFrame
 
         gridClasses = new TreeSet<Class>(new Comparator<Class>()
         {
-            public int compare(Class a, Class b)
+            @Override
+			public int compare(Class a, Class b)
             {
                 return a.getName().compareTo(b.getName());
             }
@@ -208,7 +211,8 @@ public class WorldFrame<T> extends JFrame
         display.setGrid(gr);
     }
 
-    public void repaint()
+    @Override
+	public void repaint()
     {
         String message = getWorld().getMessage();
         if (message == null)
@@ -364,7 +368,8 @@ public class WorldFrame<T> extends JFrame
 
         menu.add(makeMenuItem("menu.file.quit", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 System.exit(0);
             }
@@ -374,28 +379,32 @@ public class WorldFrame<T> extends JFrame
 
         menu.add(makeMenuItem("menu.view.up", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.moveLocation(-1, 0);
             }
         }));
         menu.add(makeMenuItem("menu.view.down", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.moveLocation(1, 0);
             }
         }));
         menu.add(makeMenuItem("menu.view.left", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.moveLocation(0, -1);
             }
         }));
         menu.add(makeMenuItem("menu.view.right", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.moveLocation(0, 1);
             }
@@ -418,7 +427,8 @@ public class WorldFrame<T> extends JFrame
         menu.add(viewDeleteMenu = makeMenuItem("menu.view.delete",
                 new ActionListener()
                 {
-                    public void actionPerformed(ActionEvent e)
+                    @Override
+					public void actionPerformed(ActionEvent e)
                     {
                         control.deleteLocation();
                     }
@@ -427,7 +437,8 @@ public class WorldFrame<T> extends JFrame
 
         menu.add(makeMenuItem("menu.view.zoomin", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.zoomIn();
             }
@@ -435,7 +446,8 @@ public class WorldFrame<T> extends JFrame
 
         menu.add(makeMenuItem("menu.view.zoomout", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 display.zoomOut();
             }
@@ -444,21 +456,24 @@ public class WorldFrame<T> extends JFrame
         mbar.add(menu = makeMenu("menu.help"));
         menu.add(makeMenuItem("menu.help.about", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 showAboutPanel();
             }
         }));
         menu.add(makeMenuItem("menu.help.help", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 showHelp();
             }
         }));
         menu.add(makeMenuItem("menu.help.license", new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            @Override
+			public void actionPerformed(ActionEvent e)
             {
                 showLicense();
             }
@@ -546,7 +561,8 @@ public class WorldFrame<T> extends JFrame
         helpText.setEditable(false);
         helpText.addHyperlinkListener(new HyperlinkListener()
         {
-            public void hyperlinkUpdate(HyperlinkEvent ev)
+            @Override
+			public void hyperlinkUpdate(HyperlinkEvent ev)
             {
                 if (ev.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
                     try

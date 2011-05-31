@@ -93,7 +93,8 @@ public class GridPanel extends JPanel implements Scrollable,
      * Paint this component.
      * @param g the Graphics object to use to render this component
      */
-    public void paintComponent(Graphics g)
+    @Override
+	public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g;
 
@@ -189,7 +190,7 @@ public class GridPanel extends JPanel implements Scrollable,
         ArrayList<Location> occupantLocs = grid.getOccupiedLocations();
         for (int index = 0; index < occupantLocs.size(); index++)
         {
-            Location loc = (Location) occupantLocs.get(index);
+            Location loc = occupantLocs.get(index);
             
             int xleft = colToXCoord(loc.getCol());
             int ytop = rowToYCoord(loc.getRow());
@@ -301,7 +302,8 @@ public class GridPanel extends JPanel implements Scrollable,
      * Returns the desired size of the display, for use by layout manager.
      * @return preferred size
      */
-    public Dimension getPreferredSize()
+    @Override
+	public Dimension getPreferredSize()
     {
         return new Dimension(numCols * (cellSize + 1) + 1 + extraWidth(), 
                 numRows * (cellSize + 1) + 1 + extraHeight());
@@ -311,7 +313,8 @@ public class GridPanel extends JPanel implements Scrollable,
      * Returns the minimum size of the display, for use by layout manager.
      * @return minimum size
      */
-    public Dimension getMinimumSize()
+    @Override
+	public Dimension getMinimumSize()
     {
         return new Dimension(numCols * (MIN_CELL_SIZE + 1) + 1 + extraWidth(), 
                 numRows * (MIN_CELL_SIZE + 1) + 1 + extraHeight());
@@ -408,7 +411,8 @@ public class GridPanel extends JPanel implements Scrollable,
      * @param evt the MouseEvent in question
      * @return the tool tip string for this location
      */
-    public String getToolTipText(MouseEvent evt)
+    @Override
+	public String getToolTipText(MouseEvent evt)
     {
         Location loc = locationForPoint(evt.getPoint());
         return getToolTipText(loc);
@@ -525,7 +529,8 @@ public class GridPanel extends JPanel implements Scrollable,
             glassPane.add(tip = new JToolTip());
             tipTimer = new Timer(TIP_DELAY, new ActionListener()
             {
-                public void actionPerformed(ActionEvent evt)
+                @Override
+				public void actionPerformed(ActionEvent evt)
                 {
                     glassPane.setVisible(false);
                 }
@@ -598,13 +603,15 @@ public class GridPanel extends JPanel implements Scrollable,
     // GridPanel implements the Scrollable interface to get nicer behavior in a
     // JScrollPane. The 5 methods below are the methods in that interface
 
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
+    @Override
+	public int getScrollableUnitIncrement(Rectangle visibleRect,
             int orientation, int direction)
     {
         return cellSize + 1;
     }
 
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
+    @Override
+	public int getScrollableBlockIncrement(Rectangle visibleRect,
             int orientation, int direction)
     {
         if (orientation == SwingConstants.VERTICAL)
@@ -613,17 +620,20 @@ public class GridPanel extends JPanel implements Scrollable,
             return (int) (visibleRect.width * .9);
     }
 
-    public boolean getScrollableTracksViewportWidth()
+    @Override
+	public boolean getScrollableTracksViewportWidth()
     {
         return false;
     }
 
-    public boolean getScrollableTracksViewportHeight()
+    @Override
+	public boolean getScrollableTracksViewportHeight()
     {
         return false;
     }
 
-    public Dimension getPreferredScrollableViewportSize()
+    @Override
+	public Dimension getPreferredScrollableViewportSize()
     {
         return new Dimension(DEFAULT_CELL_COUNT * (DEFAULT_CELL_SIZE + 1) + 1 + extraWidth(), 
                 DEFAULT_CELL_COUNT * (DEFAULT_CELL_SIZE + 1) + 1 + extraHeight());
@@ -633,14 +643,16 @@ public class GridPanel extends JPanel implements Scrollable,
     // play nicely with the pan behavior for unbounded view.
     // The 3 methods below are the methods in that interface.
 
-    public void panBy(int hDelta, int vDelta)
+    @Override
+	public void panBy(int hDelta, int vDelta)
     {
         originCol += hDelta / (cellSize + 1);
         originRow += vDelta / (cellSize + 1);
         repaint();
     }
 
-    public boolean isPannableUnbounded()
+    @Override
+	public boolean isPannableUnbounded()
     {
         return grid != null && (grid.getNumRows() == -1 || grid.getNumCols() == -1);
     }
@@ -650,7 +662,8 @@ public class GridPanel extends JPanel implements Scrollable,
      * contents of the pannable view's pannable tip text (typically a string
      * identifiying the corner point). Tip is removed after a short delay.
      */
-    public void showPanTip()
+    @Override
+	public void showPanTip()
     {
         String tipText = null;
         Point upperLeft = new Point(0, 0);

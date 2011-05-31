@@ -202,7 +202,8 @@ public class Location implements Comparable
      * <code>Location</code> with the same row and column as this location;
      * <code>false</code> otherwise
      */
-    public boolean equals(Object other)
+    @Override
+	public boolean equals(Object other)
     {
         if (!(other instanceof Location))
             return false;
@@ -215,7 +216,8 @@ public class Location implements Comparable
      * Generates a hash code.
      * @return a hash code for this location
      */
-    public int hashCode()
+    @Override
+	public int hashCode()
     {
         return getRow() * 3737 + getCol();
     }
@@ -231,7 +233,8 @@ public class Location implements Comparable
      * <code>other</code>, zero if the two locations are equal, or a positive
      * integer if this location is greater than <code>other</code>
      */
-    public int compareTo(Object other)
+    @Override
+	public int compareTo(Object other)
     {
         Location otherLoc = (Location) other;
         if (getRow() < otherLoc.getRow())
@@ -250,7 +253,8 @@ public class Location implements Comparable
      * @return a string with the row and column of this location, in the format
      * (row, col)
      */
-    public String toString()
+    @Override
+	public String toString()
     {
         return "(" + getRow() + ", " + getCol() + ")";
     }

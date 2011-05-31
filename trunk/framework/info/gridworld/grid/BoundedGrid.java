@@ -45,25 +45,29 @@ public class BoundedGrid<E> extends AbstractGrid<E>
         occupantArray = new Object[rows][cols];
     }
 
-    public int getNumRows()
+    @Override
+	public int getNumRows()
     {
         return occupantArray.length;
     }
 
-    public int getNumCols()
+    @Override
+	public int getNumCols()
     {
         // Note: according to the constructor precondition, numRows() > 0, so
         // theGrid[0] is non-null.
         return occupantArray[0].length;
     }
 
-    public boolean isValid(Location loc)
+    @Override
+	public boolean isValid(Location loc)
     {
         return 0 <= loc.getRow() && loc.getRow() < getNumRows()
                 && 0 <= loc.getCol() && loc.getCol() < getNumCols();
     }
 
-    public ArrayList<Location> getOccupiedLocations()
+    @Override
+	public ArrayList<Location> getOccupiedLocations()
     {
         ArrayList<Location> theLocations = new ArrayList<Location>();
 
@@ -82,7 +86,8 @@ public class BoundedGrid<E> extends AbstractGrid<E>
         return theLocations;
     }
 
-    public E get(Location loc)
+    @Override
+	public E get(Location loc)
     {
         if (!isValid(loc))
             throw new IllegalArgumentException("Location " + loc
@@ -90,7 +95,8 @@ public class BoundedGrid<E> extends AbstractGrid<E>
         return (E) occupantArray[loc.getRow()][loc.getCol()]; // unavoidable warning
     }
 
-    public E put(Location loc, E obj)
+    @Override
+	public E put(Location loc, E obj)
     {
         if (!isValid(loc))
             throw new IllegalArgumentException("Location " + loc
@@ -104,7 +110,8 @@ public class BoundedGrid<E> extends AbstractGrid<E>
         return oldOccupant;
     }
 
-    public E remove(Location loc)
+    @Override
+	public E remove(Location loc)
     {
         if (!isValid(loc))
             throw new IllegalArgumentException("Location " + loc
