@@ -2,14 +2,15 @@ package info.gridworld.actor;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
+import info.gridworld.world.PacWorld;
 
 import java.awt.Color;
 import Levels.Level;
 public class PacMan extends Actor{
 
 	private int count, pendingDir;
-	private static int lives, points;
-	private static boolean dead;
+	private static int lives = 3, points = 0;
+	private static boolean dead = false;
 	private boolean pendingTurn;
 	
 	/**
@@ -44,10 +45,7 @@ public class PacMan extends Actor{
 	}
 	
 	public PacMan(){
-		lives = 3;
-		points = 0;
 		count = 51;
-		dead = false;
 		setColor(Color.YELLOW);
 	}
 	
@@ -89,6 +87,7 @@ public class PacMan extends Actor{
 			a.removeSelfFromGrid();
 			count = 0;
 			Ghost.setVulnerable(true);
+			level.decrementPelletCount();
 		}
 		else if (a instanceof Pellet){
 			points += 10;
@@ -102,7 +101,13 @@ public class PacMan extends Actor{
 		else if (a instanceof Ghost){
 			dead = true;
 			lives--;
-			this.removeSelfFromGrid();
+			removeSelfFromGrid();
+			if (lives > 0){
+				PacWorld.restart();
+			}
+			else{
+				PacWorld.gameOver();
+			}
 			return;
 		}
 		

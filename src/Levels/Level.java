@@ -22,6 +22,23 @@ public class Level<T> {
 	private int pelletCount;
 	private static boolean won; //if the level has been won or not
 	
+	private Location pacManStart;
+	private Location[] ghostsStart;
+	
+	/**
+	 * returns the start location for pacman
+	 */
+	public Location getPacManStart(){
+		return pacManStart;
+	}
+	
+	/**
+	 * returns the starting ghost locations
+	 */
+	public Location[] getGhostsStart(){
+		return ghostsStart;
+	}
+	
 	/**
 	 * returns the grid of the level
 	 */
@@ -83,13 +100,14 @@ public class Level<T> {
 		this.ghosts = ghosts;
 		pelletCount = 0;
 		won = false;
+		pacManStart = pacLocation;
+		ghostsStart = ghostLocs;
 		
 		g = new BoundedGrid(x, y);
 		placeWalls(walls_x, walls_y);
 		placeGhosts(ghosts, ghostLocs);
 		placePacMan(pac, pacLocation);
 		placePellets(powerPelletLocs);
-		
 	}	
 		
 			/**
@@ -105,23 +123,33 @@ public class Level<T> {
 			}
 						
 			/**
-			 * places the ghosts in the center.
+			 * places the ghosts in the at ghost locs.
+			 * if they're already contained within a grid, moves them there instead
+			 * 
 			 * @param ghosts: the ghosts to be put in the center
 			 * @param ghostLocs: the location of each ghost
 			 */
-			private void placeGhosts(Ghost[] ghosts, Location[] ghostLocs){
+			public void placeGhosts(Ghost[] ghosts, Location[] ghostLocs){
 				if (ghosts.length != ghostLocs.length)
 					throw new IllegalStateException("Sizes of ghosts and ghostLocs differ.");
-				for (int n = 0; n < ghosts.length; n++)
-					ghosts[n].putSelfInGrid((Grid<Actor>) g, ghostLocs[n]);
+				for (int n = 0; n < ghosts.length; n++){
+					if (ghosts[n].getGrid() == null)
+						ghosts[n].putSelfInGrid((Grid<Actor>) g, ghostLocs[n]);
+					else
+						ghosts[n].moveTo(ghostLocs[n]);
+				}
 			}
 			
 			/**
 			 * places pacman
 			 */
 			public void placePacMan(PacMan pac, Location pacLocation){
-				pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
-				pac.setDirection(Location.EAST);
+				if (pac.getGrid() == null){
+					pac.putSelfInGrid((Grid<Actor>) g, pacLocation);
+					pac.setDirection(Location.EAST);
+				}
+				else
+					pac.moveTo(pacLocation);
 			}
 			
 			
@@ -165,10 +193,10 @@ public class Level<T> {
 				
 				//dir is like the direction towards the center
 				for (int dir = 0; dir < 405; dir += 45){
-					while (g.get(current.getAdjacentLocation(dir)) instanceof MazeWall 
-							|| current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(0))
-							|| (current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(315))
-									&& g.getNumCols() % 2 == 0)){
+					while (g.get(current.getAdjacentLocation(dir)) instanceof MazeWall ){
+							//|| current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(0))
+							//|| (current.getAdjacentLocation(dir).equals(center.getAdjacentLocation(315))
+								//	&& g.getNumCols() % 2 == 0)){
 						if (g.get(current) instanceof Pellet 
 								|| g.get(current) instanceof PowerPellet1
 								|| g.get(current) instanceof PowerPellet2){

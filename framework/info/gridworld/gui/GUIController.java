@@ -18,6 +18,7 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.PacMan;
 import info.gridworld.grid.*;
 import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
@@ -50,7 +51,7 @@ public class GUIController<T>
 {
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
-    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 250;
+    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 320;
     public static final int INITIAL_DELAY = MIN_DELAY_MSECS
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
@@ -139,18 +140,23 @@ public class GUIController<T>
      */
     public void step()
     {    	
-        parentFrame.getWorld().step();
-        parentFrame.repaint();
-        if (++numStepsSoFar == numStepsToRun)
-            stop();
-        Grid<T> gr = parentFrame.getWorld().getGrid();
-
-        for (Location loc : gr.getOccupiedLocations())
-            addOccupant(gr.get(loc));
-    	
-	    //@author max: important stuff for leveling.
-    	if (Level.won()){
+    	if (PacWorld.isGameOver()){
     		((WorldFrame) parentFrame).getController().stop();
+    		
+    		PacWorld p = new PacWorld(PacWorld.level1());
+    		PacMan.setDead(false);
+    		PacMan.setLives(3);
+    		PacMan.setPoints(0);
+            p.show();
+    		parentFrame.dispose();
+    	}
+    	
+    	//@author max: important stuff for leveling.
+    	if (Level.won()){
+    		
+    		//needed?
+    		((WorldFrame) parentFrame).getController().stop();
+    		
         	try {
     			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level! Press the button below to continue."), "Level Complete: Difficulty Increased", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
     		} catch (Exception e) {
@@ -160,6 +166,17 @@ public class GUIController<T>
             p.show();
             parentFrame.dispose();      
     	}
+    	
+        parentFrame.getWorld().step();
+        parentFrame.repaint();
+        if (++numStepsSoFar == numStepsToRun)
+            stop();
+        Grid<T> gr = parentFrame.getWorld().getGrid();
+
+        for (Location loc : gr.getOccupiedLocations())
+            addOccupant(gr.get(loc));
+    	
+	    
     }
 
     private void addOccupant(T occupant)
