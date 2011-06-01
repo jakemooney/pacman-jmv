@@ -9,7 +9,7 @@ import Levels.Level;
 public class PacMan extends Actor{
 
 	private int count, pendingDir;
-	private static int lives = 3, points = 0;
+	private static int lives = 3, points = 0, currentpoints = 0;
 	private static boolean dead = false;
 	private boolean pendingTurn;
 	
@@ -45,17 +45,23 @@ public class PacMan extends Actor{
 	}
 	
 	public PacMan(){
-		count = 51;
+		count = 31;
 		setColor(Color.YELLOW);
 	}
 	
 	@Override
 	public void act(){
+		
+		
+		
+		//ERROR WHEN TELEPORTING HERE-- FIX
+		
+		
 		if (pendingTurn && !(getGrid().get(getLocation().getAdjacentLocation(pendingDir)) instanceof MazeWall)){
 			pendingTurn = false;
 			setDirection(pendingDir);
 		}
-		if (count >= 50){
+		if (count >= 30){
 			Ghost.setVulnerable(false);
 		}
 		count++;
@@ -73,15 +79,6 @@ public class PacMan extends Actor{
 		Actor a = getGrid().get(loc);
 		if (a instanceof MazeWall )
 			return;
-		
-		
-		//jake, i found an error. PowerPellet1's and 2's ARE instances of Pellet.
-		//so eating a powerpellet1 or 2 would have the same effect as eating a pellet
-		//here. I tested
-		//		System.out.print(new PowerPellet1() instanceof Pellet);
-		//and it printed out true.
-		
-		//should be fixed now, i test for power pellet first now, order of priority should solve that
 		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
 			points += 50;
 			a.removeSelfFromGrid();
@@ -133,5 +130,12 @@ public class PacMan extends Actor{
 		pendingTurn = true;
 		pendingDir = dir;
 	}
+	public static void updatePoints(){
+		currentpoints = points;
+	}
+	public static int getCurrentPoints(){
+		return points-currentpoints;
+	}
+	
 }
 
