@@ -12,7 +12,7 @@ import Levels.Level;
 public class Ghost extends Critter{
 	
 	private static boolean vulnerable;
-	private boolean covered;
+	private boolean covered, done;
 	private Actor coveredActor;
 	private Location previousloc, pacloc;
 	private int type, count;
@@ -45,6 +45,7 @@ public class Ghost extends Critter{
 		covered = false;
 		this.type = type;
 		count = 0;
+		done = false;
 	}
 	
 	
@@ -62,6 +63,7 @@ public class Ghost extends Critter{
 	public void act(){
 		count++;
 		setModeColor();
+		ReleaseGhost();
 		if (vulnerable && count%2==0)
 			return;
 		if (FindTarget() == null)
@@ -144,7 +146,6 @@ public class Ghost extends Critter{
 				 return new Location(PacMan.getLocation().getRow(), PacMan.getLocation().getCol()-4);
 		 }
 		 else if (type == 3){
-			 System.out.println(DistanceBetween(this.getLocation(), PacMan.getLocation()));
 			 if (DistanceBetween(this.getLocation(), PacMan.getLocation()) < 10 )
 				 return new Location(getGrid().getNumRows()-1, 0);
 			 else
@@ -254,6 +255,21 @@ public class Ghost extends Critter{
 			 setColor(Color.cyan);
 	 }
 
+	 public void ReleaseGhost(){
+		 Location loc = new Location(getLocation().getRow() -2, getLocation().getCol());
+		 if (PacMan.getCurrentPoints() >= 100 && this.getType() == 2 && !done && getGrid().get(loc) == null){
+			 moveTo(loc);
+			 done = true;
+		 }
+		 else if (PacMan.getCurrentPoints() >= 300 && this.getType() == 3 && !done && getGrid().get(loc) == null){
+			 moveTo(loc);
+			 done=true;
+		 }
+		 else if (PacMan.getCurrentPoints() >= 400 && this.getType() == 4 && !done && getGrid().get(loc) == null){
+			 moveTo(loc);
+			 done = true;
+		 }
+	 }
 	 public int getType(){
 		 return type;
 	 }
