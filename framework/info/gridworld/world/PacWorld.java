@@ -2,7 +2,9 @@ package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.ActorWorld;
+import info.gridworld.actor.Cherry;
 import info.gridworld.actor.Flower;
+import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.PacMan;
@@ -222,6 +224,8 @@ public class PacWorld extends ActorWorld {
     	
     	((Actor) level2.getGrid().get(new Location(10, 9))).setColor(Color.black);
     	
+
+    	
     	return level2;
     }
     
@@ -230,13 +234,16 @@ public class PacWorld extends ActorWorld {
      */
     public PacWorld(Level level){   
         super(level.getGrid()); //passes into World the proper grid
-        super.setMessage("Points: " + PacMan.getPoints() + "\nLives: " + PacMan.getLives()); //sets the message in the text box
-        
+        refreshMessage();
         this.level = level; //sets the instance level to the parameter level
         
         level.getPac().setLevel(level); //sets the pacman's level
         for (Ghost ghost : level.getGhosts()) //sets the ghosts' levels
         	ghost.setLevel(level);
+    }
+    
+    public void refreshMessage(){
+        super.setMessage("Points: " + PacMan.getPoints() + "\nLives: " + PacMan.getLives()); //sets the message in the text box
     }
     
     /**
@@ -293,8 +300,8 @@ public class PacWorld extends ActorWorld {
     public void step()
     {
     	super.step();
-        super.setMessage("Points: " + PacMan.getPoints() + "\nLives: " + PacMan.getLives()); //sets the message in the text box
-        super.repaint();
+    	refreshMessage();
+    	super.repaint();
     }
     
     /**
@@ -329,6 +336,10 @@ public class PacWorld extends ActorWorld {
     private static boolean gameOver = false;
     public  static boolean isGameOver(){
     	return gameOver;
+    }
+    
+    public static void setGameOver(boolean b){
+    	gameOver = b;
     }
     
 }
