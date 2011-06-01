@@ -41,6 +41,8 @@ public class Runner {
 	 * TODO: speed up the timer and remove the slider
 	 * 	-done
 	 * TODO: gnulicense...
+	 * \
+	 * TODO: displayMap.findDisplayFor
 	 */
 	
 	public static void main(String[] args) {
