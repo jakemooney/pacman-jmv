@@ -18,9 +18,12 @@ package info.gridworld.actor;
 
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
+import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
 
 import java.util.ArrayList;
+
+import Levels.Level;
 
 /**
  * An <code>ActorWorld</code> is occupied by actors. <br />
@@ -60,9 +63,13 @@ public class ActorWorld extends World<Actor>
     {
         Grid<Actor> gr = getGrid();
         ArrayList<Actor> actors = new ArrayList<Actor>();
-        for (Location loc : gr.getOccupiedLocations())
-            actors.add(gr.get(loc));
-
+        actors.add(PacWorld.getLevel().getPac());
+        for (Location loc : gr.getOccupiedLocations()){
+        	if (gr.get(loc) instanceof PacMan)
+        		continue;
+        	else
+        		actors.add(gr.get(loc));
+        }
         for (Actor a : actors)
         {
             // only act if another actor hasn't removed a

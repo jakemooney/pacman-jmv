@@ -43,6 +43,10 @@ public class PacWorld extends ActorWorld {
 	
     private static Level level;
     
+    public static Level getLevel(){
+    	return level;
+    }
+    
     private static final int level1x = 15; //these are the grid sizes for each level
     private static final int level1y = 16;
     private static final int level2x = 23;
