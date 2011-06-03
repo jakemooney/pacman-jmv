@@ -277,6 +277,7 @@ public class PacWorld extends ActorWorld {
      */
     public void show()
     { 
+    	PacMan.updatePoints();
 		int x, y;
     	
     	//tests if the grid is the same size as the grid for level1
@@ -308,7 +309,7 @@ public class PacWorld extends ActorWorld {
      * restarts the level (when pacman dies and still has a life or two)
      */
     public static void restart(){
-    	
+    	PacMan.updatePoints();
 		try {
 			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have lost a life! You now have " + (PacMan.getLives()) + " left! Press the button below to continue."), "You have died!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
 		} catch (Exception e) {
@@ -325,6 +326,7 @@ public class PacWorld extends ActorWorld {
      */
     public static void gameOver(){
     	try {
+        	PacMan.updatePoints();
 			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have " + (PacMan.getLives()) + " lives left! You lose! Your Score: " + PacMan.getPoints()), " Game Over!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
 			level = level2();
 			gameOver = true;
