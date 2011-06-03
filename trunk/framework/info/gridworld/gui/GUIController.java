@@ -142,12 +142,17 @@ public class GUIController<T>
     {    	
     	if (PacWorld.isGameOver()){
     		((WorldFrame) parentFrame).getController().stop();
-    		
+    		    		
     		PacWorld p = new PacWorld(PacWorld.level1());
+    		
     		PacMan.setDead(false);
     		PacMan.setLives(3);
     		PacMan.setPoints(0);
+    		PacWorld.setGameOver(false);
+    		
+    		p.refreshMessage();
             p.show();
+            
     		parentFrame.dispose();
     	}
     	
