@@ -50,12 +50,7 @@ public class PacMan extends Actor{
 	}
 	
 	@Override
-	public void act(){
-		
-		
-		
-		//ERROR WHEN TELEPORTING HERE-- FIX
-		
+	public void act(){		
 		
 		if (pendingTurn && !(getGrid().get(getLocation().getAdjacentLocation(pendingDir)) instanceof MazeWall)){
 			pendingTurn = false;
@@ -67,7 +62,6 @@ public class PacMan extends Actor{
 		count++;
 		int dir = getDirection();
 		Location loc = getLocation().getAdjacentLocation(dir);	
-		//Vivek - 5/20/11 - teleport
 		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
 				int cols = getGrid().getNumCols();
 				if (loc.getCol() == -1)

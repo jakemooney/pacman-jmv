@@ -132,6 +132,8 @@ public class Ghost extends Critter{
 		 Actor PacMan = FindPacMan();
 		 if (PacMan == null)
 			 return null;
+		 if (vulnerable)
+			 return new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
 		 int pacdir = PacMan.getDirection();
 		 if (type == 1)
 			 return PacMan.getLocation();
@@ -222,7 +224,7 @@ public class Ghost extends Critter{
 			 return null;
 		 if (locs.size() == 1 && getGrid().get(locs.get(0)) instanceof Ghost)
 			 return locs.get(0);
-		 locs = EliminateGhost(locs);
+		 //locs = EliminateGhost(locs);
 		 int choice = 0;
 		 double distance = 500;
 		 for (int x = 0; x<locs.size(); x++){
@@ -233,7 +235,7 @@ public class Ghost extends Critter{
 		 }
 		 return locs.get(choice);
 	 }
-	 public ArrayList<Location> EliminateGhost(ArrayList<Location> locs){
+	 /**public ArrayList<Location> EliminateGhost(ArrayList<Location> locs){
 		 for (int x = 0; x<locs.size(); x++){
 			 if (getGrid().get(locs.get(x)) instanceof Ghost){
 				 locs.remove(x);
@@ -242,6 +244,7 @@ public class Ghost extends Critter{
 		 }
 		 return locs;
 	 }
+	 **/
 	 public void setModeColor(){
 		 if (vulnerable)
 			 setColor(Color.BLUE);
@@ -257,6 +260,10 @@ public class Ghost extends Critter{
 
 	 public void ReleaseGhost(){
 		 Location loc = new Location(getLocation().getRow() -2, getLocation().getCol());
+		 System.out.println(PacMan.getCurrentPoints());
+		 if (PacMan.getCurrentPoints() <= 100){
+			 done = false;
+		 }
 		 if (PacMan.getCurrentPoints() >= 100 && this.getType() == 2 && !done && getGrid().get(loc) == null){
 			 moveTo(loc);
 			 done = true;
