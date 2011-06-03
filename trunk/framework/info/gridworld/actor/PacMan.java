@@ -94,9 +94,11 @@ public class PacMan extends Actor{
 			lives--;
 			removeSelfFromGrid();
 			if (lives > 0){
+				PacWorld.getFrame().repaint();
 				PacWorld.restart();
 			}
 			else{
+				PacWorld.getFrame().repaint();
 				PacWorld.gameOver();
 			}
 			return;

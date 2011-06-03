@@ -87,6 +87,7 @@ public class Ghost extends Critter{
 		}
 		else if ((getGrid().get(MOVE) instanceof PacMan) && !vulnerable){			
 			PacMan p = (PacMan) getGrid().get(MOVE);
+			PacWorld.getFrame().repaint();
 			p.kill();
 			p.removeSelfFromGrid();
 			moveTo(MOVE);
