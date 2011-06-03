@@ -46,6 +46,7 @@ public class Ghost extends Critter{
 		this.type = type;
 		count = 0;
 		done = false;
+		covered = false;
 	}
 	
 	
@@ -76,14 +77,30 @@ public class Ghost extends Critter{
 		if (MOVE == null || !getGrid().isValid(MOVE))
 			return;
 		previousloc = getLocation();
-		if (getGrid().get(MOVE) == null)
-			moveTo(MOVE);
+		if (getGrid().get(MOVE) == null){
+			if (covered){
+				moveTo(MOVE);
+				coveredActor.putSelfInGrid(getGrid(), previousloc);
+				covered = false;
+			}
+			else moveTo(MOVE);
+		}
 		else if (getGrid().get(MOVE) instanceof Pellet || getGrid().get(MOVE) instanceof PowerPellet1 
 				|| getGrid().get(MOVE) instanceof PowerPellet2 || getGrid().get(MOVE) instanceof Fruit
 				|| getGrid().get(MOVE) instanceof Ghost){
-			coveredActor = getGrid().get(MOVE);
-			moveTo(MOVE);
-			coveredActor.putSelfInGrid(getGrid(), previousloc);
+			if (covered){
+				Actor tempcoveredActor = getGrid().get(MOVE);
+				moveTo(MOVE);
+				coveredActor.putSelfInGrid(getGrid(), previousloc);
+				covered = false;
+				coveredActor = tempcoveredActor;
+				covered=true;
+			}
+			else{
+				coveredActor = getGrid().get(MOVE);
+				covered = true;
+				moveTo(MOVE);
+			}
 		}
 		else if ((getGrid().get(MOVE) instanceof PacMan) && !vulnerable){			
 			PacMan p = (PacMan) getGrid().get(MOVE);
@@ -248,7 +265,10 @@ public class Ghost extends Critter{
 	 **/
 	 public void setModeColor(){
 		 if (vulnerable)
-			 setColor(Color.BLUE);
+			 if (count%2==0)
+				 setColor(Color.BLUE);
+			 else
+				 setColor(Color.white);
 		 else if (type == 1)
 			 setColor(Color.red);
 		 else if (type == 2)
@@ -261,7 +281,6 @@ public class Ghost extends Critter{
 
 	 public void ReleaseGhost(){
 		 Location loc = new Location(getLocation().getRow() -2, getLocation().getCol());
-		 System.out.println(PacMan.getCurrentPoints());
 		 if (PacMan.getCurrentPoints() <= 100){
 			 done = false;
 		 }
