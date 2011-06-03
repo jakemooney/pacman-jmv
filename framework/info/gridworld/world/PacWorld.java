@@ -322,7 +322,16 @@ public class PacWorld extends ActorWorld {
 		}
 		
     	level.placePacMan(level.getPac(), level.getPacManStart());
-    	level.placeGhosts(level.getGhosts(), level.getGhostsStart());
+    	
+    	int type = 1;
+    	
+    	Ghost[] replacements = level.getGhosts();
+    	for (Ghost g : replacements){
+    		g = new Ghost (g.getColor(), type);
+    		type++;
+    	}
+    	
+    	level.placeGhosts(replacements, level.getGhostsStart());
     }
     
     /**

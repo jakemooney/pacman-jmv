@@ -18,6 +18,7 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.Ghost;
 import info.gridworld.actor.PacMan;
 import info.gridworld.grid.*;
 import info.gridworld.world.PacWorld;
@@ -158,7 +159,7 @@ public class GUIController<T>
     	
     	//@author max: important stuff for leveling.
     	if (Level.won()){
-    		
+    		((WorldFrame) parentFrame).repaint();
     		//needed?
     		((WorldFrame) parentFrame).getController().stop();
     		
