@@ -45,6 +45,54 @@ public class Runner {
 	 * TODO: displayMap.findDisplayFor
 	 */
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * BUG LIST
+
+	1. try to make it so that ghosts do not vanish once eaten
+	
+	2. "updatePoints()" when there's a change in level or death //think it works
+	
+	3. "actor already contained in a grid" error when ghosts are moving over another actor //occassionally get
+	
+	4. opens up new level once click play or step //maybe? no.
+	
+	5. allow the pacman's eating to be seen (ie checkmate mode right now)
+	
+	6. ghosts occassionally (?) leave behind a pellet
+	7. two actors atop each other? ghost + pellet eatings?
+	8. LEVELS ARE NOT BEING FINISHED
+	
+	9. gaming continues even after x-ings out //APPARENTLY IT'S WRONG?!?!?!
+	
+	
+	
+	ADDITIONS LIST
+	-make a third map
+	-ghost points increase for each ghost eaten during powerpellet
+	-icons representing lives
+	-ghosts scatter mode
+	-"press enter to start" or something
+	-have a timer after pacman's death
+	-animate pacman's death
+	-flash the ghosts white right before they're about to be nonblue again
+	-get them to be eyes
+	-sounds
+	
+	-LEARN HOW TO ACCESS DIFFERENT IMAGES
+	
+	-undo HTML internet fetch
+	-BIOs
+	 */
+	
 	public static void main(String[] args) {
 		
 		PacWorld pac = new PacWorld(PacWorld.level1());

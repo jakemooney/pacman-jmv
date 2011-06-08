@@ -130,13 +130,21 @@ public class Level<T> {
 			 * @param ghostLocs: the location of each ghost
 			 */
 			public void placeGhosts(Ghost[] ghosts, Location[] ghostLocs){
-				if (ghosts.length != ghostLocs.length)
+				
+				for (Ghost g : this.ghosts){
+					if (g.getGrid() != null)
+						g.removeSelfFromGrid();
+				}
+				
+				this.ghosts = ghosts;
+				
+				if (this.ghosts.length != ghostLocs.length)
 					throw new IllegalStateException("Sizes of ghosts and ghostLocs differ.");
-				for (int n = 0; n < ghosts.length; n++){
-					if (ghosts[n].getGrid() == null)
-						ghosts[n].putSelfInGrid((Grid<Actor>) g, ghostLocs[n]);
+				for (int n = 0; n < this.ghosts.length; n++){
+					if (this.ghosts[n].getGrid() == null)
+						this.ghosts[n].putSelfInGrid((Grid<Actor>) g, ghostLocs[n]);
 					else
-						ghosts[n].moveTo(ghostLocs[n]);
+						this.ghosts[n].moveTo(ghostLocs[n]);
 				}
 			}
 			
