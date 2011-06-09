@@ -178,11 +178,10 @@ public class GUIController<T>
         if (++numStepsSoFar == numStepsToRun)
             stop();
         Grid<T> gr = parentFrame.getWorld().getGrid();
-
+        
         for (Location loc : gr.getOccupiedLocations())
             addOccupant(gr.get(loc));
-    	
-	    
+    		    
     }
 
     private void addOccupant(T occupant)

@@ -1,4 +1,4 @@
-import java.applet.*; 
+/**import java.applet.*; 
 import java.net.*; 
 import java.io.File;
 
@@ -16,7 +16,7 @@ public class Sound {
 		try {
 			URL Url = new URL(url);
 			System.out.println(url);
-			AudioClip clip = Applet.newAudioClip("file:" + Url);				//c:/blah/foo.wav
+			AudioClip clip = Applet.getAudioClip("file:" + Url);				//c:/blah/foo.wav
 			clip.play(); 
 			
 			System.out.print("why doesnt it play");
@@ -31,3 +31,4 @@ public class Sound {
 
 
 }
+*/

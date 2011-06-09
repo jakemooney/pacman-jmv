@@ -73,6 +73,12 @@ public class Runner {
 	
 	9. gaming continues even after x-ings out //APPARENTLY IT'S WRONG?!?!?!
 	
+	10. when pacman eats a ghost who's on a pellet, he'll only eat the ghost and thus the level won't complete
+	
+	11. REPAINT AT END SOMTIEMS NOT WORK
+	
+	12. two ghosts behind you at end yields a death
+	
 	
 	
 	ADDITIONS LIST

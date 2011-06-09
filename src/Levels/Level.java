@@ -16,11 +16,9 @@ import info.gridworld.grid.Location;
 
 public class Level<T> {
 	
-	private Grid<T> g;
+	private static Grid g;
 	private PacMan pac;
-	private Ghost[] ghosts;
-	private int pelletCount;
-	private static boolean won; //if the level has been won or not
+	private static Ghost[] ghosts;
 	
 	private Location pacManStart;
 	private Location[] ghostsStart;
@@ -49,7 +47,7 @@ public class Level<T> {
 	/**
 	 * returns an array of ghosts in the level
 	 */
-	public Ghost[] getGhosts(){
+	public static Ghost[] getGhosts(){
 		return ghosts;
 	}
 	
@@ -61,27 +59,20 @@ public class Level<T> {
 	}
 	
 	/**
-	 * decrements the amount of pellets (to be used by pacman)
-	 * also tells the game that the level has been one once pelletCount reaches zero
-	 */
-	public void decrementPelletCount(){
-		pelletCount--;
-		if (pelletCount == 0)
-			won = true;
-	}
-	
-	/**
-	 * gets the pellet count
-	 */
-	public int getPelletCount(){
-		return pelletCount;
-	}
-	
-	/**
 	 * @return if the level has been won yet
 	 */
 	public static boolean won(){
-		return won;
+		for (int x = 0; x < g.getNumRows(); x++){
+			for (int y = 0; y < g.getNumCols(); y++)
+				if (g.get(new Location(x, y)) instanceof Pellet)
+					return false;
+		}
+		
+		for (Ghost g : getGhosts()){
+			if (g.getCovered() != null)
+				return false;
+		}
+		return true;
 	}
 	
 	//above this line are all methods that need to be accessed by other objects
@@ -98,8 +89,6 @@ public class Level<T> {
 	public Level(int x, int y, int[] walls_x, int[] walls_y, ArrayList<Location> powerPelletLocs, Ghost[] ghosts, Location[] ghostLocs, PacMan pac, Location pacLocation){
 		this.pac = pac;
 		this.ghosts = ghosts;
-		pelletCount = 0;
-		won = false;
 		pacManStart = pacLocation;
 		ghostsStart = ghostLocs;
 		
@@ -184,7 +173,6 @@ public class Level<T> {
 		    				else
 		    					pellet = new Pellet();
 		    				pellet.putSelfInGrid((Grid<Actor>) g, current);
-		    				pelletCount++;
 		    			}
 		    		}
 		    	}
@@ -209,7 +197,6 @@ public class Level<T> {
 								|| g.get(current) instanceof PowerPellet1
 								|| g.get(current) instanceof PowerPellet2){
 							g.remove(current);
-							decrementPelletCount();
 						}
 						if (dir % 45 == 0 && dir % 90 != 0 && dir != 0){
 							current = current.getAdjacentLocation(dir + 315);

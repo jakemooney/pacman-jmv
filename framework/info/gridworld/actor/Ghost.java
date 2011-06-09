@@ -300,5 +300,8 @@ public class Ghost extends Critter{
 	 public int getType(){
 		 return type;
 	 }
+	 public Actor getCovered(){
+		 return coveredActor;
+	 }
 }
 
