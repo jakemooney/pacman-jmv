@@ -1,6 +1,5 @@
 package info.gridworld.actor;
 
-import info.gridworld.actor.Actor;
 import info.gridworld.grid.Location;
 import info.gridworld.world.PacWorld;
 
@@ -50,16 +49,17 @@ public class PacMan extends Actor{
 	}
 	
 	@Override
-	public void act(){		
+	public void act(){			
 		
-		if (pendingTurn && !(getGrid().get(getLocation().getAdjacentLocation(pendingDir)) instanceof MazeWall)){
+		//Some stuff with pending direction
+		Location l = getLocation().getAdjacentLocation(pendingDir);
+		if (pendingTurn && (getGrid().isValid(l)==false || !(getGrid().get(l) instanceof MazeWall))){
 			pendingTurn = false;
 			setDirection(pendingDir);
 		}
-		if (count >= 30){
-			Ghost.setVulnerable(false);
-		}
-		count++;
+		
+		
+		//Deal with the teleports
 		int dir = getDirection();
 		Location loc = getLocation().getAdjacentLocation(dir);	
 		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
@@ -69,8 +69,16 @@ public class PacMan extends Actor{
 				else
 					loc =  new Location(loc.getRow(), 0);
 		}
-			
+		
+		
+		count++;	//Right place???
+		if (count >= 30){
+			Ghost.setVulnerable(false);
+		}
+				
+		//Deal with other actors
 		Actor a = getGrid().get(loc);
+		
 		if (a instanceof MazeWall )
 			return;
 		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
