@@ -123,7 +123,6 @@ public class PacWorld extends ActorWorld {
     	((Actor) level1.getGrid().get(new Location(6, 8))).setColor(Color.black);
     	
     	((Actor) level1.getGrid().get(new Location(7, 7))).removeSelfFromGrid();
-    	level1.decrementPelletCount();
     	
     	return level1;
     }
