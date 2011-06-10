@@ -1,4 +1,10 @@
+/*
+
+
+import java.applet.*; 
+=======
 /**import java.applet.*; 
+>>>>>>> .r54
 import java.net.*; 
 import java.io.File;
 
@@ -25,10 +31,6 @@ public class Sound {
 			System.out.println(murle);
 		}
 	}
-	
+}	
 
-
-
-
-}
 */
