@@ -57,29 +57,25 @@ public class Runner {
 	/**
 	 * BUG LIST
 
-	1. try to make it so that ghosts do not vanish once eaten
+	1. try to make it so that ghosts do not vanish once eaten**
 	
-	2. "updatePoints()" when there's a change in level or death //think it works
+	2. "actor already contained in a grid" error when ghosts are moving over another actor //occasionally get**
 	
-	3. "actor already contained in a grid" error when ghosts are moving over another actor //occassionally get
+	3. gaming continues even after x-ings out //Fixed?
 	
-	4. opens up new level once click play or step //maybe? no.
+	4. When one pellet is left and a ghost moves over it, the game registers no pellets remaining and the user wins
 	
-	5. allow the pacman's eating to be seen (ie checkmate mode right now)
+	5. opens up new level once click play or step //maybe? no.
 	
-	6. ghosts occassionally (?) leave behind a pellet
-	7. two actors atop each other? ghost + pellet eatings?
-	8. LEVELS ARE NOT BEING FINISHED
+	6. allow the pacman's eating to be seen (ie checkmate mode right now) //fixed?
+	7. ghosts occasionally (?) leave behind a pellet //fixed
+	8. two actors atop each other? ghost + pellet eatings?	//fixed
 	
-	9. gaming continues even after x-ings out //APPARENTLY IT'S WRONG?!?!?!
+	**10. when pacman eats a ghost who's on a pellet, he'll only eat the ghost and thus the level won't complete
 	
-	10. when pacman eats a ghost who's on a pellet, he'll only eat the ghost and thus the level won't complete
+	**11. REPAINT AT END SOMTIEMS NOT WORK
 	
-	11. REPAINT AT END SOMTIEMS NOT WORK
-	
-	12. two ghosts behind you at end yields a death
-	
-	
+	**12. (two) ghosts behind you at end yields a death
 	
 	ADDITIONS LIST
 	-make a third map
