@@ -18,6 +18,26 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.Actor;
+import info.gridworld.actor.Ghost;
+import info.gridworld.actor.Ghost1Down;
+import info.gridworld.actor.Ghost1Left;
+import info.gridworld.actor.Ghost1Right;
+import info.gridworld.actor.Ghost1Up;
+import info.gridworld.actor.Ghost1Vulnerable;
+import info.gridworld.actor.Ghost2Down;
+import info.gridworld.actor.Ghost2Left;
+import info.gridworld.actor.Ghost2Right;
+import info.gridworld.actor.Ghost2Up;
+import info.gridworld.actor.Ghost2Vulnerable;
+import info.gridworld.actor.MsPacMan;
+import info.gridworld.actor.MsPacManClosed;
+import info.gridworld.actor.MsPacManMiddle;
+import info.gridworld.actor.MsPacManOpen;
+import info.gridworld.actor.PacMan;
+import info.gridworld.actor.PacManClosed;
+import info.gridworld.actor.PacManMiddle;
+import info.gridworld.actor.PacManOpen;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
@@ -125,6 +145,11 @@ public class GridPanel extends JPanel implements Scrollable,
      * @param ytop the topmost pixel of the rectangle
      * @param obj the Locatable object to draw
      */
+    
+    public static int c = 0;
+    
+    private Object previousToDraw; //@author max
+    
     private void drawOccupant(Graphics2D g2, int xleft, int ytop, Object obj)
     {
         Rectangle cellToDraw = new Rectangle(xleft, ytop, cellSize, cellSize);
@@ -136,8 +161,84 @@ public class GridPanel extends JPanel implements Scrollable,
             Graphics2D g2copy = (Graphics2D) g2.create();
             g2copy.clip(cellToDraw);
             // Get the drawing object to display this occupant.
-            Display displayObj = displayMap.findDisplayFor(obj.getClass());
-            displayObj.draw(obj, this, g2copy, cellToDraw);
+                        
+            Object toDraw = obj;
+            if (obj.getClass().equals(PacMan.class)){
+            	if (((PacMan)obj).isBlocked())
+	            	toDraw = previousToDraw;
+            	else{
+            		int dir = ((PacMan)obj).getDirection();
+	            	if (c % 4 == 0)
+	            		toDraw = new PacManMiddle(dir);
+	            	else if (c % 4 == 1)
+	            		toDraw = new PacManOpen(dir);
+	            	else if (c % 4 == 2)
+	            		toDraw = new PacManMiddle(dir);
+	            	else
+	            		toDraw = new PacManClosed(dir);
+	            	previousToDraw = toDraw;
+            	}
+            }
+            
+            if (obj.getClass().equals(Ghost.class)){
+        		Color col = ((Ghost)obj).getColor();
+        		int dir = ((Ghost)obj).dir();
+            	if (c % 2 == 0){
+            		if (((Ghost)obj).isvulnerable())
+            			toDraw = new Ghost1Vulnerable(col);
+            		else{
+	            		if (dir == 0){
+	            			toDraw = new Ghost1Up(col);
+	            		}
+	            		else if (dir == 90){
+	            			toDraw = new Ghost1Right(col);
+	            		}
+	            		else if (dir == 180){
+	            			toDraw = new Ghost1Down(col);
+	            		}
+	            		else{
+	            			toDraw = new Ghost1Left(col);
+	            		}
+            		}
+            	}
+            	else{
+            		if (((Ghost)obj).isvulnerable())
+            			toDraw = new Ghost2Vulnerable(col);
+            		else{
+	            		if (dir == 0){
+	            			toDraw = new Ghost2Up(col);
+	            		}
+	            		else if (dir == 90){
+	            			toDraw = new Ghost2Right(col);
+	            		}
+	            		else if (dir == 180){
+	            			toDraw = new Ghost2Down(col);
+	            		}
+	            		else{
+	            			toDraw = new Ghost2Left(col);
+	            		}
+            		}
+            	}
+            }
+            
+            /**
+            if (obj.getClass().equals(MsPacMan.class)){
+        		int dir = ((MsPacMan)obj).getDirection();
+            	if (c % 4 == 0)
+            		toDraw = new MsPacManMiddle(dir);
+            	else if (c % 4 == 1)
+            		toDraw = new MsPacManOpen(dir);
+            	else if (c % 4 == 2)
+            		toDraw = new MsPacManMiddle(dir);
+            	else
+            		toDraw = new MsPacManClosed(dir);
+            }
+            */
+            
+            
+            Display displayObj = displayMap.findDisplayFor(toDraw.getClass());
+            
+            displayObj.draw(toDraw, this, g2copy, cellToDraw);
             g2copy.dispose();
         }
     }

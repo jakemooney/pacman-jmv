@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.MazeWall;
+import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
 import info.gridworld.actor.Pellet;
 import info.gridworld.actor.PowerPellet1;
@@ -17,7 +18,7 @@ import info.gridworld.grid.Location;
 public class Level<T> {
 	
 	private static Grid g;
-	private PacMan pac;
+	private static PacMan pac;
 	private static Ghost[] ghosts;
 	
 	private Location pacManStart;
@@ -54,8 +55,12 @@ public class Level<T> {
 	/**
 	 * returns the pacman
 	 */
-	public PacMan getPac(){
+	public static PacMan getPac(){
 		return pac;
+	}
+	
+	public static void setPac(PacMan pac){
+		Level.pac = pac;
 	}
 	
 	/**
@@ -66,11 +71,12 @@ public class Level<T> {
 			for (int y = 0; y < g.getNumCols(); y++)
 				if (g.get(new Location(x, y)) instanceof Pellet)
 					return false;
-		}
-		
+		}		
 		for (Ghost g : getGhosts()){
-			if (g.getCovered() != null)
+			if (g.getCovered() instanceof Pellet){
+				System.out.println("the guilty ghost: " + g.getType());
 				return false;
+			}
 		}
 		return true;
 	}
@@ -206,5 +212,16 @@ public class Level<T> {
 							current = current.getAdjacentLocation(dir + 270);
 					}
 				}
+			}
+			
+			//--------------------------------------------------------------------------
+			//goodies!
+
+			public void placeMsPacMan(MsPacMan mspac, Location location) {
+				if (mspac.getGrid() == null){
+					mspac.putSelfInGrid((Grid<Actor>) g, location);
+				}
+				else
+					mspac.moveTo(location);
 			}
 }

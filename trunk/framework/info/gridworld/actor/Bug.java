@@ -33,7 +33,7 @@ public class Bug extends Actor
      */
     public Bug()
     {
-        setColor(Color.RED);
+        //setColor(Color.RED);
     }
 
     /**

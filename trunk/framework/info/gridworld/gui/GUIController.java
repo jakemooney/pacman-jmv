@@ -20,6 +20,9 @@ package info.gridworld.gui;
 
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.PacMan;
+import info.gridworld.actor.PacManClosed;
+import info.gridworld.actor.PacManMiddle;
+import info.gridworld.actor.PacManOpen;
 import info.gridworld.grid.*;
 import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
@@ -49,7 +52,7 @@ import Levels.Level;
  */
 
 public class GUIController<T>
-{
+{	
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
     private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 320;
@@ -140,10 +143,10 @@ public class GUIController<T>
      * Advances the world one step.
      */
     public void step()
-    {    	
+    {    
+    	GridPanel.c++;
     	if (PacWorld.isGameOver()){
-    		((WorldFrame) parentFrame).getController().stop();
-    		    		
+    		stop();    		    		
     		PacWorld p = new PacWorld(PacWorld.level1());
     		
     		PacMan.setDead(false);
@@ -159,18 +162,29 @@ public class GUIController<T>
     	
     	//@author max: important stuff for leveling.
     	if (Level.won()){
-    		((WorldFrame) parentFrame).repaint();
-    		//needed?
-    		((WorldFrame) parentFrame).getController().stop();
-    		
+    		stop();
+    		PacMan.setDead(false);
+    		PacWorld.setGameOver(false);
         	try {
     			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level! Press the button below to continue."), "Level Complete: Difficulty Increased", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
-    		} catch (Exception e) {
+        	} catch (Exception e) {
     			e.printStackTrace();
     		}
-        	PacWorld p = new PacWorld(PacWorld.level2());
+        	PacWorld p = new PacWorld(PacWorld.nextLevel());
+        	if (p == null){
+        		
+        	}
             p.show();
             parentFrame.dispose();      
+    	}
+    	
+    	if (PacMan.isDead()){
+    		if (PacMan.getLives() > 0){
+    			PacWorld.restart();
+    		}
+    		else{
+    			PacWorld.gameOver();
+    		}
     	}
     	
         parentFrame.getWorld().step();
@@ -181,7 +195,7 @@ public class GUIController<T>
         
         for (Location loc : gr.getOccupiedLocations())
             addOccupant(gr.get(loc));
-    		    
+    		
     }
 
     private void addOccupant(T occupant)

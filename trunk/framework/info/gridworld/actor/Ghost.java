@@ -33,10 +33,16 @@ public class Ghost extends Critter{
 	}
 	
 	public Ghost(){
-		vulnerable = false;
 		previousloc = null;
 	}
 	
+	public int dir(){
+		if (previousloc == null)
+			return 90;
+		return previousloc.getDirectionToward(getLocation());
+	}
+	
+	//---------------------------------------------------------------------------------
 	
 	public Ghost(Color c, int type){
 		this.setColor(c);
@@ -47,6 +53,7 @@ public class Ghost extends Critter{
 		count = 0;
 		done = false;
 		covered = false;
+		coveredActor = null;	
 	}
 	
 	
@@ -76,12 +83,14 @@ public class Ghost extends Critter{
 			MOVE = new Location(getLocation().getRow(), 0);
 		if (MOVE == null || !getGrid().isValid(MOVE))
 			return;
+		
 		previousloc = getLocation();
 		if (getGrid().get(MOVE) == null){
 			if (covered){
 				moveTo(MOVE);
 				coveredActor.putSelfInGrid(getGrid(), previousloc);
 				covered = false;
+				coveredActor = null;
 			}
 			else moveTo(MOVE);
 		}
@@ -117,6 +126,7 @@ public class Ghost extends Critter{
 		}
 		else if ((getGrid().get(MOVE) instanceof PacMan) && vulnerable){
 			PacMan.eatGhost();
+			coveredActor = null;
 			removeSelfFromGrid();
 		}
 		else
@@ -264,11 +274,12 @@ public class Ghost extends Critter{
 	 }
 	 **/
 	 public void setModeColor(){
-		 if (vulnerable)
+		 if (vulnerable){
 			 if (count%2==0)
 				 setColor(Color.BLUE);
 			 else
 				 setColor(Color.white);
+		 }
 		 else if (type == 1)
 			 setColor(Color.red);
 		 else if (type == 2)
@@ -302,6 +313,9 @@ public class Ghost extends Critter{
 	 }
 	 public Actor getCovered(){
 		 return coveredActor;
+	 }
+	 public void setCovered(Actor a){
+		 coveredActor = a;
 	 }
 }
 
