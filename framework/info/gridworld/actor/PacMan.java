@@ -6,7 +6,7 @@ import info.gridworld.world.PacWorld;
 import java.awt.Color;
 import Levels.Level;
 public class PacMan extends Actor{
-
+	
 	private int count, pendingDir;
 	private static int lives = 3, points = 0, currentpoints = 0;
 	private static boolean dead = false;
@@ -16,6 +16,7 @@ public class PacMan extends Actor{
 	 * Max's additions below
 	 */
 	private Level level; //the level contained within
+	private boolean blocked; //if he's facing a wall
 	
 	//sets the level
 	public void setLevel(Level level){
@@ -43,9 +44,21 @@ public class PacMan extends Actor{
 		PacMan.lives = lives;
 	}
 	
+	public void setCount(int count){
+		this.count = count;
+	}
+	
+	public boolean isBlocked(){
+		return blocked;
+	}
+	
+	//--------------------------------------------------------------
+	
 	public PacMan(){
 		count = 31;
 		setColor(Color.YELLOW);
+		pendingDir = 90;
+		blocked = false; //@author max
 	}
 	
 	@Override
@@ -79,43 +92,73 @@ public class PacMan extends Actor{
 		//Deal with other actors
 		Actor a = getGrid().get(loc);
 		
-		if (a instanceof MazeWall )
+		if (a instanceof MazeWall ){
+			blocked = true;
 			return;
-		else if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
-			points += 50;
-			a.removeSelfFromGrid();
-			count = 0;
-			Ghost.setVulnerable(true);
-			level.decrementPelletCount();
 		}
-		else if (a instanceof Pellet){
-			points += 10;
-			a.removeSelfFromGrid();
-			level.decrementPelletCount();
-		}
-		else if (a instanceof Ghost && Ghost.isvulnerable()){
-			points += 200;
-			a.removeSelfFromGrid();
-		}
-		else if (a instanceof Ghost){
-			dead = true;
-			lives--;
-			removeSelfFromGrid();
-			if (lives > 0){
-				PacWorld.getFrame().repaint();
-				PacWorld.restart();
+		else{
+			blocked = false;
+			if (a instanceof PowerPellet1 || a instanceof PowerPellet2){
+				points += 50;
+				a.removeSelfFromGrid();
+				count = 0;
+				Ghost.setVulnerable(true);
 			}
-			else{
-				PacWorld.getFrame().repaint();
-				PacWorld.gameOver();
+			else if (a instanceof Pellet){
+				points += 10;
+				a.removeSelfFromGrid();
 			}
-			return;
+			else if (a instanceof Ghost && Ghost.isvulnerable()){
+				if (((Ghost)a).getCovered() instanceof PowerPellet1 || ((Ghost)a).getCovered() instanceof PowerPellet2){
+					points += 50;
+					count = 0;
+					Ghost.setVulnerable(true);
+				}
+				else if (((Ghost)a).getCovered() instanceof Pellet){
+					points += 10;
+				}
+				else if (((Ghost)a).getCovered() instanceof Fruit){
+					points += ((Fruit)((Ghost)a).getCovered()).getPoints();
+				}
+				points += 200;
+				a.removeSelfFromGrid();
+				((Ghost)a).setCovered(null);
+			}
+			else if (a instanceof Ghost){
+				dead = true;
+				lives--;
+				removeSelfFromGrid();
+				return;
+			}	
 		}
 		
+		//moveTo(loc);
+		
+		/**
+		PacMan p;
+		if (c % 4 == 0){
+			p = new PacManOpen(count);
+		}
+		else if (c % 4 == 1){
+			p = new PacManMiddle(count);
+		}
+		else if (c % 4 == 2){
+			p = new PacManClosed(count);
+		}
+		else{
+			p = new PacManMiddle(count);
+		}
+		
+		Level.setPac(p);
+		p.putSelfInGrid(getGrid(), loc);
+		removeSelfFromGrid();
+		p.setDirection(getDirection());
+		p.setPendingDirection(pendingDir);
+		*/
 		moveTo(loc);
 	}
 	
-	public boolean isDead(){
+	public static boolean isDead(){
 		return dead;
 	}
 	
@@ -142,4 +185,3 @@ public class PacMan extends Actor{
 	}
 	
 }
-

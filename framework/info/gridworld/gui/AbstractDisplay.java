@@ -18,6 +18,8 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.MsPacMan;
+
 import java.awt.Rectangle;
 import java.beans.*;
 import java.lang.reflect.*;
@@ -78,6 +80,7 @@ public abstract class AbstractDisplay implements Display
         // Scale to size of rectangle, adjust stroke back to 1-pixel wide
         g2.scale(scaleFactor, scaleFactor);
         g2.setStroke(new BasicStroke(1.0f / scaleFactor));
+        
         draw(obj, comp, g2);
     }
 
