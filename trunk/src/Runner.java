@@ -42,8 +42,7 @@ public class Runner {
 	 * 	-done
 	 * TODO: gnulicense...
 	 * \
-	 * TODO: displayMap.findDisplayFor
-	 */
+	 * 	 */
 	
 	
 	
@@ -57,25 +56,40 @@ public class Runner {
 	/**
 	 * BUG LIST
 
-	1. try to make it so that ghosts do not vanish once eaten**
+	1. try to make it so that ghosts do not vanish once eaten
 	
-	2. "actor already contained in a grid" error when ghosts are moving over another actor //occasionally get**
+	XXXXXXXXXXX2. "updatePoints()" when there's a change in level or death //think it works
 	
-	3. gaming continues even after x-ings out //Fixed?
+	XXXXXXX3. "actor already contained in a grid" error when ghosts are moving over another actor //occassionally get
+		
+	XXXXXXXXXXXXXXXX5. allow the pacman's eating to be seen (ie checkmate mode right now)
 	
-	4. When one pellet is left and a ghost moves over it, the game registers no pellets remaining and the user wins
+	XXXXXXXXXXXXXX6. ghosts occassionally (?) leave behind a pellet
+			
+	XXXXXXXXXXXXXXXXXXX9. gaming continues even after x-ings out //APPARENTLY NOT?!?!?!	
 	
-	5. opens up new level once click play or step //maybe? no.
+	xxxxxxxxxxxxxxxxx11. REPAINT AT END SOMTIEMS NOT WORK
+						-have yet to see this
 	
-	6. allow the pacman's eating to be seen (ie checkmate mode right now) //fixed?
-	7. ghosts occasionally (?) leave behind a pellet //fixed
-	8. two actors atop each other? ghost + pellet eatings?	//fixed
+	xxxxxxxxxxxxxxxx12. two ghosts behind you at end yields a death?
+					
+						-have yet to see this
 	
-	**10. when pacman eats a ghost who's on a pellet, he'll only eat the ghost and thus the level won't complete
+	xxxxXXXXXXXXXXXXXXXXXXXX13. multiple part bug solution for ending levels
+		-needs to setCoveredActor to null when it moves into an empty spot. can't just keep it like that
+		-needs to setCoveredActor to null when it moves it into the center.
 	
-	**11. REPAINT AT END SOMTIEMS NOT WORK
+	14. removes a pellet when you die on level2? bottom left corner
 	
-	**12. (two) ghosts behind you at end yields a death
+	15. why do you have a kill/death in both pacman and ghost? should only need one
+	
+	16. ghosts constantly cover each other, play leapfrog
+		-in pacman, the proper points wouldn't return once someone eats a ghost
+		
+	17. error in ReleaseGhosts()
+	
+	18. isvulnerable shouldn't be static
+	
 	
 	ADDITIONS LIST
 	-make a third map
