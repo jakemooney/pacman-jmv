@@ -132,6 +132,8 @@ public class PacMan extends Actor{
 			}	
 		}
 		
+		//15, 8 wtf
+		
 		//moveTo(loc);
 		
 		/**
