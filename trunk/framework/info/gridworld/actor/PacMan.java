@@ -1,5 +1,4 @@
 package info.gridworld.actor;
-
 import info.gridworld.grid.Location;
 import info.gridworld.world.PacWorld;
 
@@ -71,10 +70,11 @@ public class PacMan extends Actor{
 			setDirection(pendingDir);
 		}
 		
-		
-		//Deal with the teleports
+		//Important stuff
 		int dir = getDirection();
 		Location loc = getLocation().getAdjacentLocation(dir);	
+		
+		//Deal with the teleports
 		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
 				int cols = getGrid().getNumCols();
 				if (loc.getCol() == -1)
@@ -82,7 +82,6 @@ public class PacMan extends Actor{
 				else
 					loc =  new Location(loc.getRow(), 0);
 		}
-		
 		
 		count++;	//Right place???
 		if (count >= 30){
@@ -103,9 +102,15 @@ public class PacMan extends Actor{
 				a.removeSelfFromGrid();
 				count = 0;
 				Ghost.setVulnerable(true);
+				Chomp();//???
 			}
 			else if (a instanceof Pellet){
 				points += 10;
+				a.removeSelfFromGrid();
+				Chomp();
+			}
+			else if (a instanceof Fruit){
+				points += ((Fruit) a).getPoints();
 				a.removeSelfFromGrid();
 			}
 			else if (a instanceof Ghost && Ghost.isvulnerable()){
@@ -184,6 +189,11 @@ public class PacMan extends Actor{
 	}
 	public static int getCurrentPoints(){
 		return points-currentpoints;
+	}
+	
+	//Sound stuff??
+	public void Chomp(){
+		new AePlayWave("pacman_chomp.wav").start();
 	}
 	
 }
