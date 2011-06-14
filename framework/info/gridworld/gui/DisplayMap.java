@@ -148,6 +148,9 @@ public class DisplayMap
             AffineTransform savedTransform = g2.getTransform(); // save current
             displayObj.draw(null, comp, g2, new Rectangle(x, y, getIconWidth(),
                     getIconHeight()));
+            
+
+           
             g2.setTransform(savedTransform); // restore coordinate system
         }
     }
