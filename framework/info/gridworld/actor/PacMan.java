@@ -121,7 +121,7 @@ public class PacMan extends Actor{
 					points += ((Fruit)((Ghost)a).getCovered()).getPoints();
 				}
 				points += 200;
-				a.removeSelfFromGrid();
+				((Ghost)a).resetGhost();
 				((Ghost)a).setCovered(null);
 			}
 			else if (a instanceof Ghost){
