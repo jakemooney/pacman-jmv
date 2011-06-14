@@ -299,19 +299,19 @@ public class Ghost extends Critter{
 		// }
 		 //if (this.getLocation().getRow() <= getGrid().getNumRows()/2)
 			// done = true;
-		 if (this.getType() == 1 && !done && getGrid().get(loc) == null){
+		 if (this.getType() == 1 && !done && getGrid().get(loc) == null && count>=8){
 			 moveTo(loc);
 			 done = true;
 		 }
-		 else if (this.getType() == 2 && !done && getGrid().get(loc) == null){
+		 else if (this.getType() == 2 && !done && getGrid().get(loc) == null && count>=8){
 			 moveTo(loc);
 			 done = true;
 		 }
-		 else if (PacMan.getCurrentPoints() >= 300 && this.getType() == 3 && !done && getGrid().get(loc) == null){
+		 else if (PacMan.getCurrentPoints() >= 300 && this.getType() == 3 && !done && getGrid().get(loc) == null && count>=8){
 			 moveTo(loc);
 			 done=true;
 		 }
-		 else if (PacMan.getCurrentPoints() >= 400 && this.getType() == 4 && !done && getGrid().get(loc) == null){
+		 else if (PacMan.getCurrentPoints() >= 400 && this.getType() == 4 && !done && getGrid().get(loc) == null && count>=8){
 			 moveTo(loc);
 			 done = true;
 		 }

@@ -111,7 +111,7 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		
-		PacWorld pac = new PacWorld(PacWorld.level1());
+		PacWorld pac = new PacWorld(PacWorld.level3());
 		pac.show();
         
 		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????
