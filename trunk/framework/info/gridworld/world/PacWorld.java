@@ -429,13 +429,13 @@ public class PacWorld extends ActorWorld {
         	x = 449; //this is the frame size for level1 that looks best
         	y = 545;
         }
-        else if (level.getGrid().getNumRows() == level2x && (level.getGrid().getNumRows() == level2y)){
+        else if (level.getGrid().getNumRows() == level2x && level.getGrid().getNumCols() == level2y){
         	x = 528; //this is the frame size for level2 that looks best
         	y = 745;
         }
         else{
-        	x = 868;
-        	y = 535;
+        	x = 878;
+        	y = 540;
         }
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		WorldFrame w = new WorldFrame(this);
@@ -468,7 +468,7 @@ public class PacWorld extends ActorWorld {
 		
     	level.placePacMan(level.getPac(), level.getPacManStart());
     	
-    	if (level.getGrid().getNumRows() == level3x)
+    	if (level.getGrid().getNumRows() == level3x && level.getGrid().getNumCols() == level3y)
     		level.placeMsPacMan(new MsPacMan(), msPacLocation());
     	
     	Ghost[] replacements = new Ghost[level.getGhosts().length];
