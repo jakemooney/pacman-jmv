@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import info.gridworld.actor.Actor;
+import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.MsPacMan;
@@ -23,6 +24,8 @@ public class Level<T> {
 	
 	private Location pacManStart;
 	private Location[] ghostsStart;
+	
+	private boolean FruitPlaced;
 	
 	/**
 	 * returns the start location for pacman
@@ -59,6 +62,15 @@ public class Level<T> {
 		return pac;
 	}
 	
+	//@author vivek
+	//best way?????
+	public boolean PlacedFruit(){
+		return FruitPlaced;
+	}
+	public void PlaceFruit(){
+		FruitPlaced = true;
+	}
+	
 	public static void setPac(PacMan pac){
 		Level.pac = pac;
 	}
@@ -69,7 +81,7 @@ public class Level<T> {
 	public static boolean won(){
 		for (int x = 0; x < g.getNumRows(); x++){
 			for (int y = 0; y < g.getNumCols(); y++)
-				if (g.get(new Location(x, y)) instanceof Pellet)
+				if (g.get(new Location(x, y)) instanceof Pellet || g.get(new Location(x, y)) instanceof Fruit)	//Consider pellets and fruits
 					return false;
 		}		
 		for (Ghost g : getGhosts()){
@@ -213,6 +225,13 @@ public class Level<T> {
 					}
 				}
 			}
+			
+			
+			
+			//@author vivek				For Fruit??????
+			//public void 
+			
+			
 			
 			//--------------------------------------------------------------------------
 			//goodies!
