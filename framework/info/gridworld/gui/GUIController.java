@@ -18,6 +18,8 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.Cherry;
+import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.PacMan;
 import info.gridworld.actor.PacManClosed;
@@ -145,6 +147,29 @@ public class GUIController<T>
     public void step()
     {    
     	GridPanel.c++;
+    	
+    	//Place the fruit
+    	//@author vivek
+    	if(PacMan.getCurrentPoints()>500 && !PacWorld.getLevel().PlacedFruit()){			//Should be like 1000
+    		Grid g = PacWorld.getLevel().getGrid();
+    		Location fruitplace = new Location(g.getNumRows() / 2 + 2, g.getNumCols() / 2);
+    		if(g.get(fruitplace) == null){	//only do stuff if unoccupied
+    			int cols = PacWorld.getLevel().getGrid().getNumCols();
+    			Fruit fruit;
+    			if(cols==16){ //level 1
+    				fruit = new Cherry();
+    			}
+    			else if(cols == 19){ //level 2
+    				fruit = new Cherry();
+    			}
+    			else{ //level 3
+    				fruit = new Cherry();
+    			}
+    			fruit.putSelfInGrid(g, fruitplace);				//***revisit!!!!
+    			PacWorld.getLevel().PlaceFruit();
+    		}
+    	}
+    	
     	if (PacWorld.isGameOver()){
     		stop();    		    		
     		PacWorld p = new PacWorld(PacWorld.level1());
@@ -172,8 +197,8 @@ public class GUIController<T>
     		}
         	PacWorld p = new PacWorld(PacWorld.nextLevel());
         	if (p == null){
-        		
-        	}
+        		//@author max  =  for end of game
+        		}
             p.show();
             parentFrame.dispose();      
     	}
