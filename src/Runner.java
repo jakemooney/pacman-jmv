@@ -93,7 +93,6 @@ public class Runner {
 	
 	ADDITIONS LIST
 	-make a third map
-	-ghost points increase for each ghost eaten during powerpellet
 	-icons representing lives
 	-ghosts scatter mode
 	-"press enter to start" or something
@@ -111,7 +110,7 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		
-		PacWorld pac = new PacWorld(PacWorld.level3());
+		PacWorld pac = new PacWorld(PacWorld.level2());
 		pac.show();
         
 		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????

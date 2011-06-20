@@ -194,4 +194,7 @@ public class Actor
         return getClass().getName() + "[location=" + location + ",direction="
                 + direction + ",color=" + color + "]";
     }
+    public void setGrid(Grid g){
+    	grid = g;
+    }
 }

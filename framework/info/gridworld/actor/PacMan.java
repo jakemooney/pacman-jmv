@@ -76,7 +76,6 @@ public class PacMan extends Actor{
 		
 		//Deal with the teleports
 		if (loc.getCol() == -1 || loc.getCol() == getGrid().getNumCols()){	
-				int cols = getGrid().getNumCols();
 				if (loc.getCol() == -1)
 					loc =  new Location(loc.getRow(), getGrid().getNumCols() - 1);
 				else
@@ -124,6 +123,20 @@ public class PacMan extends Actor{
 				}
 				else if (((Ghost)a).getCovered() instanceof Fruit){
 					points += ((Fruit)((Ghost)a).getCovered()).getPoints();
+				}
+				else if (((Ghost)a).getCovered() instanceof Ghost){
+					points += 200;
+					Location loc2 = new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
+					 if (getGrid().get(loc2) == null){
+						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), loc2);
+					 }
+					 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()-1)) == null){
+						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()-1));
+					 }
+					 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()+1)) == null){
+						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()+1));
+					 }
+					((Ghost)((Ghost)a).getCovered()).reset();
 				}
 				points += 200;
 				((Ghost)a).resetGhost();
