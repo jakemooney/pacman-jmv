@@ -14,7 +14,7 @@ public class Ghost extends Critter{
 	private static boolean vulnerable;
 	private boolean covered, done;
 	private Actor coveredActor;
-	private Location previousloc, pacloc;
+	private Location previousloc;
 	private int type, count;
 	
 	/**
@@ -70,6 +70,7 @@ public class Ghost extends Critter{
 	
 	@Override
 	public void act(){
+		try{
 		count++;
 		setModeColor();
 		ReleaseGhost();
@@ -84,6 +85,9 @@ public class Ghost extends Critter{
 			MOVE = new Location(getLocation().getRow(), 0);
 		if (MOVE == null || !getGrid().isValid(MOVE))
 			return;
+		if (count%40==0){
+			MOVE = previousloc;
+		}
 		
 		previousloc = getLocation();
 		if (getGrid().get(MOVE) == null){
@@ -126,12 +130,33 @@ public class Ghost extends Critter{
 			}	
 		}
 		else if ((getGrid().get(MOVE) instanceof PacMan) && vulnerable){
+			if(covered){
+				Location loc2 = new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
+				 if (getGrid().get(loc2) == null){
+					 coveredActor.putSelfInGrid(getGrid(), loc2);
+				 }
+				 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()-1)) == null){
+					 coveredActor.putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()-1));
+				 }
+				 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()+1)) == null){
+					 coveredActor.putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()+1));
+				 }
+				 	((Ghost)coveredActor).reset();
+			}
+			PacMan.eatGhost();
 			PacMan.eatGhost();
 			coveredActor = null;
 			resetGhost();
 		}
 		else
 			return;
+		}catch(Exception e){
+			if (getGrid().get(previousloc) == null){
+				Location temp = this.getLocation();
+				moveTo(previousloc);
+				previousloc = temp;
+			}
+		}
 	}
 	
 	public Actor FindPacMan(){
@@ -299,19 +324,19 @@ public class Ghost extends Critter{
 		// }
 		 //if (this.getLocation().getRow() <= getGrid().getNumRows()/2)
 			// done = true;
-		 if (this.getType() == 1 && !done && getGrid().get(loc) == null && count>=8){
+		 if (this.getType() == 1 && !done && getGrid().get(loc) == null && count>=20){
 			 moveTo(loc);
 			 done = true;
 		 }
-		 else if (this.getType() == 2 && !done && getGrid().get(loc) == null && count>=8){
+		 else if (this.getType() == 2 && !done && getGrid().get(loc) == null && count>=20){
 			 moveTo(loc);
 			 done = true;
 		 }
-		 else if (PacMan.getCurrentPoints() >= 300 && this.getType() == 3 && !done && getGrid().get(loc) == null && count>=8){
+		 else if (PacMan.getCurrentPoints() >= 300 && this.getType() == 3 && !done && getGrid().get(loc) == null && count>=20){
 			 moveTo(loc);
 			 done=true;
 		 }
-		 else if (PacMan.getCurrentPoints() >= 400 && this.getType() == 4 && !done && getGrid().get(loc) == null && count>=8){
+		 else if (PacMan.getCurrentPoints() >= 400 && this.getType() == 4 && !done && getGrid().get(loc) == null && count>=20){
 			 moveTo(loc);
 			 done = true;
 		 }
@@ -319,30 +344,25 @@ public class Ghost extends Critter{
 	 public void resetGhost(){
 		 Location loc = new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
 		 if (getGrid().get(loc) == null){
-			previousloc = null;
+			this.reset();
+			moveTo(loc);
+		 }
+		 else if (getGrid().get(new Location(loc.getRow(), loc.getCol()-1)) == null){
+			 this.reset();			 
+			 moveTo(new Location(loc.getRow(), loc.getCol()-1));
+		 }
+		 else if (getGrid().get(new Location(loc.getRow(), loc.getCol()+1)) == null){
+			this.reset();	 
+			moveTo(new Location(loc.getRow(), loc.getCol()+1));
+		 }
+		 
+	 }
+	 public void reset(){
+		 previousloc = null;
 			covered = false;
 			count = 0;
 			done = false;
 			coveredActor = null;
-			moveTo(loc);
-		 }
-		 else if (getGrid().get(new Location(loc.getRow(), loc.getCol()-1)) == null){
-			 previousloc = null;
-				covered = false;
-				count = 0;
-				done = false;
-				coveredActor = null;			 
-				moveTo(new Location(loc.getRow(), loc.getCol()-1));
-		 }
-		 else if (getGrid().get(new Location(loc.getRow(), loc.getCol()+1)) == null){
-			 previousloc = null;
-				covered = false;
-				count = 0;
-				done = false;
-				coveredActor = null;			 
-				moveTo(new Location(loc.getRow(), loc.getCol()+1));
-		 }
-		 
 	 }
 	 public int getType(){
 		 return type;
