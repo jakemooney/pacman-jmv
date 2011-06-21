@@ -1,6 +1,7 @@
 package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
+
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Cherry;
 import info.gridworld.actor.Flower;
@@ -51,11 +52,16 @@ public class PacWorld extends ActorWorld {
     	return level;
     }
     
+    /**
+     * @return level, if reached end of game then return null
+     */
     public static Level nextLevel(){
-    	if (level.getGrid().getNumRows() == level1x)
+    	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y)
     		return level2();
-    	else
+    	else if (level.getGrid().getNumRows() == level2x && level.getGrid().getNumCols() == level2y)
     		return level3();
+    	else 
+    		return null;
     }
     
     private static final int level1x = 15; //these are the grid sizes for each level
@@ -98,15 +104,6 @@ public class PacWorld extends ActorWorld {
     }
     
     //-----------------------------------------------------------------------------
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private static Timer timer;
     
@@ -367,8 +364,6 @@ public class PacWorld extends ActorWorld {
 		level3.getGrid().remove(new Location(1, 15));
 		level3.getGrid().remove(new Location(1, 17));
 		level3.getGrid().remove(new Location(1, 18));
-
-		
 		
 		return level3;
 	}
@@ -376,14 +371,16 @@ public class PacWorld extends ActorWorld {
     /**
      * @param level: the level that the pacworld contains and sends messages to
      */
-    public PacWorld(Level level){   
+    public PacWorld(Level level){  
         super(level.getGrid()); //passes into World the proper grid
+		
         refreshMessage();
         this.level = level; //sets the instance level to the parameter level
         
         level.getPac().setLevel(level); //sets the pacman's level
         for (Ghost ghost : level.getGhosts()) //sets the ghosts' levels
         	ghost.setLevel(level);
+        
     }
     
     public void refreshMessage(){
@@ -460,7 +457,9 @@ public class PacWorld extends ActorWorld {
     public static void restart(){
     	PacMan.updatePoints();
 		try {
-			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have lost a life! You now have " + (PacMan.getLives()) + " left! Press the button below to continue."), "You have died!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
+			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have lost a life! You now have " + 
+					(PacMan.getLives()) + " left! Press the button below to continue."), "You have died!", 2,  
+					new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png")));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -473,9 +472,16 @@ public class PacWorld extends ActorWorld {
     	
     	Ghost[] replacements = new Ghost[level.getGhosts().length];
     	
+    	for (Ghost g : level.getGhosts()){
+    		System.out.println(g.getLocation());
+    	}
     	for (int x = 0; x < replacements.length; x++){
+    		//if (Level.getGhosts()[x].getCovered() != null)
+    		//	Level.getGhosts()[x].getCovered().putSelfInGrid(level.getGrid(), level.getGhosts()[x].getLocation());
     		replacements[x] = new Ghost (level.getGhosts()[x].getColor(), x + 1);
     		replacements[x].setVulnerable(false);
+    		
+    		
     	}
     	
     	level.placeGhosts(replacements, level.getGhostsStart());
@@ -485,21 +491,46 @@ public class PacWorld extends ActorWorld {
     
     /**
      * ends the game
+     * 
      */
     public static void gameOver(){
-    	try {
-        	PacMan.updatePoints();
-			JOptionPane.showMessageDialog(getFrame(), new JLabel("You have " + (PacMan.getLives()) + " lives left! You lose! Your Score: " + PacMan.getPoints()), " Game Over!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
-			level = level1();
-			gameOver = true;
-			for (Ghost g : Level.getGhosts()){
-				g.setVulnerable(false);
-				g.setModeColor();
-				g.setCovered(null);
-			}
-    	} catch (Exception e) {
-			e.printStackTrace();
-		}
+    	PacMan.updatePoints();
+
+    	ArrayList<Location> z = level.getGrid().getOccupiedLocations();
+    	for (Location l : z)
+    		if (!(level.getGrid().get(l) instanceof PacMan || level.getGrid().get(l) instanceof MazeWall))
+    			((Actor) level.getGrid().get(l)).removeSelfFromGrid();
+    	
+    	String s = new String("<HTML>You have " + (PacMan.getLives()) + " lives left!" +
+				" You lose! <br><br> Your Score: " + PacMan.getPoints()) + "<br><br>Would you like to play again?</HTML>";	
+    	
+    	JLabel message = new JLabel(s);
+    	
+    	ImageIcon x = new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png"));
+    	int a = JOptionPane.showConfirmDialog(getFrame(), message, "Game Over!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, x);
+    	
+    	if (a == 1){
+    		System.exit(0);
+    	}
+    	
+    	restartGame();
+    }
+    
+    public static void restartGame(){
+    	Level l = PacWorld.level1();
+
+        
+		
+		PacMan.setDead(false);
+		PacMan.setLives(3);
+		PacMan.setPoints(0);
+		PacWorld.setGameOver(false);
+		
+		getFrame().dispose();
+        PacWorld p = new PacWorld(l);
+		p.refreshMessage();
+		((WorldFrame) getFrame()).getController().stop();
+        p.show();	
     }
     
     private static boolean gameOver = false;
@@ -509,6 +540,32 @@ public class PacWorld extends ActorWorld {
     
     public static void setGameOver(boolean b){
     	gameOver = b;
+    }
+    
+    private static boolean gameWon = false;
+    
+    public static void gameWon(){
+    	String s = new String("<HTML>You have saved Lady PacMan from the evil ghosts! <br><br>Your Score: " + PacMan.getPoints()) + "<br><br>Would you like to play again?</HTML>";	
+    	
+    	JLabel message = new JLabel(s);
+    	
+    	ImageIcon x = new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png"));
+    	int a = JOptionPane.showConfirmDialog(getFrame(), message, "You won!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, x);
+    	
+    	if (a == 1){
+    		System.exit(0);
+    	}
+    	else{
+    		restartGame();
+    	}
+    }
+    
+    public static boolean isGameWon(){
+    	return gameWon;
+    }
+    
+    public static void setGameWon(boolean g){
+    	gameWon = g;
     }
     
 }

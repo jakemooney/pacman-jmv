@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import info.gridworld.actor.Actor;
-import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
+import info.gridworld.actor.Heart;
 import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
@@ -18,14 +18,13 @@ import info.gridworld.grid.Location;
 
 public class Level<T> {
 	
-	private static Grid g;
-	private static PacMan pac;
-	private static Ghost[] ghosts;
+	private static Grid g; //the grid
+	private static PacMan pac; //the pacman
+	private static Ghost[] ghosts; //the ghosts
 	
-	private Location pacManStart;
-	private Location[] ghostsStart;
-	
-	private boolean FruitPlaced;
+	private Location pacManStart; //the pacman's starting location
+	private Location[] ghostsStart; //the ghosts starting locations
+	private static MsPacMan mspac; //ms pac man
 	
 	/**
 	 * returns the start location for pacman
@@ -44,7 +43,7 @@ public class Level<T> {
 	/**
 	 * returns the grid of the level
 	 */
-	public Grid<T> getGrid(){
+	public static Grid getGrid(){
 		return g;
 	}
 	
@@ -62,31 +61,23 @@ public class Level<T> {
 		return pac;
 	}
 	
-	//@author vivek
-	//best way?????
-	public boolean PlacedFruit(){
-		return FruitPlaced;
-	}
-	public void PlaceFruit(){
-		FruitPlaced = true;
-	}
-	
 	public static void setPac(PacMan pac){
 		Level.pac = pac;
 	}
 	
 	/**
 	 * @return if the level has been won yet
+	 * 
+	 * by won we mean if there are pellets left on the level
 	 */
 	public static boolean won(){
-		for (int x = 0; x < g.getNumRows(); x++){
+		for (int x = 1; x < g.getNumRows(); x++){
 			for (int y = 0; y < g.getNumCols(); y++)
-				if (g.get(new Location(x, y)) instanceof Pellet || g.get(new Location(x, y)) instanceof Fruit)	//Consider pellets and fruits
+				if (g.get(new Location(x, y)) instanceof Pellet)
 					return false;
 		}		
 		for (Ghost g : getGhosts()){
 			if (g.getCovered() instanceof Pellet){
-				System.out.println("the guilty ghost: " + g.getType());
 				return false;
 			}
 		}
@@ -115,6 +106,8 @@ public class Level<T> {
 		placeGhosts(ghosts, ghostLocs);
 		placePacMan(pac, pacLocation);
 		placePellets(powerPelletLocs);
+		
+		mspac = null;
 	}	
 		
 			/**
@@ -178,7 +171,7 @@ public class Level<T> {
 			}
 			
 			/**
-			 * fills all spaces except teleport spaces with pellets
+			 * fills all spaces with pellets
 			 */
 			private void fillWithPellets(ArrayList<Location> powerPelletLocs){
 		    	for (int x = 0; x < g.getNumRows(); x++){
@@ -226,21 +219,32 @@ public class Level<T> {
 				}
 			}
 			
-			
-			
-			//@author vivek				For Fruit??????
-			//public void 
-			
-			
-			
 			//--------------------------------------------------------------------------
 			//goodies!
 
-			public void placeMsPacMan(MsPacMan mspac, Location location) {
+			public static void placeMsPacMan(MsPacMan ms, Location location) {
+				mspac = ms;
 				if (mspac.getGrid() == null){
 					mspac.putSelfInGrid((Grid<Actor>) g, location);
 				}
 				else
 					mspac.moveTo(location);
+			}
+
+			//returns mspac
+			public static MsPacMan getMsPac() {
+				return mspac;
+			}
+			
+			//fills the map with hearts
+			public void fillWithHearts() {
+				for (int x = 0; x < g.getNumRows(); x++){
+		    		for (int y = 0; y < g.getNumCols(); y++){
+		    			Location current = new Location(x, y);
+		    			Heart heart = new Heart();
+		    			if (!(g.get(current) instanceof PacMan || g.get(current) instanceof MsPacMan))
+		    				heart.putSelfInGrid((Grid<Actor>) g, current);
+		    		}
+		    	}
 			}
 }

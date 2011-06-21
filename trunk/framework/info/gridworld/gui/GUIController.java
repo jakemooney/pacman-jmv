@@ -18,9 +18,10 @@
 
 package info.gridworld.gui;
 
-import info.gridworld.actor.Cherry;
-import info.gridworld.actor.Fruit;
+import info.gridworld.actor.Actor;
 import info.gridworld.actor.Ghost;
+import info.gridworld.actor.MazeWall;
+import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
 import info.gridworld.actor.PacManClosed;
 import info.gridworld.actor.PacManMiddle;
@@ -57,7 +58,7 @@ public class GUIController<T>
 {	
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
-    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 320;
+    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 130;
     public static final int INITIAL_DELAY = MIN_DELAY_MSECS
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
@@ -147,31 +148,9 @@ public class GUIController<T>
     public void step()
     {    
     	GridPanel.c++;
-    	
-    	//Place the fruit
-    	//@author vivek
-    	if(PacMan.getCurrentPoints()>500 && !PacWorld.getLevel().PlacedFruit()){			//Should be like 1000
-    		Grid g = PacWorld.getLevel().getGrid();
-    		Location fruitplace = new Location(g.getNumRows() / 2 + 2, g.getNumCols() / 2);
-    		if(g.get(fruitplace) == null){	//only do stuff if unoccupied
-    			int cols = PacWorld.getLevel().getGrid().getNumCols();
-    			Fruit fruit;
-    			if(cols==16){ //level 1
-    				fruit = new Cherry();
-    			}
-    			else if(cols == 19){ //level 2
-    				fruit = new Cherry();
-    			}
-    			else{ //level 3
-    				fruit = new Cherry();
-    			}
-    			fruit.putSelfInGrid(g, fruitplace);				//***revisit!!!!
-    			PacWorld.getLevel().PlaceFruit();
-    		}
-    	}
-    	
     	if (PacWorld.isGameOver()){
-    		stop();    		    		
+    		GridPanel.resetC();
+    		stop();
     		PacWorld p = new PacWorld(PacWorld.level1());
     		
     		PacMan.setDead(false);
@@ -186,28 +165,46 @@ public class GUIController<T>
     	}
     	
     	//@author max: important stuff for leveling.
-    	if (Level.won()){
-    		stop();
+    	if (Level.won() && PacWorld.isGameWon() == false){
     		PacMan.setDead(false);
     		PacWorld.setGameOver(false);
-        	try {
-    			JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level! Press the button below to continue."), "Level Complete: Difficulty Increased", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
-        	} catch (Exception e) {
-    			e.printStackTrace();
-    		}
-        	PacWorld p = new PacWorld(PacWorld.nextLevel());
-        	if (p == null){
-        		//@author max  =  for end of game
+    		
+        	Level l = PacWorld.nextLevel();
+        	
+        	if (l == null){ //if the last level
+        		PacWorld.setGameWon(true);
+        		MsPacMan ms = Level.getMsPac();
+        		ms.moveTo(new Location(1, 16));
+        		ms.setDirection(180);
+        		((Actor) Level.getGrid().get(new Location(2, 16))).removeSelfFromGrid();
+        		PacWorld.setGameWon(true);
+        		for (Ghost g: Level.getGhosts()){ //remove ghosts
+        			if (g.getGrid() != null)
+        				g.removeSelfFromGrid();
         		}
-            p.show();
-            parentFrame.dispose();      
+        	}
+        	else{
+        		GridPanel.resetC();
+        		PacMan.setLives(PacMan.getLives() + 1);
+        		PacWorld pc = new PacWorld(l);
+        		JOptionPane.showMessageDialog(parentFrame, new JLabel("You've completed the level! Press the button below to continue."), "Level Complete: Difficulty Increased", 2,
+            			new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png")));
+        		pc.show();
+                parentFrame.dispose(); 
+                stop();
+        	}    
     	}
     	
     	if (PacMan.isDead()){
+    		PacMan.GetEaten();
+    		GridPanel.resetC();
     		if (PacMan.getLives() > 0){
     			PacWorld.restart();
+    			PacMan.extrapac();
+    			pause(3);
     		}
     		else{
+    			stop();
     			PacWorld.gameOver();
     		}
     	}
@@ -222,7 +219,18 @@ public class GUIController<T>
             addOccupant(gr.get(loc));
     		
     }
-
+    
+    
+    //pauses for three seconds
+    public static void pause(int x) {
+    	try {
+    		Thread.currentThread().sleep(x * 1000);
+    	}
+    	catch (InterruptedException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     private void addOccupant(T occupant)
     {
         Class cl = occupant.getClass();
