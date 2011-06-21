@@ -3,6 +3,10 @@ package info.gridworld.world;
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.AePlayWave;
+import info.gridworld.actor.AePlayWave;
+import info.gridworld.actor.Cherry;
+import info.gridworld.actor.Flower;
+import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
 import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
@@ -389,6 +393,13 @@ public class PacWorld extends ActorWorld {
      * indicate that the World has processed the key press. 
      */
     public boolean keyPressed(String description, Location loc){
+    	if (description.equals("SPACE")){
+    		GUIController g = ((WorldFrame) getFrame()).getController();
+    		if (g.isRunning())
+    			g.stop();
+    		else
+    			g.run();
+    	}
         if (description.equals("UP"))
         	level.getPac().setPendingDirection(Location.NORTH);
         if (description.equals("RIGHT"))
@@ -433,7 +444,7 @@ public class PacWorld extends ActorWorld {
 
         	ImageIcon z = new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png"));
 
-    		JLabel welcome = new JLabel("<HTML>Oh no! Ms. PacMan has been kidnapped by evil ghosts!<br><br>Use the arrow keys to navigate PacMan to avoid the ghosts. <br><br>Get points by eating pellets. <br><br>Eating a flashing Power Pellet will allow you to temporarily eat ghosts.<br><br>Are you ready?</HTML>");
+    		JLabel welcome = new JLabel("<HTML>Oh no! Ms. PacMan has been kidnapped by evil ghosts!<br><br>Use the arrow keys to navigate PacMan to avoid the ghosts. <br><br>Press SPACEBAR to pause. <br><br>Eat all the pellets to continue to the next level. <br><br>Eating a flashing Power Pellet will allow you to temporarily eat ghosts.<br><br>Are you ready?</HTML>");
     		int a = JOptionPane.showConfirmDialog(getFrame(), welcome, "Instructions", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, z);
 
     		if (a == 1){
@@ -499,6 +510,7 @@ public class PacWorld extends ActorWorld {
      */
     public static void gameOver(){
     	PacMan.updatePoints();
+		new AePlayWave("pacman_intermission.wav").start();
     	
     	String s = new String("<HTML>You have " + (PacMan.getLives()) + " lives left!" +
 				" You lose! <br><br> Your Score: " + PacMan.getPoints()) + "<br><br>Would you like to play again?</HTML>";	
