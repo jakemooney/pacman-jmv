@@ -18,14 +18,21 @@
 
 package info.gridworld.gui;
 
+import info.gridworld.actor.Apple;
+import info.gridworld.actor.Cherry;
+import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Actor;
+import info.gridworld.actor.Galaxian;
 import info.gridworld.actor.Ghost;
+import info.gridworld.actor.Melon;
+import info.gridworld.actor.Orange;
 import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
 import info.gridworld.actor.PacManClosed;
 import info.gridworld.actor.PacManMiddle;
 import info.gridworld.actor.PacManOpen;
+import info.gridworld.actor.Strawberry;
 import info.gridworld.grid.*;
 import info.gridworld.world.PacWorld;
 import info.gridworld.world.World;
@@ -148,6 +155,39 @@ public class GUIController<T>
     public void step()
     {    
     	GridPanel.c++;
+    	
+    	//Place the fruit
+    	//@author vivek
+    	boolean secondFruit = PacMan.getCurrentPoints()>2000 && !PacWorld.getLevel().PlacedFruit2();
+    	boolean firstFruit = PacMan.getCurrentPoints()>1000 && !PacWorld.getLevel().PlacedFruit1();		//Should be like 1000
+    	Grid g = PacWorld.getLevel().getGrid();
+    	Location fruitplace = new Location(g.getNumRows() / 2 + 2, g.getNumCols() / 2);
+    	if(g.get(fruitplace) == null){							//only do stuff if unoccupied
+    		int cols = PacWorld.getLevel().getGrid().getNumCols();
+    		Fruit fruit1;
+    		Fruit fruit2;
+    		if(cols==16){ //level 1
+    			fruit1 = new Cherry();
+    			fruit2 = new Apple();
+    		}
+    		else if(cols == 19){ //level 2
+    			fruit1 = new Strawberry();
+    			fruit2 = new Orange();
+    		}
+    		else{ //level 3
+    			fruit1 = new Melon();
+    			fruit2 = new Galaxian();
+    		}
+    		if(secondFruit){
+    			fruit2.putSelfInGrid(g, fruitplace);
+    			PacWorld.getLevel().PlaceFruit(2);
+    		}
+    		else if(firstFruit){
+    			fruit1.putSelfInGrid(g, fruitplace);
+    			PacWorld.getLevel().PlaceFruit(1);
+    		}
+   		}
+    
     	if (PacWorld.isGameOver()){
     		GridPanel.resetC();
     		stop();

@@ -61,7 +61,7 @@ public class Runner {
 			
 	XXXXXXXXXXXXXX6. ghosts occassionally (?) leave behind a pellet
 			
-	XXXXXXXXXXXXXXXXXXX9. gaming continues even after x-ings out //APPARENTLY NOT?!?!?!	
+	XXXXXXXXXXXXXXXXXXX9. gaming continues even after x-ings out!!!
 		
 	xxxxxxxxxxxxxxxx12. two ghosts behind you at end yields a death?
 					
@@ -71,7 +71,7 @@ public class Runner {
 		-needs to setCoveredActor to null when it moves into an empty spot. can't just keep it like that
 		-needs to setCoveredActor to null when it moves it into the center.
 	
-	14. removes a pellet when you die on level2? bottom left corner
+	14. ghost removes a pellet when you die (When: you die, but it leaves pellet covered)
 	
 	15. why do you have a kill/death in both pacman and ghost? should only need one
 	
@@ -81,6 +81,10 @@ public class Runner {
 	17. error in ReleaseGhosts()
 	
 	18. isvulnerable shouldn't be static
+	
+	19. The ghost that killed me in a certain space randomly jumped two spaces above, into ms.pac's cell!
+	
+	20. SOMETIMES THE SOUND DOESNT PLAY for death
 	
 	
 	ADDITIONS LIST
@@ -104,8 +108,6 @@ public class Runner {
 		
 		PacWorld pac = new PacWorld(PacWorld.level1());
 		pac.show();
-        
-		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????
-		//intro.play();
+        new AePlayWave("pacman_beginning.wav").start(); //IS THIS THE APPROPRIATE PLACE FOR THIS?????
 	}
 }

@@ -147,7 +147,7 @@ public class GridPanel extends JPanel implements Scrollable,
      * @param obj the Locatable object to draw
      */
     
-    public static int c = 0;
+    public static int c = 0;		//@author max
 	public static void resetC() { c = 0; }
 
 	
