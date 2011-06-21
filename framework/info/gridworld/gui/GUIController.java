@@ -65,7 +65,7 @@ public class GUIController<T>
 {	
     public static final int INDEFINITE = 0, FIXED_STEPS = 1, PROMPT_STEPS = 2;
 
-    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 130;
+    private static final int MIN_DELAY_MSECS = 20, MAX_DELAY_MSECS = 260;
     public static final int INITIAL_DELAY = MIN_DELAY_MSECS
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 

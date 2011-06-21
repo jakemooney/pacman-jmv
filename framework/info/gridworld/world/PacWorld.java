@@ -495,24 +495,8 @@ public class PacWorld extends ActorWorld {
      * 
      */
     public static void gameOver(){
-    
-    	/* try {
-        	PacMan.updatePoints();
-        	JOptionPane.showMessageDialog(getFrame(), new JLabel("You have " + (PacMan.getLives()) + " lives left! You lose! Your Score: " + PacMan.getPoints()), " Game Over!", 2, new ImageIcon(new URL("http://www.androidrundown.com/images/amarket/namco/pacman/ce/icon.png")));
-			level = level1();
-			gameOver = true;
-			for (Ghost g : Level.getGhosts()){
-				g.setVulnerable(false);
-				g.setModeColor();
-				g.setCovered(null);
-			}
-    	} catch (Exception e) {
-			e.printStackTrace();
-		}
-*/
-
     	PacMan.updatePoints();
-		new AePlayWave("pacman_intermission.wav").start();	//HERE???
+		new AePlayWave("pacman_intermission.wav").start();
     	ArrayList<Location> z = level.getGrid().getOccupiedLocations();
     	for (Location l : z)
     		if (!(level.getGrid().get(l) instanceof PacMan || level.getGrid().get(l) instanceof MazeWall))

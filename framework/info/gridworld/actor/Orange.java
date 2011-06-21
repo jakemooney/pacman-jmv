@@ -4,7 +4,6 @@ public class Orange extends Fruit{
 
 	public Orange(){
 		super(400);
-		//setColor(Color.TRANSLUCENT);					???????
 	}
 	
 	
