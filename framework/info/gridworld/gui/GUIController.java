@@ -160,9 +160,9 @@ public class GUIController<T>
     	//@author vivek
     	boolean secondFruit = PacMan.getCurrentPoints()>2000 && !PacWorld.getLevel().PlacedFruit2();
     	boolean firstFruit = PacMan.getCurrentPoints()>1000 && !PacWorld.getLevel().PlacedFruit1();		//Should be like 1000
-    	Grid g = PacWorld.getLevel().getGrid();
-    	Location fruitplace = new Location(g.getNumRows() / 2 + 2, g.getNumCols() / 2);
-    	if(g.get(fruitplace) == null){							//only do stuff if unoccupied
+    	Grid grd = PacWorld.getLevel().getGrid();
+    	Location fruitplace = new Location(grd.getNumRows() / 2 + 2, grd.getNumCols() / 2);
+    	if(grd.get(fruitplace) == null){							//only do stuff if unoccupied
     		int cols = PacWorld.getLevel().getGrid().getNumCols();
     		Fruit fruit1;
     		Fruit fruit2;
@@ -179,11 +179,11 @@ public class GUIController<T>
     			fruit2 = new Galaxian();
     		}
     		if(secondFruit){
-    			fruit2.putSelfInGrid(g, fruitplace);
+    			fruit2.putSelfInGrid(grd, fruitplace);
     			PacWorld.getLevel().PlaceFruit(2);
     		}
     		else if(firstFruit){
-    			fruit1.putSelfInGrid(g, fruitplace);
+    			fruit1.putSelfInGrid(grd, fruitplace);
     			PacWorld.getLevel().PlaceFruit(1);
     		}
    		}
