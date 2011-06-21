@@ -82,7 +82,7 @@ public class PacMan extends Actor{
 					loc =  new Location(loc.getRow(), 0);
 		}
 		
-		count++;	//Right place???
+		count++;	
 		if (count >= 30){
 			Ghost.setVulnerable(false);
 		}
@@ -111,6 +111,7 @@ public class PacMan extends Actor{
 			else if (a instanceof Fruit){
 				points += ((Fruit) a).getPoints();
 				a.removeSelfFromGrid();
+				EatFruit();
 			}
 			else if (a instanceof Ghost && Ghost.isvulnerable()){
 				if (((Ghost)a).getCovered() instanceof PowerPellet1 || ((Ghost)a).getCovered() instanceof PowerPellet2){
@@ -139,21 +140,20 @@ public class PacMan extends Actor{
 					((Ghost)((Ghost)a).getCovered()).reset();
 				}
 				points += 200;
+				EatGhost();
 				((Ghost)a).resetGhost();
 				((Ghost)a).setCovered(null);
 			}
 			else if (a instanceof Ghost){
 				dead = true;
 				lives--;
+				//Not here??  ---   GetEaten();
 				removeSelfFromGrid();
 				return;
 			}	
 		}
 		
-		//15, 8 wtf
-		
-		//moveTo(loc);
-		
+		//REVISIT!!!!!!!!!!
 		/**
 		PacMan p;
 		if (c % 4 == 0){
@@ -184,6 +184,7 @@ public class PacMan extends Actor{
 	
 	public static void kill(){
 		lives--;
+		GetEaten();			//Here????
 		setDead(true);
 	}
 	
@@ -204,9 +205,19 @@ public class PacMan extends Actor{
 		return points-currentpoints;
 	}
 	
-	//Sound stuff??
+	//SOUND STUFF//
+	
 	public void Chomp(){
 		new AePlayWave("pacman_chomp.wav").start();
 	}
-	
+	public void EatFruit(){
+		new AePlayWave("pacman_eatfruit.wav").start();
+	}
+	public void EatGhost(){
+		new AePlayWave("pacman_eatghost.wav").start();
+	}
+	public static void GetEaten(){
+		new AePlayWave("pacman_death.wav").start();
+	}
+
 }
