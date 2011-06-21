@@ -55,22 +55,14 @@ public class Runner {
 	
 	/**
 	 * BUG LIST
-
-	1. try to make it so that ghosts do not vanish once eaten
 	
-	XXXXXXXXXXX2. "updatePoints()" when there's a change in level or death //think it works
 	
 	XXXXXXX3. "actor already contained in a grid" error when ghosts are moving over another actor //occassionally get
-		
-	XXXXXXXXXXXXXXXX5. allow the pacman's eating to be seen (ie checkmate mode right now)
-	
+			
 	XXXXXXXXXXXXXX6. ghosts occassionally (?) leave behind a pellet
 			
 	XXXXXXXXXXXXXXXXXXX9. gaming continues even after x-ings out //APPARENTLY NOT?!?!?!	
-	
-	xxxxxxxxxxxxxxxxx11. REPAINT AT END SOMTIEMS NOT WORK
-						-have yet to see this
-	
+		
 	xxxxxxxxxxxxxxxx12. two ghosts behind you at end yields a death?
 					
 						-have yet to see this
@@ -110,7 +102,7 @@ public class Runner {
 	
 	public static void main(String[] args) {
 		
-		PacWorld pac = new PacWorld(PacWorld.level2());
+		PacWorld pac = new PacWorld(PacWorld.level1());
 		pac.show();
         
 		//Sound intro = new Sound("//E:/VG/Grade 11/AP Java/Programs/PacMan/src/pacman_intro.wav"); //?????
