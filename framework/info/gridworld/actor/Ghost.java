@@ -42,6 +42,10 @@ public class Ghost extends Critter{
 		return previousloc.getDirectionToward(getLocation());
 	}
 	
+	public Location getPreviousLocation(){
+		return previousloc;
+	}
+	
 	//---------------------------------------------------------------------------------
 	
 	public Ghost(Color c, int type){
