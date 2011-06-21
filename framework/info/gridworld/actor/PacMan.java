@@ -55,7 +55,6 @@ public class PacMan extends Actor{
 	
 	public PacMan(){
 		count = 31;
-		setColor(Color.YELLOW);
 		pendingDir = 90;
 		blocked = false; //@author max
 	}
@@ -107,6 +106,13 @@ public class PacMan extends Actor{
 				points += 10;
 				a.removeSelfFromGrid();
 				Chomp();
+			}
+			else if (a instanceof MsPacMan){
+				level.fillWithHearts();
+				PacWorld.getFrame().repaint();
+				blocked = true; //doubt this is needed but w/e
+				PacWorld.gameWon();
+				PacWorld.setGameWon(false); //the game has ended after this. back to the beginning
 			}
 			else if (a instanceof Fruit){
 				points += ((Fruit) a).getPoints();
@@ -219,5 +225,8 @@ public class PacMan extends Actor{
 	public static void GetEaten(){
 		new AePlayWave("pacman_death.wav").start();
 	}
-
+	
+	public static void extrapac(){
+		new AePlayWave("pacman_extrapac.wav").start();
+	}
 }

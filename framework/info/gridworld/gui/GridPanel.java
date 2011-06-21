@@ -40,6 +40,7 @@ import info.gridworld.actor.PacManMiddle;
 import info.gridworld.actor.PacManOpen;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
+import info.gridworld.world.PacWorld;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -147,7 +148,9 @@ public class GridPanel extends JPanel implements Scrollable,
      */
     
     public static int c = 0;
-    
+	public static void resetC() { c = 0; }
+
+	
     private Object previousToDraw; //@author max
     
     private void drawOccupant(Graphics2D g2, int xleft, int ytop, Object obj)
@@ -221,19 +224,24 @@ public class GridPanel extends JPanel implements Scrollable,
             	}
             }
             
-            /**
+            
             if (obj.getClass().equals(MsPacMan.class)){
         		int dir = ((MsPacMan)obj).getDirection();
-            	if (c % 4 == 0)
+            	if (PacWorld.isGameWon() == false){
+	            	if (c % 4 == 0)
+	            		toDraw = new MsPacManMiddle(dir);
+	            	else if (c % 4 == 1)
+	            		toDraw = new MsPacManOpen(dir);
+	            	else if (c % 4 == 2)
+	            		toDraw = new MsPacManMiddle(dir);
+	            	else
+	            		toDraw = new MsPacManClosed(dir);
+	            }
+            	else{
             		toDraw = new MsPacManMiddle(dir);
-            	else if (c % 4 == 1)
-            		toDraw = new MsPacManOpen(dir);
-            	else if (c % 4 == 2)
-            		toDraw = new MsPacManMiddle(dir);
-            	else
-            		toDraw = new MsPacManClosed(dir);
+            	}
             }
-            */
+            
             
             
             Display displayObj = displayMap.findDisplayFor(toDraw.getClass());
