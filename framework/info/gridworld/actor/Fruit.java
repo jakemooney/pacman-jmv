@@ -1,29 +1,26 @@
 package info.gridworld.actor;
 
-//Vivek G - 5/21/11 - My attempt at making fruit
-
 /*
  * Notes:
- * -Fruit only appears under the cages of the ghosts
- * -this only ????
  * 
- * -Cherry, Strawberry, Orange, Apple, Melon, Galaxian, Bell, Key
+ * Fruit only appears under the cages of the ghosts
+ * Fruits: Cherry, Apple, Strawberry, Orange, Melon, Galaxian
+ * Read more: http://wiki.answers.com/Q/What_are_all_of_the_fruits_in_pac_man#ixzz1NYIEoPEW
  * 
  * 
-
-Read more: http://wiki.answers.com/Q/What_are_all_of_the_fruits_in_pac_man#ixzz1NYIEoPEW
-
- * -Fruit pops up 
+ * 
+ * reset fruitplaced for level!!!!!!!!!!!!!!
  * 
  */
 
-public abstract class Fruit extends Actor{			//Abstract?
+public abstract class Fruit extends Actor{			//Abstract
 
 	private int points;
 	private int counter;				//??? counter for point value to be displayed
 	
 	public Fruit(int pts){
 		points = pts;
+		counter = 60;				//default counter
 	}
 	
 	//returns the points
@@ -31,5 +28,14 @@ public abstract class Fruit extends Actor{			//Abstract?
 		return points;
 	}
 	
+	//"ages" the fruit
+	public void act(){
+		counter--;
+		if(counter == 0){
+			removeSelfFromGrid();
+		}
+		//super.act();???????????????
+	}
 	
+
 }

@@ -96,5 +96,28 @@ public class AePlayWave extends Thread {
             auline.close();
         } 
  
-    } 
+    }
+    
+    
+    //?????
+   @Override
+public synchronized void start() {
+	// TODO Auto-generated method stub
+	if(AePlayWave.interrupted()){
+		System.out.print("ADS");
+	}
+	super.start();
+}
+    
+    
+    
+    
+    
+    
+    
+    
 } 
+
+
+
+

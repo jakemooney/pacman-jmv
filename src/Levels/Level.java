@@ -26,6 +26,9 @@ public class Level<T> {
 	private Location[] ghostsStart; //the ghosts starting locations
 	private static MsPacMan mspac; //ms pac man
 	
+	private boolean FruitPlaced1;
+	private boolean FruitPlaced2;
+	
 	/**
 	 * returns the start location for pacman
 	 */
@@ -61,6 +64,21 @@ public class Level<T> {
 		return pac;
 	}
 	
+	//@author vivek
+	//Fruit-related methods
+	public boolean PlacedFruit1(){
+		return FruitPlaced1;
+	}
+	public boolean PlacedFruit2(){
+		return FruitPlaced2;
+	}
+	public void PlaceFruit(int num){
+		if(num==1){
+			FruitPlaced1 = true;
+		}else{
+			FruitPlaced2 = true;
+		}
+	}
 	public static void setPac(PacMan pac){
 		Level.pac = pac;
 	}
@@ -73,7 +91,7 @@ public class Level<T> {
 	public static boolean won(){
 		for (int x = 1; x < g.getNumRows(); x++){
 			for (int y = 0; y < g.getNumCols(); y++)
-				if (g.get(new Location(x, y)) instanceof Pellet)
+				if (g.get(new Location(x, y)) instanceof Pellet)   //Consider only pellets necessary
 					return false;
 		}		
 		for (Ghost g : getGhosts()){

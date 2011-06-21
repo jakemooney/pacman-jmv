@@ -1,9 +1,9 @@
 package info.gridworld.actor;
 
-public class Cherry extends Fruit{
+public class Melon extends Fruit{
 
-	public Cherry(){
-		super(100);
+	public Melon(){
+		super(500);
 		//setColor(Color.TRANSLUCENT);					???????
 	}
 	
