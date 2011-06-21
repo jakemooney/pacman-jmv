@@ -70,7 +70,7 @@ public class GUIController<T>
             + (MAX_DELAY_MSECS - MIN_DELAY_MSECS) / 2;
 
     private Timer timer;
-    private JButton stepButton, runButton, stopButton;
+    //private JButton stepButton, runButton, stopButton;
     private JComponent controlPanel;
     private GridPanel display;
     private WorldFrame<T> parentFrame;
@@ -214,7 +214,10 @@ public class GUIController<T>
         	if (l == null){ //if the last level
         		PacWorld.setGameWon(true);
         		MsPacMan ms = Level.getMsPac();
-        		ms.moveTo(new Location(1, 16));
+        		if (ms.getGrid() == null)
+        			ms.putSelfInGrid(Level.getGrid(), new Location(1, 16));
+        		else
+        			ms.moveTo(new Location(1, 16));
         		ms.setDirection(180);
         		((Actor) Level.getGrid().get(new Location(2, 16))).removeSelfFromGrid();
         		PacWorld.setGameWon(true);
@@ -234,8 +237,7 @@ public class GUIController<T>
                 stop();
         	}    
     	}
-    	
-    	if (PacMan.isDead()){
+    	else if (PacMan.isDead()){
     		PacMan.GetEaten();
     		GridPanel.resetC();
     		if (PacMan.getLives() > 0){
@@ -293,9 +295,9 @@ public class GUIController<T>
     {
         display.setToolTipsEnabled(false); // hide tool tips while running
         parentFrame.setRunMenuItemsEnabled(false);
-        stopButton.setEnabled(true);
-        stepButton.setEnabled(false);
-        runButton.setEnabled(false);
+        //stopButton.setEnabled(true);
+        //stepButton.setEnabled(false);
+        //runButton.setEnabled(false);
         numStepsSoFar = 0;
         timer.start();
         running = true;
@@ -306,12 +308,12 @@ public class GUIController<T>
      */
     public void stop()
     {
-        display.setToolTipsEnabled(true); //@author max: disable to disable tooltips
+        display.setToolTipsEnabled(false); //@author max: disable to disable tooltips
         parentFrame.setRunMenuItemsEnabled(false);
         timer.stop();
-        stopButton.setEnabled(false);
-        runButton.setEnabled(true);
-        stepButton.setEnabled(true);
+        //stopButton.setEnabled(false);
+        //runButton.setEnabled(true);
+        //stepButton.setEnabled(true);
         running = false;
     }
 
@@ -326,6 +328,7 @@ public class GUIController<T>
      */
     private void makeControls()
     {
+    	/*
         controlPanel = new JPanel();
         stepButton = new JButton(resources.getString("button.gui.step"));
         runButton = new JButton(resources.getString("button.gui.run"));
@@ -347,8 +350,7 @@ public class GUIController<T>
         stepButton.setEnabled(false);
         stopButton.setEnabled(false);
 
-        /**controlPanel.add(Box.createRigidArea(spacer));
-         * @author max: remove slider 
+        controlPanel.add(Box.createRigidArea(spacer));
         controlPanel.add(new JLabel(resources.getString("slider.gui.slow")));
         JSlider speedSlider = new JSlider(MIN_DELAY_MSECS, MAX_DELAY_MSECS,
                 INITIAL_DELAY);
@@ -356,21 +358,21 @@ public class GUIController<T>
         speedSlider.setPreferredSize(new Dimension(100, speedSlider
                 .getPreferredSize().height));
         speedSlider.setMaximumSize(speedSlider.getPreferredSize());
-        */
+        
 
-        // remove control PAGE_UP, PAGE_DOWN from slider--they should be used
+        //remove control PAGE_UP, PAGE_DOWN from slider--they should be used
         // for zoom
-        /*InputMap map = speedSlider.getInputMap();
+        InputMap map = speedSlider.getInputMap();
         while (map != null)
         {
             map.remove(KeyStroke.getKeyStroke("control PAGE_UP"));
             map.remove(KeyStroke.getKeyStroke("control PAGE_DOWN"));
             map = map.getParent();
-        }*/
+        }
 
-        //controlPanel.add(speedSlider); @author max: remove slider
-        //controlPanel.add(new JLabel(resources.getString("slider.gui.fast"))); @author max: remove slider
-        //controlPanel.add(Box.createRigidArea(new Dimension(5, 0))); @author max: remove slider
+        controlPanel.add(speedSlider); @author max: remove slider
+        controlPanel.add(new JLabel(resources.getString("slider.gui.fast"))); @author max: remove slider
+        controlPanel.add(Box.createRigidArea(new Dimension(5, 0))); @author max: remove slider
 
         
         
@@ -401,9 +403,6 @@ public class GUIController<T>
             }
         });
         
-        /**
-         * @author max: remove slider
-         * 
         speedSlider.addChangeListener(new ChangeListener()
         {
             public void stateChanged(ChangeEvent evt)
@@ -412,6 +411,7 @@ public class GUIController<T>
             }
         });
         */ 
+
     }
 
     /**
@@ -432,11 +432,13 @@ public class GUIController<T>
      */
     private void locationClicked()
     {
+    	/*
         World<T> world = parentFrame.getWorld();
         Location loc = display.getCurrentLocation();
         if (loc != null && !world.locationClicked(loc))
             editLocation();
         parentFrame.repaint();
+        */
         
     }
     
@@ -450,7 +452,7 @@ public class GUIController<T>
 
     public void editLocation()
     {
-    	  
+    	 /* 
         World<T> world = parentFrame.getWorld();
 
         Location loc = display.getCurrentLocation();
@@ -476,7 +478,7 @@ public class GUIController<T>
             }
         }
         parentFrame.repaint();
-        
+        */
     }
 
     /**

@@ -1,33 +1,16 @@
 package info.gridworld.world;
 
 import info.gridworld.actor.Actor;
-
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.AePlayWave;
-import info.gridworld.actor.Cherry;
-import info.gridworld.actor.Flower;
-import info.gridworld.actor.Fruit;
 import info.gridworld.actor.Ghost;
-import info.gridworld.actor.MazeWall;
 import info.gridworld.actor.MsPacMan;
 import info.gridworld.actor.PacMan;
-import info.gridworld.actor.PacManClosed;
-import info.gridworld.actor.PacManMiddle;
-import info.gridworld.actor.Pellet;
-import info.gridworld.actor.PowerPellet1;
-import info.gridworld.actor.Rock;
-import info.gridworld.grid.BoundedGrid;
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.gui.GUIController;
 import info.gridworld.gui.WorldFrame;
 
 import java.awt.Color;
-import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -368,13 +351,16 @@ public class PacWorld extends ActorWorld {
 		
 		return level3;
 	}
-    
+	     
+	 
+	 private static boolean firstTime = true;
+	 
     /**
      * @param level: the level that the pacworld contains and sends messages to
      */
     public PacWorld(Level level){  
         super(level.getGrid()); //passes into World the proper grid
-		
+        
         refreshMessage();
         this.level = level; //sets the instance level to the parameter level
         
@@ -418,28 +404,48 @@ public class PacWorld extends ActorWorld {
      * @override Overridden to set the appropriate size of the window for each level
      */
     public void show()
-    { 
+    {
+    	
     	PacMan.updatePoints();
 		int x, y;
     	
     	//tests if the grid is the same size as the grid for level1
     	if (level.getGrid().getNumRows() == level1x && level.getGrid().getNumCols() == level1y){
         	x = 449; //this is the frame size for level1 that looks best
-        	y = 545;
+        	y = 525;
         }
         else if (level.getGrid().getNumRows() == level2x && level.getGrid().getNumCols() == level2y){
         	x = 528; //this is the frame size for level2 that looks best
-        	y = 745;
+        	y = 725;
         }
         else{
         	x = 878;
-        	y = 540;
+        	y = 520;
         }
     	@SuppressWarnings({ "rawtypes", "unchecked" })
 		WorldFrame w = new WorldFrame(this);
     	w.setSize(x, y);
     	setFrame(w);
-        getFrame().setVisible(true);          
+        getFrame().setVisible(true);
+        
+    	if (firstTime){
+    		new AePlayWave("pacman_beginning.wav").start();
+
+        	ImageIcon z = new ImageIcon(PacWorld.getFrame().getClass().getResource("GridWorld.png"));
+
+    		JLabel welcome = new JLabel("<HTML>Oh no! Ms. PacMan has been kidnapped by evil ghosts!<br><br>Use the arrow keys to navigate PacMan to avoid the ghosts. <br><br>Get points by eating pellets. <br><br>Eating a flashing Power Pellet will allow you to temporarily eat ghosts.<br><br>Are you ready?</HTML>");
+    		int a = JOptionPane.showConfirmDialog(getFrame(), welcome, "Instructions", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, z);
+
+    		if (a == 1){
+        		JOptionPane.showMessageDialog(getFrame(), "You're ready.", "Shut up.", 2, z);
+    		}
+    		
+    		firstTime = false;
+        }
+    	
+    	PacMan.extrapac(); //sound
+    	GUIController.pause(3);
+    	((WorldFrame) getFrame()).getController().run();
     }
     
     /**
@@ -473,12 +479,9 @@ public class PacWorld extends ActorWorld {
     	
     	Ghost[] replacements = new Ghost[level.getGhosts().length];
     	
-    	for (Ghost g : level.getGhosts()){
-    		System.out.println(g.getLocation());
-    	}
     	for (int x = 0; x < replacements.length; x++){
-    		//if (Level.getGhosts()[x].getCovered() != null)
-    		//	Level.getGhosts()[x].getCovered().putSelfInGrid(level.getGrid(), level.getGhosts()[x].getLocation());
+    		if (Level.getGhosts()[x].getCovered() != null)
+    			Level.getGhosts()[x].getCovered().putSelfInGrid(level.getGrid(), level.getGhosts()[x].getPreviousLocation());
     		replacements[x] = new Ghost (level.getGhosts()[x].getColor(), x + 1);
     		replacements[x].setVulnerable(false);
     		
@@ -496,11 +499,6 @@ public class PacWorld extends ActorWorld {
      */
     public static void gameOver(){
     	PacMan.updatePoints();
-		new AePlayWave("pacman_intermission.wav").start();
-    	ArrayList<Location> z = level.getGrid().getOccupiedLocations();
-    	for (Location l : z)
-    		if (!(level.getGrid().get(l) instanceof PacMan || level.getGrid().get(l) instanceof MazeWall))
-    			((Actor) level.getGrid().get(l)).removeSelfFromGrid();
     	
     	String s = new String("<HTML>You have " + (PacMan.getLives()) + " lives left!" +
 				" You lose! <br><br> Your Score: " + PacMan.getPoints()) + "<br><br>Would you like to play again?</HTML>";	
@@ -515,6 +513,7 @@ public class PacWorld extends ActorWorld {
     	}
     	
     	restartGame();
+    	firstTime = true;
     }
     
     public static void restartGame(){

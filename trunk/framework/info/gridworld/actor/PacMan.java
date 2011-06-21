@@ -120,30 +120,33 @@ public class PacMan extends Actor{
 				EatFruit();
 			}
 			else if (a instanceof Ghost && Ghost.isvulnerable()){
-				if (((Ghost)a).getCovered() instanceof PowerPellet1 || ((Ghost)a).getCovered() instanceof PowerPellet2){
-					points += 50;
-					count = 0;
-					Ghost.setVulnerable(true);
-				}
-				else if (((Ghost)a).getCovered() instanceof Pellet){
-					points += 10;
-				}
-				else if (((Ghost)a).getCovered() instanceof Fruit){
-					points += ((Fruit)((Ghost)a).getCovered()).getPoints();
-				}
-				else if (((Ghost)a).getCovered() instanceof Ghost){
-					points += 200;
-					Location loc2 = new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
-					 if (getGrid().get(loc2) == null){
-						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), loc2);
-					 }
-					 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()-1)) == null){
-						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()-1));
-					 }
-					 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()+1)) == null){
-						 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()+1));
-					 }
-					((Ghost)((Ghost)a).getCovered()).reset();
+				if (((Ghost)a).getCovered() != null){
+					if (((Ghost)a).getCovered() instanceof PowerPellet1 || ((Ghost)a).getCovered() instanceof PowerPellet2){
+						points += 50;
+						count = 0;
+						Ghost.setVulnerable(true);
+					}
+					else if (((Ghost)a).getCovered() instanceof Pellet){
+						points += 10;
+					}
+					else if (((Ghost)a).getCovered() instanceof Fruit){
+						points += ((Fruit)((Ghost)a).getCovered()).getPoints();
+					}
+					else if (((Ghost)a).getCovered() instanceof Ghost){
+						points += 200;
+						Location loc2 = new Location(getGrid().getNumRows()/2, getGrid().getNumCols()/2);
+						 if (getGrid().get(loc2) == null){
+							 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), loc2);
+						 }
+						 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()-1)) == null){
+							 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()-1));
+						 }
+						 else if (getGrid().get(new Location(loc2.getRow(), loc2.getCol()+1)) == null){
+							 ((Ghost)((Ghost)a).getCovered()).putSelfInGrid(getGrid(), new Location(loc2.getRow(), loc2.getCol()+1));
+						 }
+						((Ghost)((Ghost)a).getCovered()).reset();
+					}
+					((Ghost)a).setCovered(null);
 				}
 				points += 200;
 				EatGhost();
@@ -214,7 +217,7 @@ public class PacMan extends Actor{
 	//SOUND STUFF//
 	
 	public void Chomp(){
-		new AePlayWave("pacman_chomp.wav").start();
+		new AePlayWave("eating.short.wav").start();
 	}
 	public void EatFruit(){
 		new AePlayWave("pacman_eatfruit.wav").start();
