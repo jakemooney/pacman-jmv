@@ -100,7 +100,7 @@ public class PacMan extends Actor{
 				a.removeSelfFromGrid();
 				count = 0;
 				Ghost.setVulnerable(true);
-				Chomp();//???
+				Chomp();
 			}
 			else if (a instanceof Pellet){
 				points += 10;
@@ -193,7 +193,7 @@ public class PacMan extends Actor{
 	
 	public static void kill(){
 		lives--;
-		GetEaten();			//Here????
+		GetEaten();
 		setDead(true);
 	}
 	
@@ -217,7 +217,7 @@ public class PacMan extends Actor{
 	//SOUND STUFF//
 	
 	public void Chomp(){
-		new AePlayWave("eating.short.wav").start();
+		new AePlayWave("pacman_chomp.wav").start();
 	}
 	public void EatFruit(){
 		new AePlayWave("pacman_eatfruit.wav").start();
